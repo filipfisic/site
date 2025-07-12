@@ -1,0 +1,92 @@
+
+.u-section-1 .u-group-1 {
+          min-height: 1px;
+        }
+
+        /* 1. Okvir oko cijelog bloka s uslugama */
+.u-section-1 .u-group-1 {
+  border: 2px solid currentColor;    /* okvir iste boje teksta */
+  border-radius: 0.5rem;             /* zaobljeni kutovi */
+  padding: 2rem;                     /* unutarnji razmak */
+}
+
+/* 2. Bold naslovi */
+.u-section-1 h2,
+.u-section-1 h3 {
+  font-weight: 700;                  /* čvršći naslov */
+}
+
+/* 3. Okviri oko svakog stavka liste */
+.u-section-1 ol li {
+  border: 1px solid currentColor;
+  border-radius: 0.25rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+}
+
+/* 4. Dodatni okvir oko uvodnog paragrafa */
+.u-section-1 .u-container-layout-1 > p:first-of-type {
+  border-left: 4px solid currentColor;
+  padding-left: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* 5. Naglašene ključne riječi unutar teksta */
+.u-section-1 .u-container-layout-1 em {
+  font-weight: 700;                  /* bold umjesto italic */
+  font-style: normal;
+}
+
+@media (max-width: 768px) {
+  /* 1. Širi padding unutar sheet-a */
+  .u-section-1 .u-sheet-1 {
+    padding: 2rem 1rem;
+  }
+
+  /* 2. Naslov i sav tekst lijevo poravnati */
+  .u-section-1 h2,
+  .u-section-1 .u-container-layout-1 p,
+  .u-section-1 ol li {
+    text-align: left !important;
+  }
+
+  /* 3. Okvir (.u-group-1) centriraj i ograniči širinu */
+  .u-section-1 .u-group-1 {
+    max-width: 600px;        /* ili 90% */
+    width: 100%;
+    margin: 0 auto 2rem;     /* centriraj i donji razmak */
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+  }
+
+  /* 4. Ukloni grid – uvijek jedna kolona */
+  .u-section-1 .u-container-layout-1 {
+    display: block !important;
+  }
+
+  /* 5. Uvodni paragraf – leva crta puni kontejner */
+  .u-section-1 .u-container-layout-1 > p:first-of-type {
+    border-left-width: 4px;
+    border-left-style: solid;
+    padding-left: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* 6. Svaki <li> puni centrirani kontejner */
+  .u-section-1 ol li {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    box-sizing: border-box;
+  }
+
+  /* 7. Ukloni defaultni pomak liste */
+  .u-section-1 ol {
+    margin-left: 0;
+    padding: 0;
+  }
+  .u-align-justify{
+    text-align: left;
+  }
+}
