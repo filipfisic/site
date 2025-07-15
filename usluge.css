@@ -114,14 +114,21 @@
   .u-section-1 .u-group-1 {
     padding: 1.5rem;
     margin-bottom: 1.5rem;
+     text-align: left !important;
+  }
+
+.u-section-1 .u-container-layout-1 > p:first-of-type {
+    text-align: left !important;
   }
 
   .u-section-1 ol {
     display: block;
+     text-align: left !important;
   }
 
   .u-section-1 ol li {
     margin-bottom: 1rem;
     width: 100%;
+     text-align: left !important;
   }
 }
