@@ -1101,6 +1101,16 @@ ol {
   letter-spacing: inherit !important;
   text-transform: inherit !important;
 }
+/* Override za mobilne (npr. širina ≤ 768px) */
+@media (max-width: 768px) {
+  .u-text a,
+  .u-post-content a,
+  .u-tab-item a,
+  .u-nav-item a,
+  .u-filter-item a,
+  .u-product-control.u-text a {
+    font-size: initial !important;
+  }}
 .u-text:not(ul):not(ol):not(p):not(.u-post-content):not(.u-block-content):not(.u-product-desc):not(.u-cart-block-content):not(.u-checkout-block-content) a {
   color: inherit;
 }
