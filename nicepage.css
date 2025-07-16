@@ -44970,7 +44970,7 @@ a.u-link.u-text-hover-grey-90:hover {
 
   .u-footer .u-text-1 {
     width: auto;
-    font-size: 1rem;
+    font-size: 1rem !important;
     margin-top: 24px;
     margin-left: 0;
     margin-right: 0;
