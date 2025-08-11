@@ -330,5 +330,19 @@
     </style>
 
 </section>
-  
+  <script>
+  (function () {
+    var btn = document.getElementById('readMoreBtn');
+    var body = document.getElementById('postBody');
+    if (!btn || !body) return;
+
+    btn.addEventListener('click', function () {
+      var isCollapsed = body.classList.toggle('is-collapsed') === false; // nakon toggle-a, false znači otvoreno
+      var expanded = !isCollapsed;
+      btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      btn.textContent = expanded ? 'Prikaži manje' : 'Prikaži više';
+    });
+  })();
+</script>
+
 </body></html>
