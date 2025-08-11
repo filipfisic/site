@@ -7573,7 +7573,6 @@ ul.u-text li:last-child {
   padding: 1em;
 }
 .u-backlink a:first-letter {
-  text-transform: capitalize;
 }
 .u-backlink a,
 .u-backlink p {
@@ -46285,7 +46284,6 @@ a.u-link.u-text-hover-color-var:hover {
         h1.u-title
         {
         font-family: Roboto,sans-serif;
-        text-transform: capitalize;
         line-height: 1;
         font-size: 4.375rem;
         list-icon-spacing: 0.3;
@@ -46296,14 +46294,12 @@ a.u-link.u-text-hover-color-var:hover {
         {
         font-family: Roboto,sans-serif;
         font-weight: 300;
-        text-transform: capitalize;
         line-height: 1.2;
         font-size: 2.25rem;
         }
         h1:not(.u-title)
         {
         font-family: Roboto,sans-serif;
-        text-transform: capitalize;
         line-height: 1.1;
         font-size: 3.75rem;
         font-weight: 700;
@@ -46313,7 +46309,7 @@ a.u-link.u-text-hover-color-var:hover {
         h2:not(.u-subtitle)
         {
         font-family: Roboto,sans-serif;
-        text-transform: capitalize;
+
         line-height: 1.2;
         font-size: 3rem;
         font-weight: 700;
@@ -46323,7 +46319,6 @@ a.u-link.u-text-hover-color-var:hover {
         h3
         {
         font-family: Roboto,sans-serif;
-        text-transform: capitalize;
         line-height: 1.2;
         font-size: 1.875rem;
         list-icon-spacing: 0.3;
@@ -46334,7 +46329,7 @@ a.u-link.u-text-hover-color-var:hover {
         {
         font-family: Roboto,sans-serif;
         font-weight: 300;
-        text-transform: capitalize;
+
         line-height: 1.2;
         font-size: 1.5rem;
         }
@@ -46342,7 +46337,7 @@ a.u-link.u-text-hover-color-var:hover {
         {
         font-family: Roboto,sans-serif;
         font-weight: 300;
-        text-transform: capitalize;
+
         line-height: 1.2;
         font-size: 1.25rem;
         }
@@ -46432,7 +46427,7 @@ a.u-link.u-text-hover-color-var:hover {
         {
         font-size: 2.25rem;
         font-weight: 700;
-        text-transform: capitalize;
+
         line-height: 1.2;
         list-icon-spacing: 0.3;
         list-icon-size: 0.8;
@@ -46447,7 +46442,7 @@ a.u-link.u-text-hover-color-var:hover {
         /*begin-responsive rules*/
         .u-xs h2:not(.u-subtitle)
         {
-        text-transform: capitalize;
+
         line-height: 1.2;
         font-size: 2.25rem;
         font-weight: 700;
