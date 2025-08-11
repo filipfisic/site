@@ -92,27 +92,26 @@
 
 	  
 <section class="u-clearfix u-section-1" id="sec-blog">
-  <div class="blog-content">
-    <article class="post">
-      <header class="post-header">
-        <h3 class="post-title">KAKO VIRTUALNI ASISTENTI POMAŽU U OPTIMIZACIJI POSLOVANJA</h3>
+  <div class="u-sheet u-sheet-1">
+    <div class="blog-content">
+      <div class="blog-list">
+        <article class="post">
+          <header class="post-header">
+            <h1 class="post-title">Kako virtualni asistenti pomažu u optimizaciji poslovanja</h1>
+            <div class="post-meta">
+              <span class="post-author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span class="post-meta-icon" aria-hidden="true">👤</span>
+                <span itemprop="name">Kristina Bakula</span>
+              </span>
+              <span class="post-meta-sep" aria-hidden="true">•</span>
+              <time class="post-date" datetime="2025-08-06">
+                <span class="post-meta-icon" aria-hidden="true">📅</span>
+                6. kolovoza 2025.
+              </time>
+            </div>
+          </header>
 
-        <div class="post-meta">
-          <span class="post-author" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            <span class="post-meta-icon" aria-hidden="true">👤</span>
-            <span itemprop="name">Kristina Bakula</span>
-          </span>
-
-          <span class="post-meta-sep" aria-hidden="true">•</span>
-
-          <time class="post-date" datetime="2025-08-06">
-            <span class="post-meta-icon" aria-hidden="true">📅</span>
-            6. kolovoza 2025.
-          </time>
-        </div>
-      </header>
-
-      <div class="post-body is-collapsed" id="postBody">
+          <div class="post-body is-collapsed" id="postBody">
         <p>U današnjem poslovnom svijetu, povećanje učinkovitosti i optimizacija poslovnih procesa postali su ključni za postizanje održivog rasta i uspjeha. Virtualni asistenti i drugi digitalni alati revolucioniziraju način na koji tvrtke djeluju, omogućavajući fleksibilno i učinkovitije upravljanje resursima.</p>
 
         <h3>Upravljanje vremenom i administrativni zadaci</h3>
@@ -141,10 +140,12 @@
         <p>Sve veća prisutnost virtualnih asistenata u poslovnom spektru nije samo trend, već evolucija poslovnih operacija prema fleksibilnijim strukturama. S pravilnim rukovođenjem, oni mogu radikalno poboljšati produktivnost i zadovoljstvo unutar tvrtki, stvarajući izvrsnu priliku za napredak u svakom aspektu poslovanja.</p>
       </div>
 
-      <div class="post-actions">
-        <button class="post-readmore" id="readMoreBtn" aria-expanded="false" aria-controls="postBody">Prikaži više</button>
+          <div class="post-actions">
+            <button class="post-readmore" id="readMoreBtn" aria-expanded="false" aria-controls="postBody">Prikaži više</button>
+          </div>
+        </article>
       </div>
-    </article>
+    </div>
   </div>
 </section>
 
@@ -330,15 +331,16 @@
     </style>
 
 </section>
-  <script>
+<script>
   (function () {
     var btn = document.getElementById('readMoreBtn');
     var body = document.getElementById('postBody');
     if (!btn || !body) return;
 
     btn.addEventListener('click', function () {
-      var isCollapsed = body.classList.toggle('is-collapsed') === false; // nakon toggle-a, false znači otvoreno
-      var expanded = !isCollapsed;
+      var collapsed = body.classList.contains('is-collapsed');
+      if (collapsed) body.classList.remove('is-collapsed'); else body.classList.add('is-collapsed');
+      var expanded = !collapsed;
       btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
       btn.textContent = expanded ? 'Prikaži manje' : 'Prikaži više';
     });
