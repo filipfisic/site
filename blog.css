@@ -1,6 +1,18 @@
-/* --- Blog layout & typography --- */
+/* ————————————————————————————
+   0) Sheet kontejner – ista pozadina kao usluge
+———————————————————————————— */
+.u-section-1 .u-sheet-1 {
+  background: linear-gradient(180deg, #FCF8F0 0%, #F6EFE3 100%);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  padding: 2rem 1.5rem;
+  border-radius: 0.75rem;
+}
+
+/* ————————————————————————————
+   1) Osnovna tipografija bloga (detalj i listing)
+———————————————————————————— */
 .blog-content {
-  max-width: 860px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 48px 20px;
   font-family: 'Open Sans', Arial, sans-serif;
@@ -8,9 +20,42 @@
   color: #333;
 }
 
-.post { background: #fff; }
+/* ————————————————————————————
+   2) Listing više postova (grid)
+———————————————————————————— */
+.blog-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ————————————————————————————
+   3) Kartica pojedinog posta (listing) + okvir detalja
+   (.blog-post = kartica u listingu)
+   (.post = detaljna stranica – dobiva isti izgled)
+———————————————————————————— */
+.blog-post,
+.post {
+  background: linear-gradient(180deg, #FCF8F0 0%, #F6EFE3 100%);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+  border-radius: 0.75rem;
+  padding: 2rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.blog-post:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+}
+
 .post-header { margin-bottom: 18px; }
 
+/* ————————————————————————————
+   4) Naslovi
+———————————————————————————— */
+.blog-post h2,
 .post-title {
   font-family: 'Roboto Slab', Georgia, serif;
   font-size: clamp(28px, 4vw, 40px);
@@ -19,6 +64,10 @@
   margin: 0 0 10px;
 }
 
+/* ————————————————————————————
+   5) Meta (autor, datum)
+———————————————————————————— */
+.blog-meta,
 .post-meta {
   display: flex;
   flex-wrap: wrap;
@@ -31,13 +80,14 @@
 .post-meta-icon { opacity: 0.9; margin-right: 6px; }
 .post-meta-sep { color: #9aa6b2; }
 
-/* Tijelo posta */
+/* ————————————————————————————
+   6) Tijelo posta (detalj)
+———————————————————————————— */
 .post-body {
   font-size: 18px;
   position: relative;
 }
 
-/* naslovi unutar tijela */
 .post-body h3 {
   font-family: 'Roboto Slab', Georgia, serif;
   color: #2a2a2a;
@@ -45,13 +95,12 @@
   font-size: 1.375rem;
 }
 
-/* Liste */
 .post-body ul { padding-left: 20px; }
 .post-body li { margin-bottom: 8px; }
 
-/* --- "Prikaži više" kolaps --- */
+/* Kolaps "Prikaži više" — overlay boja prilagođena podlozi kartice */
 .post-body.is-collapsed {
-  max-height: 540px;         /* koliko se vidi prije "Prikaži više" */
+  max-height: 540px;
   overflow: hidden;
 }
 
@@ -61,18 +110,25 @@
   inset: auto 0 0 0;
   height: 120px;
   pointer-events: none;
-  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+  /* od transparentnog ka boji donjeg dijela gradienta kartice */
+  background: linear-gradient(
+    to bottom,
+    rgba(252,248,240,0),
+    rgba(246,239,227,1)
+  );
 }
 
-/* Akcije ispod članka */
+/* ————————————————————————————
+   7) Akcije & gumbi
+———————————————————————————— */
 .post-actions {
   margin-top: 18px;
   display: flex;
   justify-content: center;
 }
 
-/* Gumb u stilu brenda, bez vezanja na Nicepage klase */
-.post-readmore {
+.post-readmore,
+.blog-readmore {
   appearance: none;
   border: 0;
   border-radius: 999px;
@@ -80,19 +136,33 @@
   font-weight: 600;
   font-family: 'Open Sans', Arial, sans-serif;
   cursor: pointer;
-  background: #53627f;     /* akcent */
+  background: #53627f; /* akcent */
   color: #fff;
-  box-shadow: 0 6px 18px rgba(83, 98, 127, 0.25);
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(83,98,127,0.25);
   transition: transform .08s ease, box-shadow .2s ease, background .2s ease;
 }
 
-.post-readmore:hover { box-shadow: 0 8px 22px rgba(83, 98, 127, 0.28); }
-.post-readmore:active { transform: translateY(1px); }
+.post-readmore:hover,
+.blog-readmore:hover { box-shadow: 0 8px 22px rgba(83,98,127,0.28); }
+
+.post-readmore:active,
+.blog-readmore:active { transform: translateY(1px); }
 
 /* State kada je otvoren */
 .post-readmore[aria-expanded="true"]::after { content: " (skrati)"; font-weight: 400; }
 
-/* Responsivnost */
+/* ————————————————————————————
+   8) Responsive
+———————————————————————————— */
+@media (max-width: 768px) {
+  .blog-post,
+  .post { padding: 1.5rem; }
+
+  .blog-post h2,
+  .post-title { font-size: 1.5rem; }
+}
+
 @media (max-width: 575px) {
   .blog-content { padding: 32px 16px; }
   .post-body.is-collapsed { max-height: 420px; }
