@@ -1,3 +1,99 @@
-.u-section-1 .u-sheet-1 {
-  min-height: 400px;
+/* --- Blog layout & typography --- */
+.blog-content {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 48px 20px;
+  font-family: 'Open Sans', Arial, sans-serif;
+  line-height: 1.75;
+  color: #333;
+}
+
+.post { background: #fff; }
+.post-header { margin-bottom: 18px; }
+
+.post-title {
+  font-family: 'Roboto Slab', Georgia, serif;
+  font-size: clamp(28px, 4vw, 40px);
+  line-height: 1.2;
+  color: #2a2a2a;
+  margin: 0 0 10px;
+}
+
+.post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  font-size: 0.95rem;
+  color: #53627f; /* akcent iz teme */
+}
+
+.post-meta-icon { opacity: 0.9; margin-right: 6px; }
+.post-meta-sep { color: #9aa6b2; }
+
+/* Tijelo posta */
+.post-body {
+  font-size: 18px;
+  position: relative;
+}
+
+/* naslovi unutar tijela */
+.post-body h3 {
+  font-family: 'Roboto Slab', Georgia, serif;
+  color: #2a2a2a;
+  margin: 28px 0 8px;
+  font-size: 1.375rem;
+}
+
+/* Liste */
+.post-body ul { padding-left: 20px; }
+.post-body li { margin-bottom: 8px; }
+
+/* --- "Prikaži više" kolaps --- */
+.post-body.is-collapsed {
+  max-height: 540px;         /* koliko se vidi prije "Prikaži više" */
+  overflow: hidden;
+}
+
+.post-body.is-collapsed::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 120px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+}
+
+/* Akcije ispod članka */
+.post-actions {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Gumb u stilu brenda, bez vezanja na Nicepage klase */
+.post-readmore {
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-weight: 600;
+  font-family: 'Open Sans', Arial, sans-serif;
+  cursor: pointer;
+  background: #53627f;     /* akcent */
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(83, 98, 127, 0.25);
+  transition: transform .08s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.post-readmore:hover { box-shadow: 0 8px 22px rgba(83, 98, 127, 0.28); }
+.post-readmore:active { transform: translateY(1px); }
+
+/* State kada je otvoren */
+.post-readmore[aria-expanded="true"]::after { content: " (skrati)"; font-weight: 400; }
+
+/* Responsivnost */
+@media (max-width: 575px) {
+  .blog-content { padding: 32px 16px; }
+  .post-body.is-collapsed { max-height: 420px; }
 }
