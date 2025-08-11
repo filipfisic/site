@@ -141,7 +141,17 @@
       </div>
 
           <div class="post-actions">
-            <button class="post-readmore" id="readMoreBtn" aria-expanded="false" aria-controls="postBody">Prikaži više</button>
+            <button
+  type="button"
+  class="post-readmore"
+  id="readMoreBtn"
+  aria-expanded="false"
+  aria-controls="postBody"
+  data-more="Prikaži više"
+  data-less="Prikaži manje"
+>
+  Prikaži više
+</button>
           </div>
         </article>
       </div>
@@ -333,18 +343,25 @@
 </section>
 <script>
   (function () {
-    var btn = document.getElementById('readMoreBtn');
+    var btn  = document.getElementById('readMoreBtn');
     var body = document.getElementById('postBody');
     if (!btn || !body) return;
 
-    btn.addEventListener('click', function () {
-      var collapsed = body.classList.contains('is-collapsed');
-      if (collapsed) body.classList.remove('is-collapsed'); else body.classList.add('is-collapsed');
-      var expanded = !collapsed;
+    // inicijalno uskladi tekst s početnim stanjem
+    var MORE = btn.getAttribute('data-more') || 'Prikaži više';
+    var LESS = btn.getAttribute('data-less') || 'Prikaži manje';
+    btn.textContent = btn.getAttribute('aria-expanded') === 'true' ? LESS : MORE;
+
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      // toggle vraća true ako klasa POSTOJI nakon toggla => znači da je SADA sklopljeno
+      var isCollapsedNow = body.classList.toggle('is-collapsed');
+      var expanded = !isCollapsedNow;
+
       btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-      btn.textContent = expanded ? 'Prikaži manje' : 'Prikaži više';
+      btn.textContent = expanded ? LESS : MORE;
     });
   })();
 </script>
-
 </body></html>
