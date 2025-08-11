@@ -111,11 +111,12 @@
    9. Responsivno
 ———————————————————————————— */
 
-  @media (max-width: 767px) {
-    .u-text-1 {
-      font-size: 1.5rem !important;
-    }
+@media (max-width: 767px) {
+  .u-text-1:not(footer .u-text-1) {
+    font-size: 1.5rem !important;
   }
+}
+
 
 @media (max-width: 768px) {
   .u-section-1 .u-group-1 {
