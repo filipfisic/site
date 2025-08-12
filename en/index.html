@@ -5,6 +5,27 @@
     <meta name="keywords" content="Our Works, Management consulting, Get in touch">
     <meta name="description" content="">
     <title>PROVIDENTIA</title>
+<script>
+    function gdprConfirmed() {
+        return document.cookie.split(';').filter(function(item) {
+            var val = item.trim().split('=');
+            val = decodeURIComponent(val[1] || '');
+            try { val = JSON.parse(val); } catch (e) { val = {}; }
+            return val && val.analytics;
+        }).length;
+    }
+    if (gdprConfirmed()) {
+    document.write("\
+    <!-- Google Tag Manager -->\
+    <gascript>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':\
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],\
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=\
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);\
+    })(window,document,'script','dataLayer','GTM-W8XNSL8N');</gascript>\
+    <!-- End Google Tag Manager -->\
+    ".replace(/gascript/g, 'script'));
+    }
+    </script>
     <link rel="stylesheet" href="../nicepage.css" media="screen">
 <link rel="stylesheet" href="../index.css" media="screen">
     <script class="u-script" type="text/javascript" src="../jquery.js" defer=""></script>
@@ -13,6 +34,7 @@
     <meta name="referrer" content="origin">
     
     <link rel="icon" href="../images/favicon.png">
+    
     
     
     
@@ -33,8 +55,109 @@
     <meta property="og:title" content="">
     <meta property="og:description" content="">
     <meta property="og:type" content="website">
-  <meta name="referrer" content="origin"></head>
-  <body data-home-page="PROVIDENTIA.html" data-home-page-title="PROVIDENTIA" data-path-to-root="../" data-include-products="false" class="u-body u-xl-mode" data-lang="en"><header class="u-clearfix u-custom-color-2 u-header" id="sec-1e53"><div class="u-clearfix u-sheet u-sheet-1">
+  <meta name="referrer" content="origin"><script>
+    function gdprConfirmed() {
+        return document.cookie.split(';').filter(function(item) {
+            var val = item.trim().split('=');
+            val = decodeURIComponent(val[1] || '');
+            try { val = JSON.parse(val); } catch (e) { val = {}; }
+            return val && val.submissions;
+        }).length;
+    }
+    function dynamicLoadScript() {
+        var script = document.createElement('script');
+        script.src = 'https://www.google.com/recaptcha/api.js?render=6Lf36aMrAAAAAOAmlsBihi1LDNitw8iwNiSTdcST';
+        script.async = true;
+        document.body.appendChild(script);
+        script.onload = function() {
+            let event = new CustomEvent("recaptchaLoaded");
+            document.dispatchEvent(event);
+        };
+    }
+    function showRecaptchaError(error) {
+        error = error || '';
+        var formError = document.querySelector('.u-form-send-error');
+
+        if (formError) {
+            formError.innerText = 'Site Owner Error: ' + error.replace(/:[\s\S]*/, '');
+            formError.style.display = 'block';
+        }
+
+        console.error('Error in grecaptcha: ', error);
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        var confirmButton = document.querySelector('.u-cookies-consent .u-button-confirm');
+        if (confirmButton) {
+            confirmButton.onclick = dynamicLoadScript;
+        }
+    });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            if (!gdprConfirmed()) {
+                return;
+            }
+            dynamicLoadScript();
+        });
+    </script>
+    <script>
+        document.addEventListener("recaptchaLoaded", function() {
+            if (!gdprConfirmed()) {
+                return;
+            }
+
+            (function (grecaptcha, sitekey, actions) {
+                var recaptcha = {
+                    execute: function (action, submitFormCb) {
+                        if (typeof grecaptcha === 'undefined' || typeof grecaptcha.execute !== 'function') {
+                            showRecaptchaError('reCAPTCHA script failed to load.');
+                            return;
+                        }
+
+                        grecaptcha.execute(sitekey, {action: action}).then((token) => {
+                            if (!token) {
+                                throw new Error('Empty token received from reCAPTCHA');
+                            }
+
+                            var forms = document.getElementsByTagName('form');
+
+                            for (var i = 0; i < forms.length; i++) {
+                                var response = forms[i].querySelector('[name="recaptchaResponse"]');
+
+                                if (!response) {
+                                    response = document.createElement('input');
+                                    response.setAttribute('type', 'hidden');
+                                    response.setAttribute('name', 'recaptchaResponse');
+                                    forms[i].appendChild(response);
+                                }
+
+                                response.value = token;
+                            }
+
+                            submitFormCb();
+                        }).catch((e) => {
+                            showRecaptchaError(e.message);
+                        });
+                    },
+
+                    executeContact: function (submitFormCb) {
+                        recaptcha.execute(actions['contact'], submitFormCb);
+                    }
+                };
+
+                window.recaptchaObject = recaptcha;
+            })(
+                grecaptcha,
+                
+                '6Lf36aMrAAAAAOAmlsBihi1LDNitw8iwNiSTdcST',
+                {'contact': 'contact'}
+            );
+        });
+    </script>
+</head>
+  <body data-home-page="PROVIDENTIA.html" data-home-page-title="PROVIDENTIA" data-path-to-root="../" data-include-products="false" class="u-body u-xl-mode" data-lang="en"><!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W8XNSL8N" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) --><header class="u-clearfix u-custom-color-2 u-header" id="sec-1e53"><div class="u-clearfix u-sheet u-sheet-1">
         <nav class="u-align-center-lg u-align-center-md u-align-center-sm u-align-center-xl u-align-left-xs u-dropdown-icon u-menu u-menu-dropdown u-offcanvas u-menu-1" role="navigation" aria-label="Menu navigation">
           <div class="menu-collapse u-custom-font u-font-roboto-slab" style="font-size: 1.25rem; letter-spacing: 0px;">
             <a class="u-button-style u-custom-left-right-menu-spacing u-custom-padding-bottom u-custom-text-active-color u-custom-top-bottom-menu-spacing u-hamburger-link u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base u-hamburger-link-1" href="#">
@@ -46,7 +169,7 @@
           <div class="u-custom-menu u-nav-container">
             <ul class="u-custom-font u-font-roboto-slab u-nav u-unstyled u-nav-1" role="menubar"><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link u-text-active-custom-color-1 u-text-hover-palette-2-base" href="./" style="padding: 10px 20px;">HOME</a>
 </li><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link u-text-active-custom-color-1 u-text-hover-palette-2-base" href="./#carousel_6057" data-page-id="575930392" style="padding: 10px 20px;">ABOUT US</a>
-</li><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link u-text-active-custom-color-1 u-text-hover-palette-2-base" href="./#carousel_d430" data-page-id="575930392" style="padding: 10px 20px;">OUR SERVICES</a><div class="u-nav-popup"><ul role="menu" class="u-custom-font u-font-roboto-slab u-h-spacing-20 u-nav u-unstyled u-v-spacing-10 u-nav-2" aria-label="OUR SERVICES menu"><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link u-white" href="poslovno-savjetovanje.html">BUSINESS CONSULTING</a>
+</li><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link u-text-active-custom-color-1 u-text-hover-palette-2-base" href="./#carousel_d430" data-page-id="575930392" style="padding: 10px 20px;">OUR SERVICES</a><div class="u-nav-popup"><ul role="menu" class="u-custom-font u-font-roboto-slab u-h-spacing-20 u-nav u-unstyled u-v-spacing-10 u-nav-2" aria-label="NAŠE USLUGE menu"><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link u-white" href="poslovno-savjetovanje.html">BUSINESS CONSULTING</a>
 </li><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link u-white" href="upravljanje-projektima.html">PROJECT MANAGEMENT</a>
 </li><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link u-white" href="HR-usluge-i-radni-procesi.html">HR SERVICES AND WORK PROCESSES</a>
 </li><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link u-white" href="financijske-usluge.html">FINANCIAL AND ACCOUNTING SERVICES</a>
@@ -67,7 +190,7 @@
                 <div class="u-menu-close" tabindex="-1" aria-label="Close menu"></div>
                 <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-3" role="menubar"><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link" href="./">HOME</a>
 </li><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link" href="./#carousel_6057" data-page-id="575930392">ABOUT US</a>
-</li><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link" href="./#carousel_d430" data-page-id="575930392">OUR SERVICES</a><div class="u-nav-popup"><ul role="menu" class="u-custom-font u-font-roboto-slab u-h-spacing-20 u-nav u-unstyled u-v-spacing-10 u-nav-4" aria-label="OUR SERVICES menu"><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link" href="poslovno-savjetovanje.html">BUSINESS CONSULTING</a>
+</li><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link" href="./#carousel_d430" data-page-id="575930392">OUR SERVICES</a><div class="u-nav-popup"><ul role="menu" class="u-custom-font u-font-roboto-slab u-h-spacing-20 u-nav u-unstyled u-v-spacing-10 u-nav-4" aria-label="NAŠE USLUGE menu"><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link" href="poslovno-savjetovanje.html">BUSINESS CONSULTING</a>
 </li><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link" href="upravljanje-projektima.html">PROJECT MANAGEMENT</a>
 </li><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link" href="HR-usluge-i-radni-procesi.html">HR SERVICES AND WORK PROCESSES</a>
 </li><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link" href="financijske-usluge.html">FINANCIAL AND ACCOUNTING SERVICES</a>
@@ -102,7 +225,7 @@
           <div class="u-repeater u-repeater-1">
             <div class="u-align-center u-container-align-center u-container-align-center-lg u-container-align-center-md u-container-align-center-sm u-container-align-center-xl u-container-style u-custom-item u-gradient u-list-item u-radius u-repeater-item u-shape-round u-list-item-1" data-animation-name="customAnimationIn" data-animation-duration="1500" data-href="./#sec-98b7" data-page-id="575930392">
               <div class="u-container-layout u-similar-container u-container-layout-1"><span class="u-custom-color-1 u-file-icon u-icon u-icon-circle u-icon-1" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="750" data-href="./#sec-b06d" data-page-id="575930392"><img src="../images/6895219-76310656.png" alt=""></span>
-                <h4 class="u-text u-text-1" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="750"><a class="u-active-none u-border-none u-btn u-button-link u-button-style u-custom-font u-font-roboto-slab u-hover-none u-none u-text-palette-1-base u-btn-1" href="./#sec-b06d" data-page-id="575930392" style="background-image: none; padding-top: 0; padding-bottom: 0; padding-left: 0; padding-right: 0; font-size: 1.25rem" data-block-type="">​Request a Quote</a></h4>
+                <h4 class="u-text u-text-1" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="750"><a class="u-active-none u-border-none u-btn u-button-link u-button-style u-custom-font u-font-roboto-slab u-hover-none u-none u-text-palette-1-base u-btn-1" href="./#sec-b06d" data-page-id="575930392" style="background-image: none; font-size: 1.0625rem; padding-top: 0; padding-bottom: 0; padding-left: 0; padding-right: 0">​Request a Quote</a></h4>
               </div>
             </div>
           </div>
@@ -112,7 +235,7 @@
     <section class="u-clearfix u-gradient u-section-2" id="carousel_6057">
       <div class="u-clearfix u-sheet u-sheet-1">
         <h2 class="u-align-center u-custom-font u-font-roboto-slab u-text u-text-default u-text-1">ABOUT US</h2>
-        <img class="u-image u-image-1" src="../images/bakula.jpg" data-image-width="534" data-image-height="724" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="250">
+        <img class="u-image u-image-1" src="../images/bakula.jpg" data-image-width="534" data-image-height="724">
         <div class="u-align-justify u-border-13 u-border-no-bottom u-border-no-right u-border-no-top u-border-white u-container-style u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-group u-shape-rectangle u-group-1" data-animation-name="customAnimationIn" data-animation-duration="1500">
           <div class="u-container-layout u-valign-top u-container-layout-1">
             <p class="u-custom-font u-font-roboto-slab u-text u-text-2">​Every entrepreneur and organization deserves support that enhances business operations, drives growth, and ensures long-term success. Our holistic approach helps clients find fulfillment in business challenges and deeper meaning in what they do.</p>
@@ -136,7 +259,7 @@ Long-term collaboration with our clients, built on trust and high standards, ena
         </div>
       </div>
     </section>
-    <section class="u-align-center u-clearfix u-gradient u-section-3" id="carousel_d430">
+    <section class="u-align-center u-clearfix u-container-align-center u-gradient u-section-3" id="carousel_d430">
       <div class="u-clearfix u-sheet u-sheet-1">
         <h2 class="u-align-center u-custom-font u-font-roboto-slab u-text u-text-1">OUR SERVICES</h2>
         <p class="u-align-center-lg u-align-center-md u-align-center-sm u-align-center-xl u-align-justify-xs u-custom-font u-font-roboto-slab u-text u-text-2" data-animation-name="customAnimationIn" data-animation-duration="1500">​Our company brings together experts in business consulting and project management, including legal and industry specialists, providing tailored and effective solutions for the specific needs of our clients.</p>
@@ -153,7 +276,7 @@ Long-term collaboration with our clients, built on trust and high standards, ena
             </div>
             <div class="u-align-left u-container-align-left u-container-align-left-xl u-container-style u-custom-item u-image u-list-item u-repeater-item u-shading u-image-2" src="" data-image-width="354" data-image-height="528" data-animation-name="customAnimationIn" data-animation-duration="1500" data-href="upravljanje-projektima.html" data-page-id="75992225" title="upravljanje projektima">
               <div class="u-container-layout u-similar-container u-valign-bottom-lg u-valign-bottom-md u-valign-bottom-sm u-valign-bottom-xs u-container-layout-3">
-                <div class="u-align-center u-container-align-center-lg u-container-align-center-md u-container-align-center-sm u-container-align-center-xl u-container-style u-expanded-width-lg u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-group u-opacity u-opacity-85 u-white u-group-2" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">
+                <div class="u-align-center u-container-align-center u-container-align-center-lg u-container-align-center-md u-container-align-center-sm u-container-align-center-xl u-container-style u-expanded-width-lg u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-group u-opacity u-opacity-85 u-white u-group-2" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">
                   <div class="u-container-layout u-valign-middle u-container-layout-4">
                     <h6 class="u-custom-font u-custom-item u-font-roboto-slab u-text u-text-4" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">​Project Management</h6>
                   </div>
@@ -171,7 +294,7 @@ Long-term collaboration with our clients, built on trust and high standards, ena
             </div>
             <div class="u-align-left u-container-align-left u-container-align-left-xl u-container-style u-custom-item u-image u-list-item u-repeater-item u-shading u-image-4" src="" data-image-width="854" data-image-height="702" data-animation-name="customAnimationIn" data-animation-duration="1500" data-href="financijske-usluge.html" data-page-id="41014684" title="financijske usluge">
               <div class="u-container-layout u-similar-container u-valign-bottom-lg u-valign-bottom-md u-valign-bottom-sm u-valign-bottom-xs u-container-layout-7">
-                <div class="u-align-center u-container-align-center-lg u-container-align-center-md u-container-align-center-sm u-container-align-center-xl u-container-style u-expanded-width-lg u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-group u-opacity u-opacity-85 u-white u-group-4" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">
+                <div class="u-align-center u-container-align-center u-container-align-center-lg u-container-align-center-md u-container-align-center-sm u-container-align-center-xl u-container-style u-expanded-width-lg u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-group u-opacity u-opacity-85 u-white u-group-4" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">
                   <div class="u-container-layout u-valign-middle u-container-layout-8">
                     <h6 class="u-custom-font u-custom-item u-font-roboto-slab u-text u-text-6" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">​Financial and Accounting Services</h6>
                   </div>
@@ -189,7 +312,7 @@ Long-term collaboration with our clients, built on trust and high standards, ena
             </div>
             <div class="u-align-left u-container-align-left u-container-align-left-xl u-container-style u-custom-item u-image u-list-item u-repeater-item u-shading u-image-6" src="" data-image-width="1792" data-image-height="1024" data-animation-name="customAnimationIn" data-animation-duration="1500" data-href="organizacija-eventa.html" data-page-id="641302963" title="organizacija eventa">
               <div class="u-container-layout u-similar-container u-valign-bottom-lg u-valign-bottom-md u-valign-bottom-sm u-valign-bottom-xs u-container-layout-11">
-                <div class="u-align-center u-container-align-center-lg u-container-align-center-md u-container-align-center-sm u-container-align-center-xl u-container-style u-expanded-width-lg u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-group u-opacity u-opacity-85 u-white u-group-6" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">
+                <div class="u-align-center u-container-align-center u-container-align-center-lg u-container-align-center-md u-container-align-center-sm u-container-align-center-xl u-container-style u-expanded-width-lg u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-group u-opacity u-opacity-85 u-white u-group-6" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">
                   <div class="u-container-layout u-valign-middle u-container-layout-12">
                     <h6 class="u-custom-font u-custom-item u-font-roboto-slab u-text u-text-8" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">​Event Organization</h6>
                   </div>
@@ -207,7 +330,7 @@ Long-term collaboration with our clients, built on trust and high standards, ena
             </div>
             <div class="u-align-left u-container-align-left u-container-align-left-xl u-container-style u-custom-item u-image u-list-item u-repeater-item u-shading u-image-8" src="" data-image-width="1412" data-image-height="1148" data-animation-name="customAnimationIn" data-animation-duration="1500" data-href="marketing-i-PR-usluge.html" data-page-id="13597329" title="marketing i PR usluge">
               <div class="u-container-layout u-similar-container u-valign-bottom-lg u-valign-bottom-md u-valign-bottom-sm u-valign-bottom-xs u-container-layout-15">
-                <div class="u-align-center u-container-align-center-lg u-container-align-center-md u-container-align-center-sm u-container-align-center-xl u-container-style u-expanded-width-lg u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-group u-opacity u-opacity-85 u-white u-group-8" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">
+                <div class="u-align-center u-container-align-center u-container-align-center-lg u-container-align-center-md u-container-align-center-sm u-container-align-center-xl u-container-style u-expanded-width-lg u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-group u-opacity u-opacity-85 u-white u-group-8" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">
                   <div class="u-container-layout u-valign-middle u-container-layout-16">
                     <h6 class="u-custom-font u-custom-item u-font-roboto-slab u-text u-text-10" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">​Marketing and PR Services</h6>
                   </div>
@@ -218,9 +341,48 @@ Long-term collaboration with our clients, built on trust and high standards, ena
         </div>
       </div>
     </section>
-    <section class="u-align-left u-clearfix u-container-align-left u-gradient u-section-4" id="carousel_4d70">
+    <section class="u-align-center u-clearfix u-container-align-center u-gradient u-valign-middle-xs u-section-4" id="sec-1088">
+      <div class="u-clearfix u-sheet u-valign-middle-xs u-sheet-1">
+        <div class="u-custom-color-1 u-hidden-sm u-hidden-xs u-shape u-shape-circle u-shape-1"></div>
+        <div class="u-hidden-xs u-shape u-shape-svg u-text-custom-color-2 u-shape-2">
+          <svg class="u-svg-link" preserveAspectRatio="none" viewBox="0 0 160 160" style=""><use xlink:href="#svg-e858"></use></svg>
+          <svg class="u-svg-content" viewBox="0 0 160 160" x="0px" y="0px" id="svg-e858" style="enable-background:new 0 0 160 160;"><path d="M80,30c27.6,0,50,22.4,50,50s-22.4,50-50,50s-50-22.4-50-50S52.4,30,80,30 M80,0C35.8,0,0,35.8,0,80s35.8,80,80,80
+	s80-35.8,80-80S124.2,0,80,0L80,0z"></path></svg>
+        </div>
+        <div class="u-hidden-sm u-hidden-xs u-image u-image-circle u-image-1" data-image-width="6223" data-image-height="4149"></div>
+        <div class="u-align-left u-container-align-left u-container-style u-expanded-width-xs u-gradient u-group u-radius u-shape-round u-group-1">
+          <div class="u-container-layout u-valign-bottom-md u-valign-middle-lg u-valign-middle-sm u-container-layout-1">
+            <h2 class="u-align-center u-custom-font u-font-roboto-slab u-text u-text-1" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">SUBSCRIBE TO&nbsp;<br>OUR NEWSLETTER</h2>
+            <div class="u-expanded-width-lg u-form u-form-1">
+              <form action="https://forms.nicepagesrv.com/v2/form/process" class="u-clearfix u-form-spacing-20 u-form-vertical u-inner-form" source="email" name="form-1" style="padding: 10px;">
+                <div class="u-form-group u-form-name">
+                  <label class="u-custom-font u-font-roboto-slab u-label u-label-1">Name and surname</label>
+                  <input type="text" placeholder="Enter your Name" id="name-a736" name="name" class="u-custom-font u-font-roboto-slab u-input u-input-rectangle u-radius-12 u-input-1" required="">
+                </div>
+                <div class="u-form-email u-form-group">
+                  <label class="u-custom-font u-font-roboto-slab u-label u-label-2">Email</label>
+                  <input type="email" placeholder="Enter a valid email address" id="email-a736" name="email" class="u-custom-font u-font-roboto-slab u-input u-input-rectangle u-radius-12 u-input-2" required="">
+                </div>
+                <p class="u-custom-font u-font-roboto-slab u-form-group u-form-text u-text u-text-2">
+    ​*By subscribing to the newsletter, you consent to the use of your personal data (name and email address) solely for the purpose of sending newsletters.</p>
+                <div class="u-align-center u-form-group u-form-submit">
+                  <a href="#" class="u-active-black u-border-none u-btn u-btn-round u-btn-submit u-button-style u-hover-custom-color-1 u-radius u-white u-btn-1">Submit</a>
+                  <input type="submit" value="submit" class="u-form-control-hidden">
+                </div>
+                <div class="u-form-send-message u-form-send-success">Thank you! Your message has been sent.</div>
+                <div class="u-form-send-error u-form-send-message">Unable to send your message. Please fix errors then try again.</div>
+                <input type="hidden" value="" name="recaptchaResponse">
+                <input type="hidden" name="formServices" value="b445e0b5-0db1-fff9-03d6-073a3830874a;ba639093-74da-a27d-fd2d-20df32730b7d">
+                <input type="hidden" name="siteKey" value="6Lf36aMrAAAAAOAmlsBihi1LDNitw8iwNiSTdcST">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="u-align-left u-clearfix u-container-align-left u-gradient u-section-5" id="carousel_4d70">
       <div class="u-clearfix u-sheet u-valign-middle-sm u-sheet-1">
-        <h2 class="u-align-center u-custom-font u-font-roboto-slab u-text u-text-default-lg u-text-default-md u-text-default-sm u-text-default-xl u-text-1">FAQ - ČESTA PITANJA</h2>
+        <h2 class="u-align-center u-custom-font u-font-roboto-slab u-text u-text-default-lg u-text-default-md u-text-default-sm u-text-default-xl u-text-1">FAQ&nbsp;</h2>
         <div class="u-accordion u-expanded-width u-faq u-spacing-20 u-accordion-1" role="tablist">
           <div class="u-accordion-item">
             <a class="active u-accordion-link u-active-grey-5 u-border-2 u-border-active-palette-1-base u-border-hover-palette-5-dark-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-2 u-button-style u-custom-font u-font-roboto-slab u-text-body-color u-accordion-link-1" id="link-accordion-6327" aria-controls="accordion-6327" aria-selected="true" role="tab"><span class="u-accordion-link-text">​How does business consulting work?</span><span class="u-accordion-link-icon u-icon u-icon-circle u-text-black u-icon-1"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 16 16" style=""><use xlink:href="#svg-2c6d"></use></svg><svg class="u-svg-content" viewBox="0 0 16 16" x="0px" y="0px" id="svg-2c6d" style=""><path d="M8,10.7L1.6,5.3c-0.4-0.4-1-0.4-1.3,0c-0.4,0.4-0.4,0.9,0,1.3l7.2,6.1c0.1,0.1,0.4,0.2,0.6,0.2s0.4-0.1,0.6-0.2l7.1-6
@@ -249,7 +411,7 @@ Long-term collaboration with our clients, built on trust and high standards, ena
             </a>
             <div class="u-accordion-pane u-container-style u-accordion-pane-3" id="accordion-eb1f" aria-labelledby="link-accordion-eb1f" aria-expanded="true" role="tabpanel">
               <div class="u-container-layout u-container-layout-3">
-                <div class="fr-view u-clearfix u-rich-text u-text"><p data-block-type="" style="text-align: justify;">Yes, our virtual assistants are available with flexible schedules and can handle a variety of tasks, from administration to communication, in packages starting from just five hours per month.
+                <div class="fr-view u-clearfix u-rich-text u-text"><p style="text-align: justify;">Yes, our virtual assistants are available with flexible schedules and can handle a variety of tasks, from administration to communication, in packages starting from just five hours per month.
 </p></div>
               </div>
             </div>
@@ -270,59 +432,30 @@ Long-term collaboration with our clients, built on trust and high standards, ena
             </a>
             <div class="u-accordion-pane u-container-style u-accordion-pane-5" id="28ef" aria-labelledby="link-28ef" aria-expanded="true" role="tabpanel">
               <div class="u-container-layout u-container-layout-5">
-                <div class="fr-view u-clearfix u-rich-text u-text"><p data-end="369" data-start="43" id="isPasted">Financial and accounting services include maintaining financial records, payroll processing, preparing tax returns, and creating financial reports. The process begins with collecting the necessary documentation and data, followed by ensuring accuracy and compliance with legal regulations through expert tools and knowledge.</p><p data-block-type="" data-end="604" data-is-last-node="" data-start="376">With regular business monitoring and cost optimization, these services help you maintain financial stability and legal security for your busines.</p></div>
+                <div class="fr-view u-clearfix u-rich-text u-text"><p data-end="459" data-start="99" id="isPasted">We provide administrative, financial, and accounting services in one place, including record keeping and preparation of all business documentation for submission and processing by a certified external accounting firm — our trusted professional partner. This means we handle the entire cooperation with the authorized external accounting service on your behalf. The preparation of business documentation includes everything from payroll-related documents to tax obligations and financial reports. By continuously monitoring your business performance and optimizing costs, we help you maintain financial stability and operational security.&nbsp;</p><p data-end="459" data-start="99"><strong data-end="89" data-start="80" id="isPasted">Note:</strong> Accounting services are provided by an external certified bookkeeping firm, with our business coordination and support. Tax-related support is delivered in collaboration with experienced external tax advisors. This way, we ensure our clients receive reliable and high-quality service without the need for additional arrangements — everything can be managed in one place, through our team.</p><p data-end="890" data-start="739"><br></p></div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-    <section class="u-clearfix u-gradient u-section-5" id="sec-98b7">
-      <div class="u-clearfix u-sheet u-sheet-1">
+    <section class="u-clearfix u-gradient u-section-6" id="sec-98b7">
+      <div class="u-clearfix u-sheet u-valign-middle-sm u-sheet-1">
         <h2 class="u-custom-font u-font-roboto-slab u-text u-text-default u-text-1">CONTACT</h2>
-        <h2 class="u-custom-font u-font-roboto-slab u-hidden-sm u-text u-text-default-lg u-text-default-xl u-text-2">NEWSLETTER</h2>
         <div class="data-layout-selected u-clearfix u-expanded-width u-layout-wrap u-layout-wrap-1">
           <div class="u-layout">
             <div class="u-layout-row">
-              <div class="u-container-align-left-xl u-container-style u-hidden-sm u-layout-cell u-shape-rectangle u-size-23 u-layout-cell-1">
+              <div class="u-container-style u-hidden-sm u-layout-cell u-shape-rectangle u-size-23 u-layout-cell-1">
                 <div class="u-container-layout u-valign-middle-md u-valign-middle-sm u-container-layout-1">
-                  <div class="custom-expanded u-form u-form-1">
-                    <form action="https://forms.nicepagesrv.com/v2/form/process" class="u-clearfix u-form-spacing-15 u-form-vertical u-inner-form" source="email" name="form-1" style="padding: 10px;">
-                      <div class="u-form-group u-form-name u-form-group-1">
-                        <label class="u-custom-font u-font-roboto-slab u-label u-label-1">Name</label>
-                        <input type="text" placeholder="Unesite vase ime i prezime" id="name-df25" name="name" class="u-border-2 u-border-grey-40 u-border-no-left u-border-no-right u-border-no-top u-custom-font u-font-roboto-slab u-input u-input-rectangle u-input-1" required="">
-                      </div>
-                      <div class="u-form-email u-form-group u-form-group-2">
-                        <label class="u-custom-font u-font-roboto-slab u-label u-label-2">Email</label>
-                        <input type="email" placeholder="Enter you emal address" id="email-df25" name="email" class="u-border-2 u-border-grey-40 u-border-no-left u-border-no-right u-border-no-top u-custom-font u-font-roboto-slab u-input u-input-rectangle u-input-2" required="">
-                      </div>
-                      <div class="u-form-checkbox u-form-group u-form-group-3">
-                        <input type="checkbox" id="checkbox-4417" name="checkbox" value="On" class="u-field-input">
-                        <label class="u-custom-font u-field-label u-font-roboto-slab" style="font-size: 0.75rem;">​I agree that Providentia Poslovanje &amp; Eventi may use my personal data collected through this form for the following purpose – sending notifications about new services, special offers, and newsletters.</label>
-                      </div>
-                      <div class="u-align-center u-form-group u-form-submit u-form-group-4">
-                        <a href="#" class="u-btn u-btn-round u-btn-submit u-button-style u-custom-color-2 u-radius u-btn-1" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">Submit</a>
-                        <input type="submit" value="submit" class="u-form-control-hidden">
-                      </div>
-                      <div class="u-form-send-message u-form-send-success">
-            Thank you! Your message has been sent.
-        </div>
-                      <div class="u-form-send-error u-form-send-message">
-            Unable to send your message. Please fix errors then try again.
-        </div>
-                      <input type="hidden" value="" name="recaptchaResponse">
-                      <input type="hidden" name="formServices" value="b445e0b5-0db1-fff9-03d6-073a3830874a;ba639093-74da-a27d-fd2d-20df32730b7d">
-                    </form>
-                  </div>
-                  <div class="u-carousel u-expanded-width u-gallery u-gallery-slider u-layout-carousel u-lightbox u-no-transition u-show-text-on-hover u-gallery-1" data-interval="5000" data-u-ride="carousel" id="carousel-e76d">
+                  <div class="u-carousel u-expanded-width u-gallery u-gallery-slider u-layout-carousel u-lightbox u-no-transition u-show-text-on-hover u-gallery-1" data-interval="5000" data-u-ride="carousel" id="carousel-ee89">
                     <ol class="u-absolute-hcenter u-carousel-indicators u-carousel-indicators-1">
-                      <li data-u-target="#carousel-e76d" data-u-slide-to="0" class="u-active u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
-                      <li data-u-target="#carousel-e76d" data-u-slide-to="1" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
-                      <li data-u-target="#carousel-e76d" data-u-slide-to="2" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
-                      <li data-u-target="#carousel-e76d" data-u-slide-to="3" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
-                      <li data-u-target="#carousel-e76d" data-u-slide-to="4" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
-                      <li data-u-target="#carousel-e76d" data-u-slide-to="5" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
-                      <li data-u-target="#carousel-e76d" data-u-slide-to="6" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
+                      <li data-u-target="#carousel-ee89" data-u-slide-to="0" class="u-active u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
+                      <li data-u-target="#carousel-ee89" data-u-slide-to="1" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
+                      <li data-u-target="#carousel-ee89" data-u-slide-to="2" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
+                      <li data-u-target="#carousel-ee89" data-u-slide-to="3" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
+                      <li data-u-target="#carousel-ee89" data-u-slide-to="4" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
+                      <li data-u-target="#carousel-ee89" data-u-slide-to="5" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
+                      <li data-u-target="#carousel-ee89" data-u-slide-to="6" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
                     </ol>
                     <div class="u-carousel-inner u-gallery-inner u-gallery-inner-1" role="listbox">
                       <div class="u-active u-carousel-item u-effect-fade u-gallery-item u-carousel-item-1">
@@ -341,7 +474,7 @@ Long-term collaboration with our clients, built on trust and high standards, ena
                         <div class="u-align-center u-over-slide u-shading u-valign-bottom u-over-slide-2"></div>
                         <style data-mode="XL" data-visited="true"></style>
                         <style data-mode="LG" data-visited="true"></style>
-                        <style data-mode="MD"></style>
+                        <style data-mode="MD" data-visited="true"></style>
                         <style data-mode="SM" data-visited="true"></style>
                         <style data-mode="XS" data-visited="true"></style>
                       </div>
@@ -352,7 +485,7 @@ Long-term collaboration with our clients, built on trust and high standards, ena
                         <div class="u-align-center u-over-slide u-shading u-valign-bottom u-over-slide-3"></div>
                         <style data-mode="XL"></style>
                         <style data-mode="LG" data-visited="true"></style>
-                        <style data-mode="MD"></style>
+                        <style data-mode="MD" data-visited="true"></style>
                         <style data-mode="SM" data-visited="true"></style>
                         <style data-mode="XS" data-visited="true"></style>
                       </div>
@@ -363,7 +496,7 @@ Long-term collaboration with our clients, built on trust and high standards, ena
                         <div class="u-align-center u-over-slide u-shading u-valign-bottom u-over-slide-4"></div>
                         <style data-mode="XL"></style>
                         <style data-mode="LG" data-visited="true"></style>
-                        <style data-mode="MD"></style>
+                        <style data-mode="MD" data-visited="true"></style>
                         <style data-mode="SM" data-visited="true"></style>
                         <style data-mode="XS" data-visited="true"></style>
                       </div>
@@ -374,7 +507,7 @@ Long-term collaboration with our clients, built on trust and high standards, ena
                         <div class="u-align-center u-over-slide u-shading u-valign-bottom u-over-slide-5"></div>
                         <style data-mode="XL"></style>
                         <style data-mode="LG" data-visited="true"></style>
-                        <style data-mode="MD"></style>
+                        <style data-mode="MD" data-visited="true"></style>
                         <style data-mode="SM" data-visited="true"></style>
                         <style data-mode="XS" data-visited="true"></style>
                       </div>
@@ -385,7 +518,7 @@ Long-term collaboration with our clients, built on trust and high standards, ena
                         <div class="u-align-center u-over-slide u-shading u-valign-bottom u-over-slide-6"></div>
                         <style data-mode="XL"></style>
                         <style data-mode="LG" data-visited="true"></style>
-                        <style data-mode="MD"></style>
+                        <style data-mode="MD" data-visited="true"></style>
                         <style data-mode="SM" data-visited="true"></style>
                         <style data-mode="XS" data-visited="true"></style>
                       </div>
@@ -396,12 +529,12 @@ Long-term collaboration with our clients, built on trust and high standards, ena
                         <div class="u-align-center u-over-slide u-shading u-valign-bottom u-over-slide-7"></div>
                         <style data-mode="XL"></style>
                         <style data-mode="LG" data-visited="true"></style>
-                        <style data-mode="MD"></style>
+                        <style data-mode="MD" data-visited="true"></style>
                         <style data-mode="SM" data-visited="true"></style>
                         <style data-mode="XS" data-visited="true"></style>
                       </div>
                     </div>
-                    <a class="u-absolute-vcenter u-carousel-control u-carousel-control-prev u-grey-70 u-icon-circle u-opacity u-opacity-70 u-spacing-10 u-text-white u-carousel-control-1" href="#carousel-e76d" role="button" data-u-slide="prev"><span aria-hidden="true">
+                    <a class="u-absolute-vcenter u-carousel-control u-carousel-control-prev u-grey-70 u-icon-circle u-opacity u-opacity-70 u-spacing-10 u-text-white u-carousel-control-1" href="#carousel-ee89" role="button" data-u-slide="prev"><span aria-hidden="true">
                         <svg viewBox="0 0 451.847 451.847"><path d="M97.141,225.92c0-8.095,3.091-16.192,9.259-22.366L300.689,9.27c12.359-12.359,32.397-12.359,44.751,0
 c12.354,12.354,12.354,32.388,0,44.748L173.525,225.92l171.903,171.909c12.354,12.354,12.354,32.391,0,44.744
 c-12.354,12.365-32.386,12.365-44.745,0l-194.29-194.281C100.226,242.115,97.141,234.018,97.141,225.92z"></path></svg></span><span class="sr-only">
@@ -409,7 +542,7 @@ c-12.354,12.365-32.386,12.365-44.745,0l-194.29-194.281C100.226,242.115,97.141,23
 c12.354,12.354,12.354,32.388,0,44.748L173.525,225.92l171.903,171.909c12.354,12.354,12.354,32.391,0,44.744
 c-12.354,12.365-32.386,12.365-44.745,0l-194.29-194.281C100.226,242.115,97.141,234.018,97.141,225.92z"></path></svg></span>
                     </a>
-                    <a class="u-absolute-vcenter u-carousel-control u-carousel-control-next u-grey-70 u-icon-circle u-opacity u-opacity-70 u-spacing-10 u-text-white u-carousel-control-2" href="#carousel-e76d" role="button" data-u-slide="next"><span aria-hidden="true">
+                    <a class="u-absolute-vcenter u-carousel-control u-carousel-control-next u-grey-70 u-icon-circle u-opacity u-opacity-70 u-spacing-10 u-text-white u-carousel-control-2" href="#carousel-ee89" role="button" data-u-slide="next"><span aria-hidden="true">
                         <svg viewBox="0 0 451.846 451.847"><path d="M345.441,248.292L151.154,442.573c-12.359,12.365-32.397,12.365-44.75,0c-12.354-12.354-12.354-32.391,0-44.744
 L278.318,225.92L106.409,54.017c-12.354-12.359-12.354-32.394,0-44.748c12.354-12.359,32.391-12.359,44.75,0l194.287,194.284
 c6.177,6.18,9.262,14.271,9.262,22.366C354.708,234.018,351.617,242.115,345.441,248.292z"></path></svg></span><span class="sr-only">
@@ -420,30 +553,30 @@ c6.177,6.18,9.262,14.271,9.262,22.366C354.708,234.018,351.617,242.115,345.441,24
                   </div>
                 </div>
               </div>
-              <div class="u-container-align-left-lg u-container-align-left-md u-container-align-left-xl u-container-style u-layout-cell u-size-37 u-layout-cell-2">
-                <div class="u-container-layout u-valign-top-lg u-container-layout-2">
-                  <div class="custom-expanded u-form u-form-2">
-                    <form action="https://forms.nicepagesrv.com/v2/form/process" class="u-clearfix u-form-spacing-15 u-form-vertical u-inner-form" source="email" name="form" style="padding: 10px;">
-                      <div class="u-form-group u-form-name u-form-partition-factor-2 u-form-group-5">
-                        <label class="u-custom-font u-font-roboto-slab u-label u-label-3">Name and surname</label>
-                        <input type="text" placeholder="Enter your name and surname" id="name-0c64" name="name" class="u-border-2 u-border-grey-40 u-border-no-left u-border-no-right u-border-no-top u-custom-font u-font-roboto-slab u-input u-input-rectangle u-input-3" required="">
+              <div class="custom-expanded u-align-left u-container-align-left u-container-style u-layout-cell u-shape-rectangle u-size-37 u-layout-cell-2" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">
+                <div class="u-container-layout u-valign-middle-md u-valign-middle-sm u-container-layout-2">
+                  <div class="custom-expanded u-expanded-width-lg u-expanded-width-md u-expanded-width-sm u-form u-form-1">
+                    <form action="https://forms.nicepagesrv.com/v2/form/process" class="u-clearfix u-form-spacing-15 u-form-vertical u-inner-form" source="email" name="form" style="padding: 20px;">
+                      <div class="u-form-group u-form-name u-form-partition-factor-2 u-form-group-1">
+                        <label class="u-custom-font u-font-roboto-slab u-label u-label-1">Name and surname</label>
+                        <input type="text" placeholder="Enter your name and surname" id="name-0c64" name="name" class="u-border-2 u-border-grey-40 u-border-no-left u-border-no-right u-border-no-top u-custom-font u-font-roboto-slab u-input u-input-rectangle u-radius u-input-1" required="">
                       </div>
-                      <div class="u-form-group u-form-name u-form-partition-factor-2 u-form-group-6">
-                        <label class="u-custom-font u-font-roboto-slab u-label u-label-4">Company name (optional)</label>
-                        <input type="text" placeholder="company name" id="name-0c64" name="company" class="u-border-2 u-border-grey-40 u-border-no-left u-border-no-right u-border-no-top u-custom-font u-font-roboto-slab u-input u-input-rectangle u-input-4">
+                      <div class="u-form-group u-form-name u-form-partition-factor-2 u-form-group-2">
+                        <label class="u-custom-font u-font-roboto-slab u-label u-label-2">Company name (optional)</label>
+                        <input type="text" placeholder="Company name" id="name-0c64" name="company" class="u-border-2 u-border-grey-40 u-border-no-left u-border-no-right u-border-no-top u-custom-font u-font-roboto-slab u-input u-input-rectangle u-radius u-input-2">
                       </div>
                       <div class="u-form-group u-form-name u-form-partition-factor-2">
-                        <label class="u-custom-font u-font-roboto-slab u-label u-label-5">Kontakt telefon</label>
-                        <input type="text" placeholder="Contact phone" id="name-cf11" name="phone" class="u-border-2 u-border-grey-40 u-border-no-left u-border-no-right u-border-no-top u-custom-font u-font-roboto-slab u-input u-input-rectangle u-input-5" required="">
+                        <label class="u-custom-font u-font-roboto-slab u-label u-label-3">Contact phone</label>
+                        <input type="text" placeholder="Contact phone" id="name-cf11" name="phone" class="u-border-2 u-border-grey-40 u-border-no-left u-border-no-right u-border-no-top u-custom-font u-font-roboto-slab u-input u-input-rectangle u-radius u-input-3" required="">
                       </div>
                       <div class="u-form-email u-form-group u-form-partition-factor-2">
-                        <label class="u-custom-font u-font-roboto-slab u-label u-label-6">Email</label>
-                        <input type="email" placeholder="Enter your email address" id="email-cf11" name="email" class="u-border-2 u-border-grey-40 u-border-no-left u-border-no-right u-border-no-top u-custom-font u-font-roboto-slab u-input u-input-rectangle u-input-6" required="">
+                        <label class="u-custom-font u-font-roboto-slab u-label u-label-4">Email</label>
+                        <input type="email" placeholder="Enter your email address" id="email-cf11" name="email" class="u-border-2 u-border-grey-40 u-border-no-left u-border-no-right u-border-no-top u-custom-font u-font-roboto-slab u-input u-input-rectangle u-radius u-input-4" required="">
                       </div>
-                      <div class="u-form-group u-form-select u-form-group-9">
-                        <label class="u-custom-font u-font-roboto-slab u-label u-label-7">Vrsta usluge koju tražite</label>
+                      <div class="u-form-group u-form-select u-form-group-5">
+                        <label class="u-custom-font u-font-roboto-slab u-label u-label-5">Vrsta usluge koju tražite</label>
                         <div class="u-form-select-wrapper">
-                          <select id="select-ddda" name="select" class="u-border-2 u-border-grey-40 u-border-no-left u-border-no-right u-border-no-top u-custom-font u-font-roboto-slab u-input u-input-rectangle u-input-7" required="required">
+                          <select id="select-ddda" name="select" class="u-border-2 u-border-grey-40 u-border-no-left u-border-no-right u-border-no-top u-custom-font u-font-roboto-slab u-input u-input-rectangle u-radius u-input-5" required="required">
             <option value="Business Consulting" data-calc="Business Consulting">Business Consulting</option>
             <option value="Project Management" data-calc="Project Management">Project Management</option>
             <option value="HR Services" data-calc="HR Services">HR Services</option>
@@ -452,17 +585,17 @@ c6.177,6.18,9.262,14.271,9.262,22.366C354.708,234.018,351.617,242.115,345.441,24
                         </div>
                       </div>
                       <div class="u-form-group u-form-message">
-                        <label class="u-custom-font u-font-roboto-slab u-label u-label-8">Opis usluge ili projekta</label>
-                        <textarea placeholder="Ukratko opišite uslugu koja vam je potrebna ili projekt koji želite pokrenuti" id="message-cf11" name="message" class="u-border-2 u-border-grey-40 u-border-no-left u-border-no-right u-border-no-top u-custom-font u-font-roboto-slab u-input u-input-rectangle" required=""></textarea>
+                        <label class="u-custom-font u-font-roboto-slab u-label u-label-6">Type of service you are looking for</label>
+                        <textarea placeholder="Briefly describe the service you need or the project you would like to launch." id="message-cf11" name="message" class="u-border-2 u-border-grey-40 u-border-no-left u-border-no-right u-border-no-top u-custom-font u-font-roboto-slab u-input u-input-rectangle u-radius u-input-6" required=""></textarea>
                       </div>
-                      <div class="u-form-checkbox u-form-group u-form-group-11">
+                      <div class="u-form-checkbox u-form-group u-form-group-7">
                         <input type="checkbox" id="checkbox-7af8" name="checkbox" value="On" class="u-field-input" required="required">
                         <label class="u-custom-font u-field-label u-font-roboto-slab" style="font-size: 0.75rem;">​I agree that Providentia Poslovanje &amp; Eventi may use my personal data collected through this form for the following purposes:
 <br>1. Processing my request, preparing an offer, and further communication regarding the services provided.
 <br>2. Sending notifications about new services, special offers, and newsletters.<br></label>
                       </div>
                       <div class="u-align-center-xs u-align-left-lg u-align-left-md u-align-left-sm u-align-left-xl u-form-group u-form-submit">
-                        <a href="#" class="u-btn u-btn-submit u-button-style u-custom-color-2 u-radius u-btn-2">Submit</a>
+                        <a href="#" class="u-btn u-btn-submit u-button-style u-custom-color-2 u-radius u-btn-1">Submit</a>
                         <input type="submit" value="submit" class="u-form-control-hidden">
                       </div>
                       <div class="u-form-send-message u-form-send-success">
@@ -473,6 +606,7 @@ c6.177,6.18,9.262,14.271,9.262,22.366C354.708,234.018,351.617,242.115,345.441,24
         </div>
                       <input type="hidden" value="" name="recaptchaResponse">
                       <input type="hidden" name="formServices" value="b445e0b5-0db1-fff9-03d6-073a3830874a;ba639093-74da-a27d-fd2d-20df32730b7d">
+                      <input type="hidden" name="siteKey" value="6Lf36aMrAAAAAOAmlsBihi1LDNitw8iwNiSTdcST">
                     </form>
                   </div>
                 </div>
@@ -485,7 +619,7 @@ c6.177,6.18,9.262,14.271,9.262,22.366C354.708,234.018,351.617,242.115,345.441,24
     
     
     
-    <footer class="u-align-center u-clearfix u-container-align-center u-container-align-center-xl u-footer u-grey-80 u-footer" id="sec-891e"><div class="u-clearfix u-sheet u-sheet-1">
+    <footer class="u-align-center u-clearfix u-container-align-center u-footer u-grey-80 u-footer" id="sec-891e"><div class="u-clearfix u-sheet u-sheet-1">
         <a href="mailto:info@site.com" class="u-active-none u-btn u-btn-rectangle u-button-style u-custom-font u-font-roboto-slab u-hover-none u-none u-text-body-alt-color u-btn-1">​<span class="u-icon u-icon-1" style="color: rgb(70, 138, 201) !important"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" xml:space="preserve" class="u-svg-content" viewBox="0 0 24 16" x="0px" y="0px" style="width: 1em; height: 1em;" data-color="#468ac9"><path fill="currentColor" d="M23.8,1.1l-7.3,6.8l7.3,6.8c0.1-0.2,0.2-0.6,0.2-0.9V2C24,1.7,23.9,1.4,23.8,1.1z M21.8,0H2.2
 	c-0.4,0-0.7,0.1-1,0.2L10.6,9c0.8,0.8,2.2,0.8,3,0l9.2-8.7C22.6,0.1,22.2,0,21.8,0z M0.2,1.1C0.1,1.4,0,1.7,0,2V14
 	c0,0.3,0.1,0.6,0.2,0.9l7.3-6.8L0.2,1.1z M15.5,9l-1.1,1c-1.3,1.2-3.6,1.2-4.9,0l-1-1l-7.3,6.8c0.2,0.1,0.6,0.2,1,0.2H22
@@ -500,13 +634,13 @@ c6.177,6.18,9.262,14.271,9.262,22.366C354.708,234.018,351.617,242.115,345.441,24
             <div class="u-layout-row">
               <div class="u-container-style u-layout-cell u-left-cell u-size-43-md u-size-43-sm u-size-43-xs u-size-46-lg u-size-46-xl u-layout-cell-1">
                 <div class="u-container-layout u-valign-middle u-container-layout-1">
-                  <h3 class="u-text u-text-default u-text-1">Kolačići &amp; Privatnost</h3>
-                  <p class="u-text u-text-default u-text-2">​Ova stranica koristi kolačiće za analizu prometa i praćenje aktivnosti korisnika. Putem Google Tag Managera možemo prikupljati tehničke podatke (IP adresa, uređaj, preglednik, operativni sustav) i podatke o vašem korištenju stranice (posjete, klikovi, obrasci).</p>
+                  <h3 class="u-text u-text-default u-text-1">​Cookies &amp; Privacy</h3>
+                  <p class="u-text u-text-default u-text-2">​This website uses cookies to analyze traffic and track user activity. Through Google Tag Manager, we may collect technical data (IP address, device, browser, operating system) and information about your use of the site (visits, clicks, form interactions).</p>
                 </div>
               </div>
               <div class="u-align-left u-container-align-left u-container-style u-layout-cell u-right-cell u-size-14-lg u-size-14-xl u-size-17-md u-size-17-sm u-size-17-xs u-layout-cell-2">
                 <div class="u-container-layout u-valign-middle-lg u-valign-middle-md u-valign-middle-xl u-valign-top-sm u-valign-top-xs u-container-layout-2">
-                  <a href="###" class="u-btn u-button-confirm u-button-style u-palette-1-base u-btn-1">Prihvati​</a>
+                  <a href="###" class="u-btn u-button-confirm u-button-style u-palette-1-base u-btn-1">ACCEPT​</a>
                 </div>
               </div>
             </div>
