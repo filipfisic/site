@@ -37,27 +37,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </script>
 <!-- End Google Tag Manager -->
 
-	<script>
-document.addEventListener('DOMContentLoaded', function(){
-  var btn = document.querySelector('.u-cookies-consent .u-button-confirm');
-  if (!btn) return;
-  btn.addEventListener('click', function(e){
-    e.preventDefault();
-    // odobri analitiku/oglase
-    gtag('consent', 'update', {
-      ad_storage: 'granted',
-      analytics_storage: 'granted',
-      functionality_storage: 'granted'
-    });
-    // (opcionalno) sakrij banner i postavi svoj cookie
-    var banner = document.getElementById('sec-b9ce');
-    if (banner) banner.style.display = 'none';
-    document.cookie = 'consent={"analytics":true,"ads":true};path=/;max-age='+(3600*24*180);
-  });
-});
-</script>
-
-
     <link rel="stylesheet" href="nicepage.css" media="screen">
 <link rel="stylesheet" href="index.css" media="screen">
     <script class="u-script" type="text/javascript" src="jquery.js" defer=""></script>
@@ -836,5 +815,25 @@ c6.177,6.18,9.262,14.271,9.262,22.366C354.708,234.018,351.617,242.115,345.441,24
     min-height: 15px;
   }
 }</style></section>
+
+	  	<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var btn = document.querySelector('.u-cookies-consent .u-button-confirm');
+  if (!btn) return;
+  btn.addEventListener('click', function(e){
+    e.preventDefault();
+    // odobri analitiku/oglase
+    gtag('consent', 'update', {
+      ad_storage: 'granted',
+      analytics_storage: 'granted',
+      functionality_storage: 'granted'
+    });
+    // (opcionalno) sakrij banner i postavi svoj cookie
+    var banner = document.getElementById('sec-b9ce');
+    if (banner) banner.style.display = 'none';
+    document.cookie = 'consent={"analytics":true,"ads":true};path=/;max-age='+(3600*24*180);
+  });
+});
+</script>
   
 </body></html>
