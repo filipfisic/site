@@ -5,6 +5,27 @@
     <meta name="keywords" content="Our Works, Management consulting, Get in touch">
     <meta name="description" content="">
     <title>PROVIDENTIA</title>
+<script>
+    function gdprConfirmed() {
+        return document.cookie.split(';').filter(function(item) {
+            var val = item.trim().split('=');
+            val = decodeURIComponent(val[1] || '');
+            try { val = JSON.parse(val); } catch (e) { val = {}; }
+            return val && val.analytics;
+        }).length;
+    }
+    if (gdprConfirmed()) {
+    document.write("\
+    <!-- Google Tag Manager -->\
+    <gascript>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':\
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],\
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=\
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);\
+    })(window,document,'script','dataLayer','GTM-W8XNSL8N');</gascript>\
+    <!-- End Google Tag Manager -->\
+    ".replace(/gascript/g, 'script'));
+    }
+    </script>
     <link rel="stylesheet" href="nicepage.css" media="screen">
 <link rel="stylesheet" href="index.css" media="screen">
     <script class="u-script" type="text/javascript" src="jquery.js" defer=""></script>
@@ -34,8 +55,109 @@
     <meta property="og:title" content="PROVIDENTIA">
     <meta property="og:description" content="">
     <meta property="og:type" content="website">
-  <meta name="referrer" content="origin"><meta data-intl-tel-input-cdn-path="intlTelInput/"></head>
-  <body data-home-page="PROVIDENTIA.html" data-home-page-title="PROVIDENTIA" data-path-to-root="./" data-include-products="false" class="u-body u-xl-mode" data-lang="hr"><header class="u-clearfix u-custom-color-2 u-header" id="sec-1e53"><div class="u-clearfix u-sheet u-sheet-1">
+  <meta name="referrer" content="origin"><script>
+    function gdprConfirmed() {
+        return document.cookie.split(';').filter(function(item) {
+            var val = item.trim().split('=');
+            val = decodeURIComponent(val[1] || '');
+            try { val = JSON.parse(val); } catch (e) { val = {}; }
+            return val && val.submissions;
+        }).length;
+    }
+    function dynamicLoadScript() {
+        var script = document.createElement('script');
+        script.src = 'https://www.google.com/recaptcha/api.js?render=6Lcj5aMrAAAAAAAFhkIs0qvSG2KWgeLwoPDkDq46';
+        script.async = true;
+        document.body.appendChild(script);
+        script.onload = function() {
+            let event = new CustomEvent("recaptchaLoaded");
+            document.dispatchEvent(event);
+        };
+    }
+    function showRecaptchaError(error) {
+        error = error || '';
+        var formError = document.querySelector('.u-form-send-error');
+
+        if (formError) {
+            formError.innerText = 'Site Owner Error: ' + error.replace(/:[\s\S]*/, '');
+            formError.style.display = 'block';
+        }
+
+        console.error('Error in grecaptcha: ', error);
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        var confirmButton = document.querySelector('.u-cookies-consent .u-button-confirm');
+        if (confirmButton) {
+            confirmButton.onclick = dynamicLoadScript;
+        }
+    });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            if (!gdprConfirmed()) {
+                return;
+            }
+            dynamicLoadScript();
+        });
+    </script>
+    <script>
+        document.addEventListener("recaptchaLoaded", function() {
+            if (!gdprConfirmed()) {
+                return;
+            }
+
+            (function (grecaptcha, sitekey, actions) {
+                var recaptcha = {
+                    execute: function (action, submitFormCb) {
+                        if (typeof grecaptcha === 'undefined' || typeof grecaptcha.execute !== 'function') {
+                            showRecaptchaError('reCAPTCHA script failed to load.');
+                            return;
+                        }
+
+                        grecaptcha.execute(sitekey, {action: action}).then((token) => {
+                            if (!token) {
+                                throw new Error('Empty token received from reCAPTCHA');
+                            }
+
+                            var forms = document.getElementsByTagName('form');
+
+                            for (var i = 0; i < forms.length; i++) {
+                                var response = forms[i].querySelector('[name="recaptchaResponse"]');
+
+                                if (!response) {
+                                    response = document.createElement('input');
+                                    response.setAttribute('type', 'hidden');
+                                    response.setAttribute('name', 'recaptchaResponse');
+                                    forms[i].appendChild(response);
+                                }
+
+                                response.value = token;
+                            }
+
+                            submitFormCb();
+                        }).catch((e) => {
+                            showRecaptchaError(e.message);
+                        });
+                    },
+
+                    executeContact: function (submitFormCb) {
+                        recaptcha.execute(actions['contact'], submitFormCb);
+                    }
+                };
+
+                window.recaptchaObject = recaptcha;
+            })(
+                grecaptcha,
+                
+                '6Lcj5aMrAAAAAAAFhkIs0qvSG2KWgeLwoPDkDq46',
+                {'contact': 'contact'}
+            );
+        });
+    </script>
+<meta data-intl-tel-input-cdn-path="intlTelInput/"></head>
+  <body data-home-page="PROVIDENTIA.html" data-home-page-title="PROVIDENTIA" data-path-to-root="./" data-include-products="false" class="u-body u-xl-mode" data-lang="hr"><!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W8XNSL8N" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) --><header class="u-clearfix u-custom-color-2 u-header" id="sec-1e53"><div class="u-clearfix u-sheet u-sheet-1">
         <nav class="u-align-center-lg u-align-center-md u-align-center-sm u-align-center-xl u-align-left-xs u-dropdown-icon u-menu u-menu-dropdown u-offcanvas u-menu-1" role="navigation" aria-label="Menu navigation">
           <div class="menu-collapse u-custom-font u-font-roboto-slab" style="font-size: 1.25rem; letter-spacing: 0px;">
             <a class="u-button-style u-custom-left-right-menu-spacing u-custom-padding-bottom u-custom-text-active-color u-custom-top-bottom-menu-spacing u-hamburger-link u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base u-hamburger-link-1" href="#" data-lang-en="{&quot;content&quot;:&quot;<svg class=\&quot;u-svg-link\&quot; viewBox=\&quot;0 0 24 24\&quot;><use xlink:href=\&quot;#menu-hamburger\&quot;></use></svg><svg class=\&quot;u-svg-content\&quot; version=\&quot;1.1\&quot; id=\&quot;menu-hamburger\&quot; viewBox=\&quot;0 0 16 16\&quot; x=\&quot;0px\&quot; y=\&quot;0px\&quot; xmlns:xlink=\&quot;http://www.w3.org/1999/xlink\&quot; xmlns=\&quot;http://www.w3.org/2000/svg\&quot;>    <g>        <rect y=\&quot;1\&quot; width=\&quot;16\&quot; height=\&quot;2\&quot;></rect>        <rect y=\&quot;7\&quot; width=\&quot;16\&quot; height=\&quot;2\&quot;></rect>        <rect y=\&quot;13\&quot; width=\&quot;16\&quot; height=\&quot;2\&quot;></rect>    </g></svg>&quot;,&quot;href&quot;:&quot;#&quot;}" data-lang-hr="{&quot;content&quot;:&quot;<svg class=\&quot;u-svg-link\&quot; viewBox=\&quot;0 0 24 24\&quot;><use xlink:href=\&quot;#menu-hamburger\&quot;></use></svg><svg class=\&quot;u-svg-content\&quot; version=\&quot;1.1\&quot; id=\&quot;menu-hamburger\&quot; viewBox=\&quot;0 0 16 16\&quot; x=\&quot;0px\&quot; y=\&quot;0px\&quot; xmlns:xlink=\&quot;http://www.w3.org/1999/xlink\&quot; xmlns=\&quot;http://www.w3.org/2000/svg\&quot;>    <g>        <rect y=\&quot;1\&quot; width=\&quot;16\&quot; height=\&quot;2\&quot;></rect>        <rect y=\&quot;7\&quot; width=\&quot;16\&quot; height=\&quot;2\&quot;></rect>        <rect y=\&quot;13\&quot; width=\&quot;16\&quot; height=\&quot;2\&quot;></rect>    </g></svg>&quot;,&quot;href&quot;:&quot;#&quot;}">
@@ -47,7 +169,7 @@
           <div class="u-custom-menu u-nav-container">
             <ul class="u-custom-font u-font-roboto-slab u-nav u-unstyled u-nav-1" role="menubar"><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link u-text-active-custom-color-1 u-text-hover-palette-2-base" href="./" data-lang-en="{&quot;content&quot;:&quot;HOME&quot;,&quot;href&quot;:&quot;PROVIDENTIA.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;NASLOVNICA&quot;,&quot;href&quot;:&quot;PROVIDENTIA.html&quot;}" style="padding: 10px 20px;">NASLOVNICA</a>
 </li><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link u-text-active-custom-color-1 u-text-hover-palette-2-base" href="./#carousel_6057" data-page-id="575930392" data-lang-en="{&quot;content&quot;:&quot;ABOUT US&quot;,&quot;href&quot;:&quot;575930392#carousel_6057&quot;}" data-lang-hr="{&quot;content&quot;:&quot;O NAMA&quot;,&quot;href&quot;:&quot;575930392#carousel_6057&quot;}" style="padding: 10px 20px;">O NAMA</a>
-</li><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link u-text-active-custom-color-1 u-text-hover-palette-2-base" href="./#carousel_d430" data-page-id="575930392" data-lang-en="{&quot;content&quot;:&quot;OUR SERVICES&quot;,&quot;href&quot;:&quot;575930392#carousel_d430&quot;}" data-lang-hr="{&quot;content&quot;:&quot;NAŠE USLUGE&quot;,&quot;href&quot;:&quot;575930392#carousel_d430&quot;}" style="padding: 10px 20px;">NAŠE USLUGE</a><div class="u-nav-popup"><ul role="menu" class="u-custom-font u-font-roboto-slab u-h-spacing-20 u-nav u-unstyled u-v-spacing-10 u-nav-2" aria-label="OUR SERVICES menu"><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link u-white" href="poslovno-savjetovanje.html" data-lang-en="{&quot;content&quot;:&quot;BUSINESS CONSULTING&quot;,&quot;href&quot;:&quot;poslovno-savjetovanje.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;POSLOVNO SAVJETOVANJE&quot;,&quot;href&quot;:&quot;poslovno-savjetovanje.html&quot;}">POSLOVNO SAVJETOVANJE</a>
+</li><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link u-text-active-custom-color-1 u-text-hover-palette-2-base" href="./#carousel_d430" data-page-id="575930392" data-lang-en="{&quot;content&quot;:&quot;OUR SERVICES&quot;,&quot;href&quot;:&quot;575930392#carousel_d430&quot;}" data-lang-hr="{&quot;content&quot;:&quot;NAŠE USLUGE&quot;,&quot;href&quot;:&quot;575930392#carousel_d430&quot;}" style="padding: 10px 20px;">NAŠE USLUGE</a><div class="u-nav-popup"><ul role="menu" class="u-custom-font u-font-roboto-slab u-h-spacing-20 u-nav u-unstyled u-v-spacing-10 u-nav-2" aria-label="NAŠE USLUGE menu"><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link u-white" href="poslovno-savjetovanje.html" data-lang-en="{&quot;content&quot;:&quot;BUSINESS CONSULTING&quot;,&quot;href&quot;:&quot;poslovno-savjetovanje.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;POSLOVNO SAVJETOVANJE&quot;,&quot;href&quot;:&quot;poslovno-savjetovanje.html&quot;}">POSLOVNO SAVJETOVANJE</a>
 </li><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link u-white" href="upravljanje-projektima.html" data-lang-en="{&quot;content&quot;:&quot;PROJECT MANAGEMENT&quot;,&quot;href&quot;:&quot;upravljanje-projektima.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;UPRAVLJANJE PROJEKTIMA&quot;,&quot;href&quot;:&quot;upravljanje-projektima.html&quot;}">UPRAVLJANJE PROJEKTIMA</a>
 </li><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link u-white" href="HR-usluge-i-radni-procesi.html" data-lang-en="{&quot;content&quot;:&quot;HR SERVICES AND WORK PROCESSES&quot;,&quot;href&quot;:&quot;HR-usluge-i-radni-procesi.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;HR USLUGE I RADNI PROCESI&quot;,&quot;href&quot;:&quot;HR-usluge-i-radni-procesi.html&quot;}">HR USLUGE I RADNI PROCESI</a>
 </li><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link u-white" href="financijske-usluge.html" data-lang-en="{&quot;content&quot;:&quot;FINANCIAL AND ACCOUNTING SERVICES&quot;,&quot;href&quot;:&quot;financijske-usluge.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;FINANCIJSKO - RAČUNOVODSTVENE USLUGE&quot;,&quot;href&quot;:&quot;financijske-usluge.html&quot;}">FINANCIJSKO - RAČUNOVODSTVENE USLUGE</a>
@@ -68,7 +190,7 @@
                 <div class="u-menu-close" tabindex="-1" aria-label="Close menu"></div>
                 <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-3" role="menubar"><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link" href="./" data-lang-en="{&quot;content&quot;:&quot;HOME&quot;,&quot;href&quot;:&quot;PROVIDENTIA.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;NASLOVNICA&quot;,&quot;href&quot;:&quot;PROVIDENTIA.html&quot;}">NASLOVNICA</a>
 </li><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link" href="./#carousel_6057" data-page-id="575930392" data-lang-en="{&quot;content&quot;:&quot;ABOUT US&quot;,&quot;href&quot;:&quot;575930392#carousel_6057&quot;}" data-lang-hr="{&quot;content&quot;:&quot;O NAMA&quot;,&quot;href&quot;:&quot;575930392#carousel_6057&quot;}">O NAMA</a>
-</li><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link" href="./#carousel_d430" data-page-id="575930392" data-lang-en="{&quot;content&quot;:&quot;OUR SERVICES&quot;,&quot;href&quot;:&quot;575930392#carousel_d430&quot;}" data-lang-hr="{&quot;content&quot;:&quot;NAŠE USLUGE&quot;,&quot;href&quot;:&quot;575930392#carousel_d430&quot;}">NAŠE USLUGE</a><div class="u-nav-popup"><ul role="menu" class="u-custom-font u-font-roboto-slab u-h-spacing-20 u-nav u-unstyled u-v-spacing-10 u-nav-4" aria-label="OUR SERVICES menu"><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link" href="poslovno-savjetovanje.html" data-lang-en="{&quot;content&quot;:&quot;BUSINESS CONSULTING&quot;,&quot;href&quot;:&quot;poslovno-savjetovanje.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;POSLOVNO SAVJETOVANJE&quot;,&quot;href&quot;:&quot;poslovno-savjetovanje.html&quot;}">POSLOVNO SAVJETOVANJE</a>
+</li><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link" href="./#carousel_d430" data-page-id="575930392" data-lang-en="{&quot;content&quot;:&quot;OUR SERVICES&quot;,&quot;href&quot;:&quot;575930392#carousel_d430&quot;}" data-lang-hr="{&quot;content&quot;:&quot;NAŠE USLUGE&quot;,&quot;href&quot;:&quot;575930392#carousel_d430&quot;}">NAŠE USLUGE</a><div class="u-nav-popup"><ul role="menu" class="u-custom-font u-font-roboto-slab u-h-spacing-20 u-nav u-unstyled u-v-spacing-10 u-nav-4" aria-label="NAŠE USLUGE menu"><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link" href="poslovno-savjetovanje.html" data-lang-en="{&quot;content&quot;:&quot;BUSINESS CONSULTING&quot;,&quot;href&quot;:&quot;poslovno-savjetovanje.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;POSLOVNO SAVJETOVANJE&quot;,&quot;href&quot;:&quot;poslovno-savjetovanje.html&quot;}">POSLOVNO SAVJETOVANJE</a>
 </li><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link" href="upravljanje-projektima.html" data-lang-en="{&quot;content&quot;:&quot;PROJECT MANAGEMENT&quot;,&quot;href&quot;:&quot;upravljanje-projektima.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;UPRAVLJANJE PROJEKTIMA&quot;,&quot;href&quot;:&quot;upravljanje-projektima.html&quot;}">UPRAVLJANJE PROJEKTIMA</a>
 </li><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link" href="HR-usluge-i-radni-procesi.html" data-lang-en="{&quot;content&quot;:&quot;HR SERVICES AND WORK PROCESSES&quot;,&quot;href&quot;:&quot;HR-usluge-i-radni-procesi.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;HR USLUGE I RADNI PROCESI&quot;,&quot;href&quot;:&quot;HR-usluge-i-radni-procesi.html&quot;}">HR USLUGE I RADNI PROCESI</a>
 </li><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link" href="financijske-usluge.html" data-lang-en="{&quot;content&quot;:&quot;FINANCIAL AND ACCOUNTING SERVICES&quot;,&quot;href&quot;:&quot;financijske-usluge.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;FINANCIJSKO - RAČUNOVODSTVENE USLUGE&quot;,&quot;href&quot;:&quot;financijske-usluge.html&quot;}">FINANCIJSKO - RAČUNOVODSTVENE USLUGE</a>
@@ -258,6 +380,7 @@
                 <div class="u-form-send-error u-form-send-message">Unable to send your message. Please fix errors then try again.</div>
                 <input type="hidden" value="" name="recaptchaResponse">
                 <input type="hidden" name="formServices" value="b445e0b5-0db1-fff9-03d6-073a3830874a;ba639093-74da-a27d-fd2d-20df32730b7d">
+                <input type="hidden" name="siteKey" value="6Lcj5aMrAAAAAAAFhkIs0qvSG2KWgeLwoPDkDq46">
               </form>
             </div>
           </div>
@@ -514,6 +637,7 @@ c6.177,6.18,9.262,14.271,9.262,22.366C354.708,234.018,351.617,242.115,345.441,24
                       <div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors then try again. </div>
                       <input type="hidden" value="" name="recaptchaResponse">
                       <input type="hidden" name="formServices" value="b445e0b5-0db1-fff9-03d6-073a3830874a;ba639093-74da-a27d-fd2d-20df32730b7d">
+                      <input type="hidden" name="siteKey" value="6Lcj5aMrAAAAAAAFhkIs0qvSG2KWgeLwoPDkDq46">
                     </form>
                   </div>
                 </div>
