@@ -1810,6 +1810,15 @@
     padding-left: 10px;
     padding-right: 10px;
   }
+
+     .u-section-5 .u-accordion-pane-1,
+    .u-section-5 .u-accordion-pane-2,
+    .u-section-5 .u-accordion-pane-3,
+    .u-section-5 .u-accordion-pane-4,
+    .u-section-5 .u-accordion-pane-5 {
+        position: relative; /* panel ne prekriva druge elemente */
+        z-index: 0;
+    }
 }
 
 @media (max-width: 575px) {
