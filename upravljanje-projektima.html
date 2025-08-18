@@ -12,6 +12,70 @@
     <script class="u-script" type="text/javascript" src="nicepage.js" defer=""></script>
     <meta name="generator" content="Nicepage 7.5.2, nicepage.com">
     <link rel="icon" href="images/favicon.png">
+
+	
+	<!-- Consent Mode: default deny + obnova iz kolačića prije GTM-a -->
+<script>
+  // dataLayer/gtag osnova
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+
+  // 1) default: denied (security allowed)
+  gtag('consent','default',{
+    ad_storage:'denied',
+    analytics_storage:'denied',
+    functionality_storage:'denied',
+    security_storage:'granted',
+    ad_user_data:'denied',
+    ad_personalization:'denied'
+  });
+
+  // helperi za čitanje kolačića i provjeru privole
+  function getCookie(name){
+    return document.cookie.split(';').map(c=>c.trim())
+      .find(c => c.startsWith(name + '='))?.split('=')[1] || '';
+  }
+  function gdprConfirmed(){
+    try {
+      const v = JSON.parse(decodeURIComponent(getCookie('consent')||'{}'));
+      return !!(v.analytics || v.submissions || v.ads);
+    } catch(e){ return false; }
+  }
+
+  // 2) ako postoji tvoj 1st-party "consent" kolačić → odmah obnovi stanje prije GTM-a
+  (function applyConsentFromCookie(){
+    try{
+      const v = JSON.parse(decodeURIComponent(getCookie('consent')||'{}'));
+      if(!v) return;
+      gtag('consent','update',{
+        ad_storage:         v.ads ? 'granted' : 'denied',
+        analytics_storage:  v.analytics ? 'granted' : 'denied',
+        functionality_storage:'granted',
+        ad_user_data:       v.ads ? 'granted' : 'denied',
+        ad_personalization: v.ads ? 'granted' : 'denied'
+      });
+    }catch(e){}
+  })();
+
+  // 3) opcionalno: ako banner postoji na stranici, skrij ga kad je već dano
+  document.addEventListener('DOMContentLoaded', function(){
+    if (gdprConfirmed()) {
+      var b = document.getElementById('sec-b9ce');
+      if (b) b.style.display='none';
+      // ako imaš globalnu dynamicLoadScript() (reCAPTCHA), pokreni je
+      if (typeof dynamicLoadScript === 'function') dynamicLoadScript();
+    }
+  });
+</script>
+
+	<!-- Google Tag Manager -->
+<script>
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(), event:'gtm.js'}); var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s), dl=l!='dataLayer'?'&l='+l:''; j.async=true; j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl; f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W8XNSL8N');
+</script>
     
     
     
@@ -29,7 +93,12 @@
     <meta property="og:type" content="website">
   <meta data-intl-tel-input-cdn-path="intlTelInput/"></head>
   <body data-path-to-root="./" data-include-products="false" class="u-body u-xl-mode" data-lang="hr"><header class="u-clearfix u-custom-color-2 u-header" id="sec-1e53"><div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-sm u-valign-middle-xl u-sheet-1">
-        <nav class="u-align-center-lg u-align-center-md u-align-center-sm u-align-center-xl u-align-left-xs u-dropdown-icon u-menu u-menu-dropdown u-offcanvas u-menu-1">
+      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W8XNSL8N"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+	    
+	  
+	  <nav class="u-align-center-lg u-align-center-md u-align-center-sm u-align-center-xl u-align-left-xs u-dropdown-icon u-menu u-menu-dropdown u-offcanvas u-menu-1">
           <div class="menu-collapse u-custom-font u-font-roboto-slab" style="font-size: 1.25rem; letter-spacing: 0px;">
             <a class="u-button-style u-custom-left-right-menu-spacing u-custom-padding-bottom u-custom-text-active-color u-custom-top-bottom-menu-spacing u-hamburger-link u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base u-hamburger-link-1" href="#" data-lang-en="{&quot;content&quot;:&quot;<svg class=\&quot;u-svg-link\&quot; viewBox=\&quot;0 0 24 24\&quot;><use xlink:href=\&quot;#menu-hamburger\&quot;></use></svg><svg class=\&quot;u-svg-content\&quot; version=\&quot;1.1\&quot; id=\&quot;menu-hamburger\&quot; viewBox=\&quot;0 0 16 16\&quot; x=\&quot;0px\&quot; y=\&quot;0px\&quot; xmlns:xlink=\&quot;http://www.w3.org/1999/xlink\&quot; xmlns=\&quot;http://www.w3.org/2000/svg\&quot;>    <g>        <rect y=\&quot;1\&quot; width=\&quot;16\&quot; height=\&quot;2\&quot;></rect>        <rect y=\&quot;7\&quot; width=\&quot;16\&quot; height=\&quot;2\&quot;></rect>        <rect y=\&quot;13\&quot; width=\&quot;16\&quot; height=\&quot;2\&quot;></rect>    </g></svg>&quot;,&quot;href&quot;:&quot;#&quot;}" data-lang-hr="{&quot;content&quot;:&quot;<svg class=\&quot;u-svg-link\&quot; viewBox=\&quot;0 0 24 24\&quot;><use xlink:href=\&quot;#menu-hamburger\&quot;></use></svg><svg class=\&quot;u-svg-content\&quot; version=\&quot;1.1\&quot; id=\&quot;menu-hamburger\&quot; viewBox=\&quot;0 0 16 16\&quot; x=\&quot;0px\&quot; y=\&quot;0px\&quot; xmlns:xlink=\&quot;http://www.w3.org/1999/xlink\&quot; xmlns=\&quot;http://www.w3.org/2000/svg\&quot;>    <g>        <rect y=\&quot;1\&quot; width=\&quot;16\&quot; height=\&quot;2\&quot;></rect>        <rect y=\&quot;7\&quot; width=\&quot;16\&quot; height=\&quot;2\&quot;></rect>        <rect y=\&quot;13\&quot; width=\&quot;16\&quot; height=\&quot;2\&quot;></rect>    </g></svg>&quot;,&quot;href&quot;:&quot;#&quot;}">
               <svg class="u-svg-link" viewBox="0 0 24 24"><use xlink:href="#menu-hamburger"></use></svg>
