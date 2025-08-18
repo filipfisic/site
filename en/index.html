@@ -5,27 +5,55 @@
     <meta name="keywords" content="Our Works, Management consulting, Get in touch">
     <meta name="description" content="">
     <title>PROVIDENTIA</title>
+
+<!-- Consent Mode default (deny) -->
 <script>
-    function gdprConfirmed() {
-        return document.cookie.split(';').filter(function(item) {
-            var val = item.trim().split('=');
-            val = decodeURIComponent(val[1] || '');
-            try { val = JSON.parse(val); } catch (e) { val = {}; }
-            return val && val.analytics;
-        }).length;
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    analytics_storage: 'denied',
+    functionality_storage: 'denied',
+    security_storage: 'granted',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied'
+  });
+</script>
+
+	<!-- OBNOVA CONSENTA IZ KOLAČIĆA PRIJE GTM-A -->
+<script>
+  (function(){
+    function getCookie(name){
+      return document.cookie.split(';').map(c=>c.trim())
+        .find(c => c.startsWith(name + '='))?.split('=')[1] || '';
     }
-    if (gdprConfirmed()) {
-    document.write("\
-    <!-- Google Tag Manager -->\
-    <gascript>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':\
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],\
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=\
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);\
-    })(window,document,'script','dataLayer','GTM-W8XNSL8N');</gascript>\
-    <!-- End Google Tag Manager -->\
-    ".replace(/gascript/g, 'script'));
-    }
-    </script>
+    try{
+      const v = JSON.parse(decodeURIComponent(getCookie('consent')||'{}'));
+      if (v && (v.analytics || v.ads || v.submissions)) {
+        gtag('consent','update',{
+          ad_storage:         v.ads ? 'granted' : 'denied',
+          analytics_storage:  v.analytics ? 'granted' : 'denied',
+          functionality_storage:'granted',
+          ad_user_data:       v.ads ? 'granted' : 'denied',
+          ad_personalization: v.ads ? 'granted' : 'denied'
+        });
+      }
+    }catch(e){}
+  })();
+</script>
+
+
+<!-- Google Tag Manager -->
+<script>
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W8XNSL8N');
+</script>
+<!-- End Google Tag Manager -->
+
+	
     <link rel="stylesheet" href="../nicepage.css" media="screen">
 <link rel="stylesheet" href="../index.css" media="screen">
     <script class="u-script" type="text/javascript" src="../jquery.js" defer=""></script>
@@ -773,5 +801,34 @@ c6.177,6.18,9.262,14.271,9.262,22.366C354.708,234.018,351.617,242.115,345.441,24
     min-height: 15px;
   }
 }</style></section>
+
+	  <script>
+document.addEventListener('DOMContentLoaded', function(){
+  var btn = document.querySelector('.u-cookies-consent .u-button-confirm');
+  if (!btn) return;
+
+  btn.addEventListener('click', function(e){
+    e.preventDefault();
+
+    gtag('consent', 'update', {
+      ad_storage: 'granted',
+      analytics_storage: 'granted',
+      functionality_storage: 'granted',
+      ad_user_data: 'granted',
+      ad_personalization: 'granted'
+    });
+
+    // sakrij banner + postavi cookie koji i gdprConfirmed koristi
+    var banner = document.getElementById('sec-b9ce');
+    if (banner) banner.style.display = 'none';
+    document.cookie = 'consent=' + encodeURIComponent(JSON.stringify({
+      analytics:true, ads:true, submissions:true
+    })) + ';path=/;max-age=' + (3600*24*180);
+
+    // ako želiš: odmah učitaj reCAPTCHA
+    dynamicLoadScript();
+  });
+});
+</script>
   
 </body></html>
