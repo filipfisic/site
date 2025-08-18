@@ -3,6 +3,30 @@
  * License https://froala.com/wysiwyg-editor/terms/
  * Copyright 2014-2021 Froala Labs
  */
+/* Begin custom modifications to remove animations from About Us section (carousel_6057)
+   These overrides disable animations within the About Us section (identified by the
+   HTML id "carousel_6057") by neutralizing the animation properties on elements
+   marked with the classes `animated` and `backstage`.  The `animation` and
+   `animation-name` properties are set to none and duration to 0 to prevent
+   transitions.  Additionally, we ensure any elements hidden via the
+   `u-backstage-hidden` class are visible and opaque. */
+#carousel_6057 .animated,
+#carousel_6057 .backstage {
+  animation: none !important;
+  animation-name: none !important;
+  animation-duration: 0 !important;
+  animation-play-state: initial !important;
+  transition: none !important;
+  transform: none !important;
+}
+
+#carousel_6057 .u-backstage-hidden {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+/* End custom modifications */
+
+
 
 .fr-clearfix::after {
   clear: both;
