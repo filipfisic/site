@@ -20,6 +20,29 @@
   });
 </script>
 
+	<!-- OBNOVA CONSENTA IZ KOLAČIĆA PRIJE GTM-A -->
+<script>
+  (function(){
+    function getCookie(name){
+      return document.cookie.split(';').map(c=>c.trim())
+        .find(c => c.startsWith(name + '='))?.split('=')[1] || '';
+    }
+    try{
+      const v = JSON.parse(decodeURIComponent(getCookie('consent')||'{}'));
+      if (v && (v.analytics || v.ads || v.submissions)) {
+        gtag('consent','update',{
+          ad_storage:         v.ads ? 'granted' : 'denied',
+          analytics_storage:  v.analytics ? 'granted' : 'denied',
+          functionality_storage:'granted',
+          ad_user_data:       v.ads ? 'granted' : 'denied',
+          ad_personalization: v.ads ? 'granted' : 'denied'
+        });
+      }
+    }catch(e){}
+  })();
+</script>
+
+
 <!-- Google Tag Manager -->
 <script>
 (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
