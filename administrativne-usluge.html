@@ -12,6 +12,71 @@
     <script class="u-script" type="text/javascript" src="nicepage.js" defer=""></script>
     <meta name="generator" content="Nicepage 7.5.2, nicepage.com">
     <link rel="icon" href="images/favicon.png">
+
+		<!-- Consent Mode: default deny + obnova iz kolačića prije GTM-a -->
+<script>
+  // dataLayer/gtag osnova
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+
+  // 1) default: denied (security allowed)
+  gtag('consent','default',{
+    ad_storage:'denied',
+    analytics_storage:'denied',
+    functionality_storage:'denied',
+    security_storage:'granted',
+    ad_user_data:'denied',
+    ad_personalization:'denied'
+  });
+
+  // helperi za čitanje kolačića i provjeru privole
+  function getCookie(name){
+    return document.cookie.split(';').map(c=>c.trim())
+      .find(c => c.startsWith(name + '='))?.split('=')[1] || '';
+  }
+  function gdprConfirmed(){
+    try {
+      const v = JSON.parse(decodeURIComponent(getCookie('consent')||'{}'));
+      return !!(v.analytics || v.submissions || v.ads);
+    } catch(e){ return false; }
+  }
+
+  // 2) ako postoji tvoj 1st-party "consent" kolačić → odmah obnovi stanje prije GTM-a
+  (function applyConsentFromCookie(){
+    try{
+      const v = JSON.parse(decodeURIComponent(getCookie('consent')||'{}'));
+      if(!v) return;
+      gtag('consent','update',{
+        ad_storage:         v.ads ? 'granted' : 'denied',
+        analytics_storage:  v.analytics ? 'granted' : 'denied',
+        functionality_storage:'granted',
+        ad_user_data:       v.ads ? 'granted' : 'denied',
+        ad_personalization: v.ads ? 'granted' : 'denied'
+      });
+    }catch(e){}
+  })();
+
+  // 3) opcionalno: ako banner postoji na stranici, skrij ga kad je već dano
+  document.addEventListener('DOMContentLoaded', function(){
+    if (gdprConfirmed()) {
+      var b = document.getElementById('sec-b9ce');
+      if (b) b.style.display='none';
+      // ako imaš globalnu dynamicLoadScript() (reCAPTCHA), pokreni je
+      if (typeof dynamicLoadScript === 'function') dynamicLoadScript();
+    }
+  });
+</script>
+
+	<!-- Google Tag Manager -->
+<script>
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(), event:'gtm.js'}); var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s), dl=l!='dataLayer'?'&l='+l:''; j.async=true; j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl; f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W8XNSL8N');
+</script>
+
+    
     
     
     
