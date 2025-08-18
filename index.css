@@ -1819,6 +1819,15 @@
         position: relative; /* panel ne prekriva druge elemente */
         z-index: 0;
     }
+
+   .u-section-5 .u-container-layout-1,
+  .u-section-5 .u-container-layout-2,
+  .u-section-5 .u-container-layout-3,
+  .u-section-5 .u-container-layout-4,
+  .u-section-5 .u-container-layout-5 {
+    position: relative;
+    z-index: 0;
+  }
 }
 
 @media (max-width: 575px) {
