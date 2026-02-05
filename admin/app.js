@@ -202,7 +202,7 @@ async function loadPostsFromPath(path) {
         const response = await fetch(url, {
             headers: {
                 'Authorization': `token ${state.token}`,
-                'Accept': 'application/vnd.github.v3+json'
+                'Accept': 'application/vnd.github+json'
             }
         });
 
@@ -660,7 +660,7 @@ async function saveFileToGithub(filepath, content, isBase64 = false) {
         const getRes = await fetch(url, {
             headers: {
                 'Authorization': `token ${state.token}`,
-                'Accept': 'application/vnd.github.v3+json'
+                'Accept': 'application/vnd.github+json'
             }
         });
 
