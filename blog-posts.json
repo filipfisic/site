@@ -2,12 +2,12 @@
   "posts": [
     {
       "id": "test-novi",
-      "date": "2026-02-05",
+      "date": "2026-02-01",
       "readTime": 13,
       "image": "images/blog/test-novi-1770326094337.webp",
       "hr": {
         "title": "TEST novi",
-        "tag": "poslovanje",
+        "tag": "poslovanjee",
         "excerpt": "sazetak",
         "url": "blog/test-novi.html"
       },
