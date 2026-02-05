@@ -898,14 +898,23 @@ async function saveFileToGithub(filepath, content, isBase64 = false) {
         }
     });
 
-    if (getRes.ok) {
+    // Check content type before parsing JSON
+    const contentType = getRes.headers.get('content-type') || '';
+
+    if (getRes.ok && contentType.includes('application/json')) {
         const data = await getRes.json();
         sha = data.sha;
         console.log(`File exists, SHA: ${sha}`);
     } else if (getRes.status === 404) {
         console.log('File does not exist, creating new');
+    } else if (getRes.status === 401 || getRes.status === 403) {
+        throw new Error('GitHub token je nevazeci ili istekao. Odjavi se i unesi novi token.');
     } else {
-        console.error(`Error checking file: ${getRes.status}`);
+        console.error(`Error checking file: ${getRes.status}, content-type: ${contentType}`);
+        // If we got HTML instead of JSON, token might be bad
+        if (contentType.includes('text/html')) {
+            throw new Error('GitHub API vraca HTML umjesto JSON. Provjeri token.');
+        }
     }
 
     // Save file
