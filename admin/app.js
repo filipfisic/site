@@ -514,6 +514,153 @@ function removeImage() {
 }
 
 // ============================================
+// BATCH SAVE FILES (all files in one commit)
+// ============================================
+
+async function saveFilesToGithubBatch(files) {
+    // files = [{filepath, content, isBase64}, ...]
+    if (!state.token) {
+        throw new Error('No GitHub token set. Please log in first.');
+    }
+
+    // Prvo dobij trenutni commit SHA
+    const refUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/refs/heads/${GITHUB_BRANCH}`;
+    const refRes = await fetch(refUrl, {
+        headers: {
+            'Authorization': `token ${state.token}`,
+            'Accept': 'application/vnd.github.v3+json'
+        }
+    });
+
+    if (!refRes.ok) {
+        throw new Error(`Could not get branch reference: ${refRes.status}`);
+    }
+
+    const refData = await refRes.json();
+    const currentCommitSha = refData.object.sha;
+
+    // Dobij current commit i tree
+    const commitUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/commits/${currentCommitSha}`;
+    const commitRes = await fetch(commitUrl, {
+        headers: {
+            'Authorization': `token ${state.token}`,
+            'Accept': 'application/vnd.github.v3+json'
+        }
+    });
+
+    if (!commitRes.ok) {
+        throw new Error(`Could not get commit: ${commitRes.status}`);
+    }
+
+    const commitData = await commitRes.json();
+    const currentTreeSha = commitData.tree.sha;
+
+    // Pripremi tree items - prvo dobij sve SHAe za postojeće datoteke
+    const treeItems = [];
+
+    for (const file of files) {
+        const fileUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${file.filepath}?t=${Date.now()}`;
+        let fileSha = null;
+
+        try {
+            const fileRes = await fetch(fileUrl, {
+                headers: {
+                    'Authorization': `token ${state.token}`,
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            });
+
+            if (fileRes.ok) {
+                const fileData = await fileRes.json();
+                fileSha = fileData.sha;
+            }
+        } catch (e) {
+            // Datoteka ne postoji, to je ok - kreirat će se nova
+        }
+
+        // Kodiraj sadržaj
+        const content = file.isBase64 ? file.content : btoa(unescape(encodeURIComponent(file.content)));
+
+        treeItems.push({
+            path: file.filepath,
+            mode: '100644',
+            type: 'blob',
+            content: file.isBase64 ? null : btoa(unescape(encodeURIComponent(file.content))),
+            sha: fileSha || undefined
+        });
+    }
+
+    // Kreiraj novu tree
+    const treeUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/trees`;
+    const treeRes = await fetch(treeUrl, {
+        method: 'POST',
+        headers: {
+            'Authorization': `token ${state.token}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github.v3+json'
+        },
+        body: JSON.stringify({
+            tree: treeItems,
+            base_tree: currentTreeSha
+        })
+    });
+
+    if (!treeRes.ok) {
+        const errorText = await treeRes.text();
+        throw new Error(`Could not create tree: ${treeRes.status} - ${errorText.substring(0, 200)}`);
+    }
+
+    const treeData = await treeRes.json();
+    const newTreeSha = treeData.sha;
+
+    // Kreiraj novi commit sa svim datotekama
+    const newCommitUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/commits`;
+    const newCommitRes = await fetch(newCommitUrl, {
+        method: 'POST',
+        headers: {
+            'Authorization': `token ${state.token}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github.v3+json'
+        },
+        body: JSON.stringify({
+            message: `Blog: ${files.map(f => f.filepath.split('/').pop()).join(', ')}`,
+            tree: newTreeSha,
+            parents: [currentCommitSha]
+        })
+    });
+
+    if (!newCommitRes.ok) {
+        const errorText = await newCommitRes.text();
+        throw new Error(`Could not create commit: ${newCommitRes.status} - ${errorText.substring(0, 200)}`);
+    }
+
+    const newCommitData = await newCommitRes.json();
+    const newCommitSha = newCommitData.sha;
+
+    // Ažuriraj branch da pokazuje na novi commit
+    const updateRefRes = await fetch(refUrl, {
+        method: 'PATCH',
+        headers: {
+            'Authorization': `token ${state.token}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github.v3+json'
+        },
+        body: JSON.stringify({
+            sha: newCommitSha,
+            force: false
+        })
+    });
+
+    if (!updateRefRes.ok) {
+        const errorText = await updateRefRes.text();
+        throw new Error(`Could not update branch: ${updateRefRes.status} - ${errorText.substring(0, 200)}`);
+    }
+
+    console.log(`Batch commit created: ${newCommitSha}`);
+    return newCommitSha;
+}
+
+// ============================================
 // SAVE POST
 // ============================================
 
@@ -590,32 +737,45 @@ async function savePost() {
             filename
         );
 
-        // Spremi u GitHub
+        // Pripremi datoteke za batch commit
+        const filesToSave = [];
+        const listingsToUpdate = [];
+
         if (state.currentPost) {
             // Update postojeće članke
             const hrFilepath = state.currentPost.versions['hr']?.filepath;
             const enFilepath = state.currentPost.versions['en']?.filepath;
 
             if (hrFilepath) {
-                await saveFileToGithub(hrFilepath, htmlHR);
+                filesToSave.push({ filepath: hrFilepath, content: htmlHR, isBase64: false });
             }
 
             if (enFilepath) {
                 // EN verzija postoji, ažuriraj je
-                await saveFileToGithub(enFilepath, htmlEN);
+                filesToSave.push({ filepath: enFilepath, content: htmlEN, isBase64: false });
             } else {
                 // EN verzija ne postoji, kreiraj je
-                await saveFileToGithub(`en/blog/${filenameEn}.html`, htmlEN);
-                await updateBlogListing(filenameEn, titleEn, tagEn, excerptEn, imageUrl, 'en');
+                filesToSave.push({ filepath: `en/blog/${filenameEn}.html`, content: htmlEN, isBase64: false });
+                listingsToUpdate.push({ filename: filenameEn, title: titleEn, tag: tagEn, excerpt: excerptEn, lang: 'en' });
             }
         } else {
             // Kreiraj nove članke
-            await saveFileToGithub(`blog/${filename}.html`, htmlHR);
-            await saveFileToGithub(`en/blog/${filenameEn}.html`, htmlEN);
+            filesToSave.push({ filepath: `blog/${filename}.html`, content: htmlHR, isBase64: false });
+            filesToSave.push({ filepath: `en/blog/${filenameEn}.html`, content: htmlEN, isBase64: false });
 
             // Ažuriraj blog.html i en/blog.html listing stranice
-            await updateBlogListing(filename, titleEn, tag, excerpt, imageUrl, 'hr');
-            await updateBlogListing(filenameEn, titleEn, tagEn, excerptEn, imageUrl, 'en');
+            listingsToUpdate.push({ filename: filename, title: titleEn, tag: tag, excerpt: excerpt, lang: 'hr' });
+            listingsToUpdate.push({ filename: filenameEn, title: titleEn, tag: tagEn, excerpt: excerptEn, lang: 'en' });
+        }
+
+        // Spremi sve datoteke u jedan commit
+        if (filesToSave.length > 0) {
+            await saveFilesToGithubBatch(filesToSave);
+        }
+
+        // Ažuriraj listing stranice nakon što su datoteke spremljene
+        for (const listing of listingsToUpdate) {
+            await updateBlogListing(listing.filename, listing.title, listing.tag, listing.excerpt, imageUrl, listing.lang);
         }
 
         savingModal.style.display = 'none';
