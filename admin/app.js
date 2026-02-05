@@ -967,10 +967,35 @@ async function savePost() {
         const htmlHR = generatePostHTML(title, tag, dateFormatted, readTimeVal, excerpt, sectionsHR, imageUrl, 'hr', filenameHR, filenameEN);
         const htmlEN = generatePostHTML(titleEn, tagEn, dateFormattedEn, readTimeVal, excerptEn, sectionsEN, imageUrl, 'en', filenameHR, filenameEN);
 
-        // Save both files in a single commit using Git Trees API
+        // Build manifest entry for this post
+        const postEntry = {
+            id: filenameHR,
+            date: date,
+            readTime: readTimeVal,
+            image: imageUrl.replace('../', ''),  // Store as relative to root
+            hr: {
+                title: title,
+                tag: tag,
+                excerpt: excerpt,
+                url: `blog/${filenameHR}.html`
+            },
+            en: {
+                title: titleEn,
+                tag: tagEn,
+                excerpt: excerptEn,
+                url: `en/blog/${filenameEN}.html`
+            }
+        };
+
+        // Update manifest with all posts
+        const manifest = await generateManifest(postEntry);
+        const manifestJson = JSON.stringify(manifest, null, 2);
+
+        // Save blog posts + manifest in a single commit using Git Trees API
         await saveMultipleFilesToGithub([
             { path: `blog/${filenameHR}.html`, content: htmlHR },
-            { path: `en/blog/${filenameEN}.html`, content: htmlEN }
+            { path: `en/blog/${filenameEN}.html`, content: htmlEN },
+            { path: 'blog-posts.json', content: manifestJson }
         ], `Blog: ${filenameHR}`);
 
         savingModal.style.display = 'none';
@@ -987,6 +1012,43 @@ async function savePost() {
         errorEl.style.display = 'block';
         console.error('Save error:', error);
     }
+}
+
+// Generate manifest with all posts
+async function generateManifest(newEntry) {
+    // Try to fetch existing manifest
+    let manifest = { posts: [] };
+
+    try {
+        const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/blog-posts.json`;
+        const response = await fetch(url, {
+            headers: {
+                'Authorization': `token ${state.token}`,
+                'Accept': 'application/vnd.github.v3+json'
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            const content = atob(data.content);
+            manifest = JSON.parse(content);
+        }
+    } catch (e) {
+        console.log('No existing manifest, creating new one');
+    }
+
+    // Update or add the post entry
+    const existingIndex = manifest.posts.findIndex(p => p.id === newEntry.id);
+    if (existingIndex >= 0) {
+        manifest.posts[existingIndex] = newEntry;
+    } else {
+        manifest.posts.push(newEntry);
+    }
+
+    // Sort by date (newest first)
+    manifest.posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    return manifest;
 }
 
 async function uploadImage(base64Data, filename) {

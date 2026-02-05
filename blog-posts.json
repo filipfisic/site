@@ -1,0 +1,40 @@
+{
+  "posts": [
+    {
+      "id": "probni-claank",
+      "date": "2026-02-05",
+      "readTime": 3,
+      "image": "images/blog/probni-claank-1770324797152.webp",
+      "hr": {
+        "title": "PROBNI CLAANK",
+        "tag": "qfw",
+        "excerpt": "asfa",
+        "url": "blog/probni-claank.html"
+      },
+      "en": {
+        "title": "proba",
+        "tag": "qefq",
+        "excerpt": "sda",
+        "url": "en/blog/probni-claank.html"
+      }
+    },
+    {
+      "id": "virtualni-asistenti",
+      "date": "2025-08-15",
+      "readTime": 4,
+      "image": "images/virtual.webp",
+      "hr": {
+        "title": "Kako virtualni asistenti pomažu u optimizaciji poslovanja",
+        "tag": "Poslovanje",
+        "excerpt": "U današnjem poslovnom svijetu, povećanje učinkovitosti i optimizacija poslovnih procesa postali su ključni za postizanje održivog rasta i uspjeha. Virtualni asistenti i drugi digitalni alati revolucioniziraju način na koji tvrtke djeluju, omogućavajući fleksibilno i učinkovitije upravljanje resursima.",
+        "url": "blog/virtualni-asistenti.html"
+      },
+      "en": {
+        "title": "How Virtual Assistants Help Optimize Business Operations",
+        "tag": "Business",
+        "excerpt": "In today's business world, increasing efficiency and optimizing business processes have become key to achieving sustainable growth and success. Virtual assistants and other digital tools are revolutionizing the way companies operate, enabling flexible and more efficient resource management.",
+        "url": "en/blog/virtual-assistants.html"
+      }
+    }
+  ]
+}

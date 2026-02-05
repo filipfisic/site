@@ -225,30 +225,12 @@
                 <div class="blog-preview animate-on-scroll">
                     <h2>BLOG</h2>
                     <div class="blog-preview-slider">
-                        <div class="blog-preview-cards">
-                            <article class="blog-card active">
-                                <a href="blog/virtual-assistants.html" class="blog-card-link">
-                                    <div class="blog-card-image">
-                                        <img src="../images/virtual.webp" alt="Virtual Assistants">
-                                        <div class="blog-card-overlay">
-                                            <span class="blog-tag">Business</span>
-                                        </div>
-                                    </div>
-                                    <div class="blog-card-content">
-                                        <div class="blog-meta">
-                                            <span><i class="far fa-calendar-alt"></i> August 2025</span>
-                                            <span><i class="far fa-clock"></i> 3 min read</span>
-                                        </div>
-                                        <h3>How Virtual Assistants Help Optimize Business Operations</h3>
-                                        <p>In today's business world, increasing efficiency and optimizing business processes have become key to achieving sustainable growth and success.</p>
-                                        <span class="blog-read-more">Read more <i class="fas fa-arrow-right"></i></span>
-                                    </div>
-                                </a>
-                            </article>
+                        <div class="blog-preview-cards" id="blog-preview-cards">
+                            <!-- Posts loaded dynamically -->
                         </div>
                         <div class="blog-preview-nav">
                             <button class="blog-prev" aria-label="Previous article"><i class="fas fa-chevron-left"></i></button>
-                            <div class="blog-preview-dots"></div>
+                            <div class="blog-preview-dots" id="blog-preview-dots"></div>
                             <button class="blog-next" aria-label="Next article"><i class="fas fa-chevron-right"></i></button>
                         </div>
                     </div>
@@ -447,5 +429,86 @@
     </button>
 
     <script src="../js/main.js"></script>
+    <script>
+        // Load blog preview posts from manifest
+        (async function() {
+            const cards = document.getElementById('blog-preview-cards');
+            const dots = document.getElementById('blog-preview-dots');
+            if (!cards) return;
+
+            const monthsEN = ['January', 'February', 'March', 'April', 'May', 'June',
+                              'July', 'August', 'September', 'October', 'November', 'December'];
+
+            try {
+                const res = await fetch('../blog-posts.json?t=' + Date.now());
+                if (!res.ok) throw new Error('Manifest not found');
+                const manifest = await res.json();
+
+                if (manifest.posts.length === 0) return;
+
+                // Show only latest 3 posts
+                const postsToShow = manifest.posts.slice(0, 3);
+
+                cards.innerHTML = postsToShow.map((post, i) => {
+                    const date = new Date(post.date);
+                    const dateStr = monthsEN[date.getMonth()] + ' ' + date.getFullYear();
+                    const p = post.en;
+                    // Fix image path for en/ directory
+                    const imgPath = post.image.startsWith('../') ? post.image : '../' + post.image;
+                    return `
+                        <article class="blog-card${i === 0 ? ' active' : ''}">
+                            <a href="${p.url.replace('en/', '')}" class="blog-card-link">
+                                <div class="blog-card-image">
+                                    <img src="${imgPath}" alt="${p.title}" loading="lazy">
+                                    <div class="blog-card-overlay">
+                                        <span class="blog-tag">${p.tag}</span>
+                                    </div>
+                                </div>
+                                <div class="blog-card-content">
+                                    <div class="blog-meta">
+                                        <span><i class="far fa-calendar-alt"></i> ${dateStr}</span>
+                                        <span><i class="far fa-clock"></i> ${post.readTime} min read</span>
+                                    </div>
+                                    <h3>${p.title}</h3>
+                                    <p>${p.excerpt}</p>
+                                    <span class="blog-read-more">Read more <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </a>
+                        </article>
+                    `;
+                }).join('');
+
+                // Add dots
+                dots.innerHTML = postsToShow.map((_, i) =>
+                    `<span class="dot${i === 0 ? ' active' : ''}" data-index="${i}"></span>`
+                ).join('');
+
+                // Initialize slider functionality
+                initBlogSlider();
+            } catch (e) {
+                console.error('Error loading blog preview:', e);
+            }
+        })();
+
+        function initBlogSlider() {
+            const cards = document.querySelectorAll('#blog-preview-cards .blog-card');
+            const dots = document.querySelectorAll('#blog-preview-dots .dot');
+            const prevBtn = document.querySelector('.blog-prev');
+            const nextBtn = document.querySelector('.blog-next');
+            if (cards.length === 0) return;
+
+            let currentIndex = 0;
+
+            function showCard(index) {
+                cards.forEach((c, i) => c.classList.toggle('active', i === index));
+                dots.forEach((d, i) => d.classList.toggle('active', i === index));
+                currentIndex = index;
+            }
+
+            prevBtn?.addEventListener('click', () => showCard((currentIndex - 1 + cards.length) % cards.length));
+            nextBtn?.addEventListener('click', () => showCard((currentIndex + 1) % cards.length));
+            dots.forEach(dot => dot.addEventListener('click', () => showCard(parseInt(dot.dataset.index))));
+        }
+    </script>
 </body>
 </html>

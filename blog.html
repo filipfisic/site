@@ -148,26 +148,9 @@
     <!-- Blog Grid -->
     <section class="blog-section">
         <div class="container">
-            <div class="blog-grid">
-                <article class="blog-card">
-                    <a href="blog/virtualni-asistenti.html" class="blog-card-link">
-                        <div class="blog-card-image">
-                            <img src="images/virtual.webp" alt="Virtualni asistenti">
-                            <div class="blog-card-overlay">
-                                <span class="blog-tag">Poslovanje</span>
-                            </div>
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span><i class="far fa-calendar-alt"></i> Kolovoz 2025</span>
-                                <span><i class="far fa-clock"></i> 3 min čitanja</span>
-                            </div>
-                            <h3>Kako virtualni asistenti pomažu u optimizaciji poslovanja</h3>
-                            <p>U današnjem poslovnom svijetu, povećanje učinkovitosti i optimizacija poslovnih procesa postali su ključni za postizanje održivog rasta i uspjeha.</p>
-                            <span class="blog-read-more">Pročitaj više <i class="fas fa-arrow-right"></i></span>
-                        </div>
-                    </a>
-                </article>
+            <div class="blog-grid" id="blog-grid">
+                <!-- Posts loaded dynamically -->
+                <div class="blog-loading">Učitavanje članaka...</div>
             </div>
         </div>
     </section>
@@ -210,5 +193,54 @@
 
     <!-- JavaScript -->
     <script src="js/main.js"></script>
+    <script>
+        // Load blog posts from manifest
+        (async function() {
+            const grid = document.getElementById('blog-grid');
+            const monthsHR = ['Siječanj', 'Veljača', 'Ožujak', 'Travanj', 'Svibanj', 'Lipanj',
+                              'Srpanj', 'Kolovoz', 'Rujan', 'Listopad', 'Studeni', 'Prosinac'];
+
+            try {
+                const res = await fetch('blog-posts.json?t=' + Date.now());
+                if (!res.ok) throw new Error('Manifest not found');
+                const manifest = await res.json();
+
+                if (manifest.posts.length === 0) {
+                    grid.innerHTML = '<p class="no-posts">Nema objavljenih članaka.</p>';
+                    return;
+                }
+
+                grid.innerHTML = manifest.posts.map(post => {
+                    const date = new Date(post.date);
+                    const dateStr = monthsHR[date.getMonth()] + ' ' + date.getFullYear();
+                    const p = post.hr;
+                    return `
+                        <article class="blog-card">
+                            <a href="${p.url}" class="blog-card-link">
+                                <div class="blog-card-image">
+                                    <img src="${post.image}" alt="${p.title}" loading="lazy">
+                                    <div class="blog-card-overlay">
+                                        <span class="blog-tag">${p.tag}</span>
+                                    </div>
+                                </div>
+                                <div class="blog-card-content">
+                                    <div class="blog-meta">
+                                        <span><i class="far fa-calendar-alt"></i> ${dateStr}</span>
+                                        <span><i class="far fa-clock"></i> ${post.readTime} min čitanja</span>
+                                    </div>
+                                    <h3>${p.title}</h3>
+                                    <p>${p.excerpt}</p>
+                                    <span class="blog-read-more">Pročitaj više <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </a>
+                        </article>
+                    `;
+                }).join('');
+            } catch (e) {
+                console.error('Error loading posts:', e);
+                grid.innerHTML = '<p class="no-posts">Greška pri učitavanju članaka.</p>';
+            }
+        })();
+    </script>
 </body>
 </html>

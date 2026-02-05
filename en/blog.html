@@ -148,26 +148,9 @@
     <!-- Blog Grid -->
     <section class="blog-section">
         <div class="container">
-            <div class="blog-grid">
-                <article class="blog-card">
-                    <a href="blog/virtual-assistants.html" class="blog-card-link">
-                        <div class="blog-card-image">
-                            <img src="../images/virtual.webp" alt="Virtual Assistants">
-                            <div class="blog-card-overlay">
-                                <span class="blog-tag">Business</span>
-                            </div>
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span><i class="far fa-calendar-alt"></i> August 2025</span>
-                                <span><i class="far fa-clock"></i> 3 min read</span>
-                            </div>
-                            <h3>How Virtual Assistants Help Optimize Business Operations</h3>
-                            <p>In today's business world, increasing efficiency and optimizing business processes have become key to achieving sustainable growth and success.</p>
-                            <span class="blog-read-more">Read more <i class="fas fa-arrow-right"></i></span>
-                        </div>
-                    </a>
-                </article>
+            <div class="blog-grid" id="blog-grid">
+                <!-- Posts loaded dynamically -->
+                <div class="blog-loading">Loading articles...</div>
             </div>
         </div>
     </section>
@@ -210,5 +193,56 @@
 
     <!-- JavaScript -->
     <script src="../js/main.js"></script>
+    <script>
+        // Load blog posts from manifest
+        (async function() {
+            const grid = document.getElementById('blog-grid');
+            const monthsEN = ['January', 'February', 'March', 'April', 'May', 'June',
+                              'July', 'August', 'September', 'October', 'November', 'December'];
+
+            try {
+                const res = await fetch('../blog-posts.json?t=' + Date.now());
+                if (!res.ok) throw new Error('Manifest not found');
+                const manifest = await res.json();
+
+                if (manifest.posts.length === 0) {
+                    grid.innerHTML = '<p class="no-posts">No articles available.</p>';
+                    return;
+                }
+
+                grid.innerHTML = manifest.posts.map(post => {
+                    const date = new Date(post.date);
+                    const dateStr = monthsEN[date.getMonth()] + ' ' + date.getFullYear();
+                    const p = post.en;
+                    // Fix image path for en/ directory
+                    const imgPath = post.image.startsWith('../') ? post.image : '../' + post.image;
+                    return `
+                        <article class="blog-card">
+                            <a href="${p.url.replace('en/', '')}" class="blog-card-link">
+                                <div class="blog-card-image">
+                                    <img src="${imgPath}" alt="${p.title}" loading="lazy">
+                                    <div class="blog-card-overlay">
+                                        <span class="blog-tag">${p.tag}</span>
+                                    </div>
+                                </div>
+                                <div class="blog-card-content">
+                                    <div class="blog-meta">
+                                        <span><i class="far fa-calendar-alt"></i> ${dateStr}</span>
+                                        <span><i class="far fa-clock"></i> ${post.readTime} min read</span>
+                                    </div>
+                                    <h3>${p.title}</h3>
+                                    <p>${p.excerpt}</p>
+                                    <span class="blog-read-more">Read more <i class="fas fa-arrow-right"></i></span>
+                                </div>
+                            </a>
+                        </article>
+                    `;
+                }).join('');
+            } catch (e) {
+                console.error('Error loading posts:', e);
+                grid.innerHTML = '<p class="no-posts">Error loading articles.</p>';
+            }
+        })();
+    </script>
 </body>
 </html>

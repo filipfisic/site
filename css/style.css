@@ -1911,6 +1911,15 @@ p {
     margin-top: var(--spacing-lg);
 }
 
+.blog-loading,
+.no-posts {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: var(--spacing-xl);
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
 /* ========================================
    BLOG POST PAGE
    ======================================== */
