@@ -839,7 +839,8 @@ async function savePost() {
     savingModal.style.display = 'flex';
 
     try {
-        const filename = slugify(title);
+        // Use existing articleId when editing, generate new one only for new posts
+        const filename = state.currentPost ? state.currentPost.articleId : slugify(title);
         const readTimeVal = parseInt(document.getElementById('post-read-time').value) || 3;
 
         // Upload image if new
