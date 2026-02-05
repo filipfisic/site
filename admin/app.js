@@ -158,8 +158,8 @@ async function loadPosts() {
             if (!postsMap[post.articleId]) {
                 postsMap[post.articleId] = {
                     articleId: post.articleId,
-                    title: post.title,
-                    tag: post.tag,
+                    title: post.title,  // Title from first version (HR preferred)
+                    tag: post.tag,      // Tag from first version
                     date: post.date,
                     readTime: post.readTime,
                     excerpt: post.excerpt,
@@ -167,7 +167,11 @@ async function loadPosts() {
                     versions: {}
                 };
             }
+            // Spremi sve podatke po jeziku
             postsMap[post.articleId].versions[post.lang] = {
+                title: post.title,
+                tag: post.tag,
+                excerpt: post.excerpt,
                 filepath: post.filepath,
                 filename: post.filename,
                 content: post.content
@@ -374,12 +378,18 @@ function editPost(articleId, lang) {
     document.getElementById('editor-title').textContent = `Uredi: ${post.title}`;
     deletePostBtn.style.display = 'inline-block';
 
-    // Popuni formu
-    document.getElementById('post-title').value = post.title;
-    document.getElementById('post-tag').value = post.tag;
+    // Popuni formu s HR i EN verzijama
+    const hrVer = post.versions['hr'] || {};
+    const enVer = post.versions['en'] || {};
+
+    document.getElementById('post-title').value = hrVer.title || '';
+    document.getElementById('post-title-en').value = enVer.title || '';
+    document.getElementById('post-tag').value = hrVer.tag || '';
+    document.getElementById('post-tag-en').value = enVer.tag || '';
     document.getElementById('post-date').value = post.date;
     document.getElementById('post-read-time').value = post.readTime;
-    document.getElementById('post-excerpt').value = post.excerpt;
+    document.getElementById('post-excerpt').value = hrVer.excerpt || '';
+    document.getElementById('post-excerpt-en').value = enVer.excerpt || '';
 
     // Prikaži sliku ako postoji
     if (post.image) {
@@ -390,9 +400,9 @@ function editPost(articleId, lang) {
     postsListView.style.display = 'none';
     editorView.style.display = 'block';
 
-    // Inicijaliziraj Quill editory
-    const hrContent = post.versions['hr']?.content || '';
-    const enContent = post.versions['en']?.content || '';
+    // Inicijaliziraj Quill editory s ispravnim sadržajima
+    const hrContent = hrVer.content || '';
+    const enContent = enVer.content || '';
     initializeQuillEditors(hrContent, enContent);
 }
 
