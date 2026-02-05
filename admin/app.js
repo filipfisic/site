@@ -689,6 +689,42 @@ function generatePostHTML(title, tag, dateFormatted, readTime, excerpt, sections
     // Always use HR filename as article-id so both versions can be grouped together
     const articleId = filenameHR;
 
+    // HR blog is at blog/, EN blog is at en/blog/ - different depths
+    const basePath = isEn ? '../../' : '../';
+
+    // Fix image URL to use correct base path
+    const fixedImageUrl = imageUrl.replace('../images/', basePath + 'images/');
+
+    // Service pages dropdown - HR pages are at root level
+    const servicesDropdown = isEn ? `
+                            <li><a href="${basePath}poslovno-savjetovanje.html">Business Consulting</a></li>
+                            <li><a href="${basePath}upravljanje-projektima.html">Project Management</a></li>
+                            <li><a href="${basePath}HR-usluge-i-radni-procesi.html">HR Services</a></li>
+                            <li><a href="${basePath}financijske-usluge.html">Financial Services</a></li>
+                            <li><a href="${basePath}administrativne-usluge.html">Administrative Services</a></li>
+                            <li><a href="${basePath}organizacija-eventa.html">Event Organization</a></li>
+                            <li><a href="${basePath}virtualni-asistent-i-coaching.html">Virtual Assistant & Coaching</a></li>
+                            <li><a href="${basePath}marketing-i-PR-usluge.html">Digital Marketing</a></li>` : `
+                            <li><a href="${basePath}poslovno-savjetovanje.html">Poslovno savjetovanje</a></li>
+                            <li><a href="${basePath}upravljanje-projektima.html">Upravljanje projektima</a></li>
+                            <li><a href="${basePath}HR-usluge-i-radni-procesi.html">HR usluge i radni procesi</a></li>
+                            <li><a href="${basePath}financijske-usluge.html">Financijsko-računovodstvene usluge</a></li>
+                            <li><a href="${basePath}administrativne-usluge.html">Administrativne usluge</a></li>
+                            <li><a href="${basePath}organizacija-eventa.html">Organizacija eventa</a></li>
+                            <li><a href="${basePath}virtualni-asistent-i-coaching.html">Virtualni asistent i coaching</a></li>
+                            <li><a href="${basePath}marketing-i-PR-usluge.html">Digitalni marketing i izrada weba</a></li>`;
+
+    // Lang switcher - from EN blog, go to HR blog and vice versa
+    const langSwitcherEN = isEn
+        ? `<a href="${basePath}en/blog/${filenameEN}.html" class="active" title="English"><img src="${basePath}images/197374.png" alt="EN"></a>`
+        : `<a href="${basePath}en/blog/${filenameEN}.html" title="English"><img src="${basePath}images/197374.png" alt="EN"></a>`;
+    const langSwitcherHR = isEn
+        ? `<a href="${basePath}blog/${filenameHR}.html" title="Hrvatski"><img src="${basePath}images/197503.png" alt="HR"></a>`
+        : `<a href="${basePath}blog/${filenameHR}.html" class="active" title="Hrvatski"><img src="${basePath}images/197503.png" alt="HR"></a>`;
+
+    // Blog list link
+    const blogListUrl = isEn ? `${basePath}en/blog.html` : `${basePath}blog.html`;
+
     return `<!DOCTYPE html>
 <html lang="${lang}">
 <head>
@@ -698,7 +734,7 @@ function generatePostHTML(title, tag, dateFormatted, readTime, excerpt, sections
     <meta name="description" content="${escapeHtml(excerpt)}">
     <meta name="article-id" content="${escapeHtml(articleId)}">
     <meta name="theme-color" content="#53627f">
-    <link rel="icon" href="../images/favicon.png">
+    <link rel="icon" href="${basePath}images/favicon.png">
 
     <!-- Consent + GTM -->
     <script>
@@ -745,9 +781,9 @@ function generatePostHTML(title, tag, dateFormatted, readTime, excerpt, sections
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../css/reset.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="${basePath}css/reset.css">
+    <link rel="stylesheet" href="${basePath}css/style.css">
+    <link rel="stylesheet" href="${basePath}css/responsive.css">
 </head>
 <body>
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W8XNSL8N" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -755,38 +791,30 @@ function generatePostHTML(title, tag, dateFormatted, readTime, excerpt, sections
     <header id="header">
         <div class="container">
             <div class="logo">
-                <a href="../index.html">
-                    <img src="../images/logozaweb1.png" alt="PROVIDENTIA logo">
+                <a href="${basePath}${isEn ? 'en/' : ''}index.html">
+                    <img src="${basePath}images/logozaweb1.png" alt="PROVIDENTIA logo">
                 </a>
             </div>
 
             <nav class="main-nav">
                 <ul>
-                    <li><a href="../index.html#hero">${isEn ? 'Homepage' : 'Naslovnica'}</a></li>
-                    <li><a href="../index.html#about">${isEn ? 'About Us' : 'O nama'}</a></li>
+                    <li><a href="${basePath}${isEn ? 'en/' : ''}index.html#hero">${isEn ? 'Homepage' : 'Naslovnica'}</a></li>
+                    <li><a href="${basePath}${isEn ? 'en/' : ''}index.html#about">${isEn ? 'About Us' : 'O nama'}</a></li>
                     <li class="nav-item-dropdown">
-                        <a href="../index.html#services">${isEn ? 'Our Services' : 'Naše usluge'} <i class="fas fa-chevron-down" style="font-size: 0.6em; margin-left: 4px;"></i></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="../poslovno-savjetovanje.html">Poslovno savjetovanje</a></li>
-                            <li><a href="../upravljanje-projektima.html">Upravljanje projektima</a></li>
-                            <li><a href="../HR-usluge-i-radni-procesi.html">HR usluge i radni procesi</a></li>
-                            <li><a href="../financijske-usluge.html">Financijsko-računovodstvene usluge</a></li>
-                            <li><a href="../administrativne-usluge.html">Administrativne usluge</a></li>
-                            <li><a href="../organizacija-eventa.html">Organizacija eventa</a></li>
-                            <li><a href="../virtualni-asistent-i-coaching.html">Virtualni asistent i coaching</a></li>
-                            <li><a href="../marketing-i-PR-usluge.html">Digitalni marketing i izrada weba</a></li>
+                        <a href="${basePath}${isEn ? 'en/' : ''}index.html#services">${isEn ? 'Our Services' : 'Naše usluge'} <i class="fas fa-chevron-down" style="font-size: 0.6em; margin-left: 4px;"></i></a>
+                        <ul class="dropdown-menu">${servicesDropdown}
                         </ul>
                     </li>
-                    <li><a href="../blog.html">Blog</a></li>
-                    <li><a href="../index.html#faq">FAQ</a></li>
-                    <li><a href="../index.html#contact">${isEn ? 'Contact' : 'Kontakt'}</a></li>
+                    <li><a href="${blogListUrl}">Blog</a></li>
+                    <li><a href="${basePath}${isEn ? 'en/' : ''}index.html#faq">FAQ</a></li>
+                    <li><a href="${basePath}${isEn ? 'en/' : ''}index.html#contact">${isEn ? 'Contact' : 'Kontakt'}</a></li>
                 </ul>
             </nav>
 
             <div class="header-actions">
                 <div class="lang-switcher">
-                    <a href="../en/blog/${filenameEN}.html" title="English"><img src="../images/197374.png" alt="EN"></a>
-                    <a href="../blog/${filenameHR}.html" class="active" title="Hrvatski"><img src="../images/197503.png" alt="HR"></a>
+                    ${langSwitcherEN}
+                    ${langSwitcherHR}
                 </div>
                 <button class="mobile-menu-toggle" aria-label="${isEn ? 'Open menu' : 'Otvori izbornik'}">
                     <span></span>
@@ -798,7 +826,7 @@ function generatePostHTML(title, tag, dateFormatted, readTime, excerpt, sections
         <div class="mobile-overlay"></div>
     </header>
 
-    <div class="blog-post-hero" style="background-image: url('${imageUrl}');">
+    <div class="blog-post-hero" style="background-image: url('${fixedImageUrl}');">
         <div class="container">
             <div class="blog-post-hero-meta">
                 <span class="blog-tag">${escapeHtml(tag)}</span>
@@ -811,7 +839,7 @@ function generatePostHTML(title, tag, dateFormatted, readTime, excerpt, sections
 
     <section class="blog-post-content">
         <div class="container">
-            <a href="../blog.html" class="blog-back-link">
+            <a href="${blogListUrl}" class="blog-back-link">
                 <i class="fas fa-arrow-left"></i> ${isEn ? 'Back to blog' : 'Natrag na blog'}
             </a>
 
@@ -821,7 +849,7 @@ function generatePostHTML(title, tag, dateFormatted, readTime, excerpt, sections
 ${contentHTML}
 
             <div class="blog-post-footer">
-                <a href="../blog.html" class="blog-back-link">
+                <a href="${blogListUrl}" class="blog-back-link">
                     <i class="fas fa-arrow-left"></i> ${isEn ? 'Back to blog' : 'Natrag na blog'}
                 </a>
             </div>
@@ -831,8 +859,8 @@ ${contentHTML}
     <footer class="site-footer">
         <div class="container">
             <div class="footer-content">
-                <a href="../index.html" class="footer-logo">
-                    <img src="../images/logozaweb1.png" alt="PROVIDENTIA">
+                <a href="${basePath}${isEn ? 'en/' : ''}index.html" class="footer-logo">
+                    <img src="${basePath}images/logozaweb1.png" alt="PROVIDENTIA">
                 </a>
                 <p class="footer-copyright">&copy; <span id="currentYear">2025</span> Providentia. ${isEn ? 'All rights reserved.' : 'Sva prava pridržana.'}</p>
                 <div class="footer-contact">
@@ -841,7 +869,7 @@ ${contentHTML}
                     <a href="tel:+385996359829"><i class="fas fa-phone"></i> 099-635-9829</a>
                 </div>
                 <div class="footer-legal">
-                    <a href="../politika-privatnosti.html">${isEn ? 'Privacy Policy' : 'Politika privatnosti'}</a>
+                    <a href="${basePath}politika-privatnosti.html">${isEn ? 'Privacy Policy' : 'Politika privatnosti'}</a>
                 </div>
             </div>
         </div>
@@ -930,9 +958,11 @@ async function savePost() {
         const htmlHR = generatePostHTML(title, tag, dateFormatted, readTimeVal, excerpt, sectionsHR, imageUrl, 'hr', filenameHR, filenameEN);
         const htmlEN = generatePostHTML(titleEn, tagEn, dateFormattedEn, readTimeVal, excerptEn, sectionsEN, imageUrl, 'en', filenameHR, filenameEN);
 
-        // Save files (one by one to avoid Tree API issues)
-        await saveFileToGithub(`blog/${filenameHR}.html`, htmlHR);
-        await saveFileToGithub(`en/blog/${filenameEN}.html`, htmlEN);
+        // Save both files in a single commit using Git Trees API
+        await saveMultipleFilesToGithub([
+            { path: `blog/${filenameHR}.html`, content: htmlHR },
+            { path: `en/blog/${filenameEN}.html`, content: htmlEN }
+        ], `Blog: ${filenameHR}`);
 
         savingModal.style.display = 'none';
         successEl.textContent = 'Clanak je uspjesno spreman! Osvjezavanje...';
@@ -959,6 +989,78 @@ async function uploadImage(base64Data, filename) {
     return `../images/blog/${filename}-${timestamp}.webp`;
 }
 
+// Save multiple files in a single commit using Git Trees API
+async function saveMultipleFilesToGithub(files, commitMessage) {
+    const apiBase = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}`;
+    const headers = {
+        'Authorization': `token ${state.token}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.github.v3+json'
+    };
+
+    // 1. Get the current commit SHA (HEAD of branch)
+    const refRes = await fetch(`${apiBase}/git/refs/heads/${GITHUB_BRANCH}`, { headers });
+    if (!refRes.ok) throw new Error('Ne mogu dohvatiti referencu grane');
+    const refData = await refRes.json();
+    const latestCommitSha = refData.object.sha;
+
+    // 2. Get the base tree SHA from that commit
+    const commitRes = await fetch(`${apiBase}/git/commits/${latestCommitSha}`, { headers });
+    if (!commitRes.ok) throw new Error('Ne mogu dohvatiti commit');
+    const commitData = await commitRes.json();
+    const baseTreeSha = commitData.tree.sha;
+
+    // 3. Create tree entries for each file
+    const treeEntries = files.map(file => ({
+        path: file.path,
+        mode: '100644',
+        type: 'blob',
+        content: file.content
+    }));
+
+    // 4. Create a new tree
+    const treeRes = await fetch(`${apiBase}/git/trees`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+            base_tree: baseTreeSha,
+            tree: treeEntries
+        })
+    });
+    if (!treeRes.ok) {
+        const err = await treeRes.text();
+        console.error('Tree creation failed:', err);
+        throw new Error('Ne mogu kreirati stablo');
+    }
+    const treeData = await treeRes.json();
+
+    // 5. Create a new commit
+    const newCommitRes = await fetch(`${apiBase}/git/commits`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+            message: commitMessage,
+            tree: treeData.sha,
+            parents: [latestCommitSha]
+        })
+    });
+    if (!newCommitRes.ok) throw new Error('Ne mogu kreirati commit');
+    const newCommitData = await newCommitRes.json();
+
+    // 6. Update the branch reference
+    const updateRefRes = await fetch(`${apiBase}/git/refs/heads/${GITHUB_BRANCH}`, {
+        method: 'PATCH',
+        headers,
+        body: JSON.stringify({
+            sha: newCommitData.sha
+        })
+    });
+    if (!updateRefRes.ok) throw new Error('Ne mogu ažurirati referencu grane');
+
+    console.log('Successfully saved multiple files in single commit:', newCommitData.sha);
+}
+
+// Save single file (kept for image uploads and backwards compatibility)
 async function saveFileToGithub(filepath, content, isBase64 = false) {
     const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filepath}`;
 
