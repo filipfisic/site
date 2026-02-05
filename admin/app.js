@@ -667,22 +667,25 @@ async function saveFileToGithub(filepath, content, isBase64 = false) {
         if (getRes.ok) {
             const data = await getRes.json();
             sha = data.sha;
-        } else if (getRes.status !== 404) {
-            // Ako nije 404 (file ne postoji), to je greška
+            console.log(`File exists, SHA: ${sha}`);
+        } else if (getRes.status === 404) {
+            // OK - novo je file
+            console.log(`File doesn't exist (404), will create new`);
+        } else {
+            // Neka druga greška
+            console.warn(`GitHub returned ${getRes.status} when checking file`);
+            // Pokušaj parsirati kao JSON, ali ako ne uspije, ignoriraj
             try {
                 const errorData = await getRes.json();
-                throw new Error(`Failed to fetch file info: ${errorData.message}`);
-            } catch (jsonError) {
-                throw new Error(`Failed to fetch file info: HTTP ${getRes.status}`);
+                console.warn(`GitHub error: ${errorData.message}`);
+            } catch (e) {
+                console.warn(`Could not parse error response`);
             }
+            // Nastavi dalje - možda je privremeni problem
         }
-        // Ako je 404, OK - novo je file
     } catch (error) {
-        if (error.message.includes('Failed to fetch file info')) {
-            throw error;
-        }
         console.error(`Error checking file: ${error.message}`);
-        // Provjeri je li network error - ako je, proslijedi dalje
+        // Network errors se proslijeđuju dalje
         if (error instanceof TypeError) {
             throw error;
         }
@@ -706,8 +709,14 @@ async function saveFileToGithub(filepath, content, isBase64 = false) {
     });
 
     if (!res.ok) {
-        const error = await res.json();
-        throw new Error(`GitHub API error: ${error.message}`);
+        try {
+            const error = await res.json();
+            throw new Error(`GitHub API error: ${error.message}`);
+        } catch (jsonError) {
+            const text = await res.text();
+            console.error(`GitHub API returned ${res.status}: ${text.substring(0, 200)}`);
+            throw new Error(`GitHub API error: HTTP ${res.status}`);
+        }
     }
 }
 
