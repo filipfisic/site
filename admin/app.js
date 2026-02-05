@@ -648,15 +648,15 @@ async function saveFilesToGithubBatch(files) {
     const treeItems = [];
 
     for (const file of files) {
-        // Kodiraj sadržaj
-        const encodedContent = file.isBase64 ? file.content : btoa(unescape(encodeURIComponent(file.content)));
-
-        // Tree API trebam 'content' za sve datoteke koje trebam ažurirati/kreirati
+        // Tree API očekuje SIROVI sadržaj, NE base64!
+        // Za tekst: direktno file.content
+        // Za binarne datoteke (slike): trebalo bi koristiti Blobs API, ali
+        // u ovoj funkciji obrađujemo samo HTML datoteke
         const treeItem = {
             path: file.filepath,
             mode: '100644',
             type: 'blob',
-            content: encodedContent
+            content: file.content  // Sirovi sadržaj, Tree API sam enkodira
         };
 
         treeItems.push(treeItem);
