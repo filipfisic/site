@@ -150,8 +150,31 @@ async function loadPosts() {
     try {
         const hrPosts = await loadPostsFromPath('blog');
         const enPosts = await loadPostsFromPath('en/blog');
+        const allPosts = [...hrPosts, ...enPosts];
 
-        state.posts = [...hrPosts, ...enPosts];
+        // Mapira članke po articleId - spaja HR + EN verzije
+        const postsMap = {};
+        allPosts.forEach(post => {
+            if (!postsMap[post.articleId]) {
+                postsMap[post.articleId] = {
+                    articleId: post.articleId,
+                    title: post.title,
+                    tag: post.tag,
+                    date: post.date,
+                    readTime: post.readTime,
+                    excerpt: post.excerpt,
+                    image: post.image,
+                    versions: {}
+                };
+            }
+            postsMap[post.articleId].versions[post.lang] = {
+                filepath: post.filepath,
+                filename: post.filename,
+                content: post.content
+            };
+        });
+
+        state.posts = Object.values(postsMap);
 
         if (state.posts.length === 0) {
             loadingPosts.style.display = 'none';
@@ -226,6 +249,7 @@ function parsePostFromHTML(html, filepath) {
         if (!doc.querySelector('.blog-post-hero')) return null;
 
         const isEnglish = filepath.includes('/en/');
+        const articleId = doc.querySelector('meta[name="article-id"]')?.getAttribute('content') || '';
         const title = doc.querySelector('.blog-post-hero h1')?.textContent || '';
         const tagEl = doc.querySelector('.blog-tag');
         const tag = tagEl?.textContent || '';
@@ -261,6 +285,7 @@ function parsePostFromHTML(html, filepath) {
             image,
             filepath,
             filename,
+            articleId,
             lang: isEnglish ? 'en' : 'hr'
         };
     } catch (error) {
@@ -289,13 +314,17 @@ function parseBlogDate(dateStr) {
 
 function displayPosts(posts) {
     const lang = languageFilter.value;
-    const filtered = lang === 'all' ? posts : posts.filter(p => p.lang === lang);
+    const filtered = lang === 'all' ? posts : posts.filter(p => p.versions[lang]);
 
-    postsContainer.innerHTML = filtered.map(post => `
+    postsContainer.innerHTML = filtered.map(post => {
+        const availableLangs = Object.keys(post.versions).map(l => l === 'hr' ? 'Hrvatski' : 'English').join(' + ');
+        const defaultLang = post.versions['hr'] ? 'hr' : 'en';
+
+        return `
         <div class="post-card">
             ${post.image ? `<div class="post-card-image"><img src="${post.image}" alt="${post.title}"></div>` : '<div class="post-card-image"></div>'}
             <div class="post-card-content">
-                <span class="post-card-lang">${post.lang === 'hr' ? 'Hrvatski' : 'English'}</span>
+                <span class="post-card-lang">${availableLangs}</span>
                 <h3 class="post-card-title">${escapeHtml(post.title)}</h3>
                 <p class="post-card-excerpt">${escapeHtml(post.excerpt.substring(0, 100))}...</p>
                 <div class="post-card-meta">
@@ -303,13 +332,14 @@ function displayPosts(posts) {
                     <span>${post.readTime} min čitanja</span>
                 </div>
                 <div class="post-card-actions">
-                    <button class="btn-primary" onclick="editPost('${post.filename}', '${post.lang}')">
+                    <button class="btn-primary" onclick="editPost('${post.articleId}', '${defaultLang}')">
                         <i class="fas fa-edit"></i> Uredi
                     </button>
                 </div>
             </div>
         </div>
-    `).join('');
+    `;
+    }).join('');
 }
 
 function filterPosts() {
@@ -336,8 +366,8 @@ function showNewPostEditor() {
     initializeQuillEditors();
 }
 
-function editPost(filename, lang) {
-    const post = state.posts.find(p => p.filename === filename && p.lang === lang);
+function editPost(articleId, lang) {
+    const post = state.posts.find(p => p.articleId === articleId);
     if (!post) return;
 
     state.currentPost = post;
@@ -361,7 +391,9 @@ function editPost(filename, lang) {
     editorView.style.display = 'block';
 
     // Inicijaliziraj Quill editory
-    initializeQuillEditors(post.content);
+    const hrContent = post.versions['hr']?.content || '';
+    const enContent = post.versions['en']?.content || '';
+    initializeQuillEditors(hrContent, enContent);
 }
 
 function showPostsList() {
@@ -389,7 +421,7 @@ function clearEditorForm() {
     if (state.editors.en) state.editors.en.setContents([]);
 }
 
-function initializeQuillEditors(contentHTML = '') {
+function initializeQuillEditors(contentHR = '', contentEN = '') {
     // Uništi stare editory ako postoje
     Object.values(state.editors).forEach(editor => {
         editor.off('text-change');
@@ -425,8 +457,11 @@ function initializeQuillEditors(contentHTML = '') {
     });
 
     // Ako postoji sadržaj, postavi ga
-    if (contentHTML) {
-        state.editors.hr.root.innerHTML = contentHTML;
+    if (contentHR) {
+        state.editors.hr.root.innerHTML = contentHR;
+    }
+    if (contentEN) {
+        state.editors.en.root.innerHTML = contentEN;
     }
 }
 
@@ -521,7 +556,8 @@ async function savePost() {
             excerpt,
             state.editors.hr.root.innerHTML,
             imageUrl,
-            'hr'
+            'hr',
+            filename
         );
 
         // Generiraj HTML za EN verziju
@@ -535,14 +571,17 @@ async function savePost() {
             excerptEn,
             state.editors.en.root.innerHTML,
             imageUrl,
-            'en'
+            'en',
+            filename
         );
 
         // Spremi u GitHub
         if (state.currentPost) {
             // Update postojeće članke
-            await saveFileToGithub(`blog/${state.currentPost.filename}.html`, htmlHR);
-            await saveFileToGithub(`en/blog/${state.currentPost.filename}.html`, htmlEN);
+            const hrFilepath = state.currentPost.versions['hr'].filepath;
+            const enFilepath = state.currentPost.versions['en'].filepath;
+            if (hrFilepath) await saveFileToGithub(hrFilepath, htmlHR);
+            if (enFilepath) await saveFileToGithub(enFilepath, htmlEN);
         } else {
             // Kreiraj nove članke
             await saveFileToGithub(`blog/${filename}.html`, htmlHR);
@@ -668,7 +707,7 @@ async function updateBlogListing(filename, title, tag, excerpt, image, lang) {
     }
 }
 
-function generatePostHTML(titleHR, titleEN, tag, dateFormatted, readTime, excerpt, contentHTML, imageUrl, lang) {
+function generatePostHTML(titleHR, titleEN, tag, dateFormatted, readTime, excerpt, contentHTML, imageUrl, lang, articleId = '') {
     const enVersion = lang === 'en';
     const homeLink = enVersion ? '../index.html' : 'index.html';
     const navHref = enVersion ? '../index.html' : '../index.html';
@@ -682,6 +721,7 @@ function generatePostHTML(titleHR, titleEN, tag, dateFormatted, readTime, excerp
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${escapeHtml(enVersion ? titleEN : titleHR)} | PROVIDENTIA Blog</title>
     <meta name="description" content="${escapeHtml(excerpt)}">
+    <meta name="article-id" content="${escapeHtml(articleId || 'unknown')}">
     <meta name="theme-color" content="#53627f">
     <link rel="icon" href="../images/favicon.png">
 
@@ -868,16 +908,19 @@ async function deletePost() {
     savingModal.style.display = 'flex';
 
     try {
-        // Obriši HR verziju
-        await deleteFileFromGithub(`blog/${state.currentPost.filename}.html`);
+        const post = state.currentPost;
 
-        // Obriši EN verziju
-        const enFilename = slugify(document.getElementById('post-title-en').value);
-        await deleteFileFromGithub(`en/blog/${enFilename}.html`);
+        // Obriši HR verziju ako postoji
+        if (post.versions['hr']) {
+            await deleteFileFromGithub(post.versions['hr'].filepath);
+            await removeBlogCard(post.versions['hr'].filename, 'hr');
+        }
 
-        // Ažuriraj blog.html
-        await removeBlogCard(state.currentPost.filename, 'hr');
-        await removeBlogCard(enFilename, 'en');
+        // Obriši EN verziju ako postoji
+        if (post.versions['en']) {
+            await deleteFileFromGithub(post.versions['en'].filepath);
+            await removeBlogCard(post.versions['en'].filename, 'en');
+        }
 
         savingModal.style.display = 'none';
         alert('Članek je obrisan!');
