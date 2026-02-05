@@ -652,7 +652,8 @@ async function uploadImage(base64Data, filename) {
 }
 
 async function saveFileToGithub(filepath, content, isBase64 = false) {
-    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filepath}`;
+    // Dodaj cache-busting query parameter
+    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filepath}?t=${Date.now()}`;
 
     // Prvo provjeri postoji li fajl
     let sha = null;
@@ -667,7 +668,8 @@ async function saveFileToGithub(filepath, content, isBase64 = false) {
         const getRes = await fetch(url, {
             headers: {
                 'Authorization': `token ${state.token}`,
-                'Accept': 'application/vnd.github+json'
+                'Accept': 'application/vnd.github.v3+json',
+                'Cache-Control': 'no-cache'
             }
         });
 
@@ -675,14 +677,20 @@ async function saveFileToGithub(filepath, content, isBase64 = false) {
         console.log(`GitHub GET content-type: ${getRes.headers.get('content-type')}`);
 
         if (getRes.ok) {
+            // Kloniraj response da bi mogao čitati više puta
+            const responseClone = getRes.clone();
             try {
                 const data = await getRes.json();
                 sha = data.sha;
                 console.log(`File exists, SHA: ${sha}`);
             } catch (parseError) {
-                // Response is 200 but not JSON - this means something is wrong
-                const textContent = await getRes.text();
-                console.error(`GitHub returned 200 OK but content is not JSON. First 200 chars: ${textContent.substring(0, 200)}`);
+                // Response je 200 ali nije JSON - nešto je loše
+                try {
+                    const textContent = await responseClone.text();
+                    console.error(`GitHub returned 200 OK but content is not JSON. First 200 chars: ${textContent.substring(0, 200)}`);
+                } catch (e) {
+                    console.error(`Could not read response body: ${e.message}`);
+                }
                 console.error(`Parse error: ${parseError.message}`);
                 throw new Error(`GitHub API returned non-JSON response: ${parseError.message}`);
             }
@@ -697,8 +705,13 @@ async function saveFileToGithub(filepath, content, isBase64 = false) {
                 const errorData = await getRes.json();
                 console.warn(`GitHub error: ${errorData.message}`);
             } catch (e) {
-                const textContent = await getRes.text();
-                console.warn(`Could not parse error response as JSON. First 200 chars: ${textContent.substring(0, 200)}`);
+                const responseClone = getRes.clone();
+                try {
+                    const textContent = await responseClone.text();
+                    console.warn(`Could not parse error response as JSON. First 200 chars: ${textContent.substring(0, 200)}`);
+                } catch (e2) {
+                    console.warn(`Could not read error response body`);
+                }
             }
             // Nastavi dalje - možda je privremeni problem
         }
@@ -726,7 +739,7 @@ async function saveFileToGithub(filepath, content, isBase64 = false) {
         headers: {
             'Authorization': `token ${state.token}`,
             'Content-Type': 'application/json',
-            'Accept': 'application/vnd.github+json'
+            'Accept': 'application/vnd.github.v3+json'
         },
         body: JSON.stringify(body)
     });
