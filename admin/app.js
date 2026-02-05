@@ -538,6 +538,8 @@ function editPost(articleId, lang) {
     if (post.image) {
         document.getElementById('image-preview').style.display = 'block';
         document.getElementById('preview-img').src = post.image;
+        const hint = document.querySelector('.upload-hint-compact');
+        if (hint) hint.style.display = 'none';
     }
 
     // Load sections
@@ -580,6 +582,9 @@ function clearEditorForm() {
     document.getElementById('image-preview').style.display = 'none';
     document.getElementById('editor-error').style.display = 'none';
     document.getElementById('editor-success').style.display = 'none';
+    // Show upload hint
+    const hint = document.querySelector('.upload-hint-compact');
+    if (hint) hint.style.display = 'block';
 
     clearSections('hr');
     clearSections('en');
@@ -591,11 +596,11 @@ function clearEditorForm() {
 
 function setupImageUpload() {
     const postImage = document.getElementById('post-image');
-    const imageUpload = document.querySelector('.image-upload');
+    const imageUpload = document.querySelector('.image-upload-compact');
 
     postImage.addEventListener('change', handleImageSelect);
     imageUpload.addEventListener('click', (e) => {
-        if (e.target !== postImage) postImage.click();
+        if (e.target !== postImage && !e.target.closest('.btn-remove-compact')) postImage.click();
     });
     imageUpload.addEventListener('dragover', (e) => {
         e.preventDefault();
@@ -638,6 +643,9 @@ function handleImageSelect(e) {
         document.getElementById('preview-img').src = e.target.result;
         document.getElementById('image-preview').style.display = 'block';
         document.getElementById('post-image').dataset.base64 = e.target.result;
+        // Hide upload hint when image is shown
+        const hint = document.querySelector('.upload-hint-compact');
+        if (hint) hint.style.display = 'none';
     };
     reader.readAsDataURL(file);
 }
@@ -646,6 +654,9 @@ function removeImage() {
     document.getElementById('post-image').value = '';
     document.getElementById('post-image').dataset.base64 = '';
     document.getElementById('image-preview').style.display = 'none';
+    // Show upload hint when image is removed
+    const hint = document.querySelector('.upload-hint-compact');
+    if (hint) hint.style.display = 'block';
 }
 
 // ============================================
