@@ -1,247 +1,212 @@
 <!DOCTYPE html>
-<html style="font-size: 16px;" lang="hr-HR"><head>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
-    <meta name="keywords" content="O NA​​MA​">
-    <meta name="description" content="">
-    <title>financijske usluge</title>
-    <link rel="stylesheet" href="nicepage.css" media="screen">
-	<link rel="stylesheet" href="usluge.css" media="screen">
-<link rel="stylesheet" href="financijske-usluge.css" media="screen">
-    <script class="u-script" type="text/javascript" src="jquery.js" defer=""></script>
-    <script class="u-script" type="text/javascript" src="nicepage.js" defer=""></script>
-    <meta name="generator" content="Nicepage 7.5.2, nicepage.com">
+    <title>Financijsko-računovodstvene usluge | PROVIDENTIA</title>
+    <meta name="description" content="Precizno i učinkovito financijsko upravljanje temelj je stabilnog poslovanja. Operativna i savjetodavna podrška u svim aspektima financijsko-računovodstvenog poslovanja.">
+    <meta name="theme-color" content="#53627f">
     <link rel="icon" href="images/favicon.png">
 
-	
-	<!-- Consent Mode: default deny + obnova iz kolačića prije GTM-a -->
-<script>
-  // dataLayer/gtag osnova
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
+    <!-- Consent + GTM -->
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        gtag('consent', 'default', {
+            ad_storage: 'denied', analytics_storage: 'denied',
+            functionality_storage: 'denied', security_storage: 'granted',
+            ad_user_data: 'denied', ad_personalization: 'denied'
+        });
+    </script>
+    <script>
+        (function(){
+            function getCookie(name){
+                return document.cookie.split(';').map(function(c){ return c.trim(); })
+                    .find(function(c){ return c.startsWith(name + '='); });
+            }
+            try {
+                var raw = getCookie('consent');
+                if (raw) {
+                    var v = JSON.parse(decodeURIComponent(raw.split('=')[1]));
+                    if (v && (v.analytics || v.ads || v.submissions)) {
+                        gtag('consent','update',{
+                            ad_storage: v.ads ? 'granted' : 'denied',
+                            analytics_storage: v.analytics ? 'granted' : 'denied',
+                            functionality_storage: 'granted',
+                            ad_user_data: v.ads ? 'granted' : 'denied',
+                            ad_personalization: v.ads ? 'granted' : 'denied'
+                        });
+                    }
+                }
+            } catch(e){}
+        })();
+    </script>
+    <script>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-W8XNSL8N');
+    </script>
 
-  // 1) default: denied (security allowed)
-  gtag('consent','default',{
-    ad_storage:'denied',
-    analytics_storage:'denied',
-    functionality_storage:'denied',
-    security_storage:'granted',
-    ad_user_data:'denied',
-    ad_personalization:'denied'
-  });
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W8XNSL8N" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-  // helperi za čitanje kolačića i provjeru privole
-  function getCookie(name){
-    return document.cookie.split(';').map(c=>c.trim())
-      .find(c => c.startsWith(name + '='))?.split('=')[1] || '';
-  }
-  function gdprConfirmed(){
-    try {
-      const v = JSON.parse(decodeURIComponent(getCookie('consent')||'{}'));
-      return !!(v.analytics || v.submissions || v.ads);
-    } catch(e){ return false; }
-  }
-
-  // 2) ako postoji tvoj 1st-party "consent" kolačić → odmah obnovi stanje prije GTM-a
-  (function applyConsentFromCookie(){
-    try{
-      const v = JSON.parse(decodeURIComponent(getCookie('consent')||'{}'));
-      if(!v) return;
-      gtag('consent','update',{
-        ad_storage:         v.ads ? 'granted' : 'denied',
-        analytics_storage:  v.analytics ? 'granted' : 'denied',
-        functionality_storage:'granted',
-        ad_user_data:       v.ads ? 'granted' : 'denied',
-        ad_personalization: v.ads ? 'granted' : 'denied'
-      });
-    }catch(e){}
-  })();
-
-  // 3) opcionalno: ako banner postoji na stranici, skrij ga kad je već dano
-  document.addEventListener('DOMContentLoaded', function(){
-    if (gdprConfirmed()) {
-      var b = document.getElementById('sec-b9ce');
-      if (b) b.style.display='none';
-      // ako imaš globalnu dynamicLoadScript() (reCAPTCHA), pokreni je
-      if (typeof dynamicLoadScript === 'function') dynamicLoadScript();
-    }
-  });
-</script>
-
-	<!-- Google Tag Manager -->
-<script>
-(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(), event:'gtm.js'}); var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s), dl=l!='dataLayer'?'&l='+l:''; j.async=true; j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl; f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-W8XNSL8N');
-</script>
-
-    
-    
-    
-    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
-    <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:100,200,300,400,500,600,700,800,900">
-    <script type="application/ld+json">{
-		"@context": "http://schema.org",
-		"@type": "Organization",
-		"name": "WebSite6405151",
-		"logo": "images/logozaweb1.png"
-}</script>
-    <meta name="theme-color" content="#53627f">
-    <meta property="og:title" content="financijske usluge">
-    <meta property="og:description" content="">
-    <meta property="og:type" content="website">
-  <meta data-intl-tel-input-cdn-path="intlTelInput/"></head>
-  <body data-path-to-root="./" data-include-products="false" class="u-body u-xl-mode" data-lang="hr"><header class="u-clearfix u-custom-color-2 u-header" id="sec-1e53"><div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-sm u-valign-middle-xl u-sheet-1">
-
-	  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W8XNSL8N"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-	  
-	  <nav class="u-align-center-lg u-align-center-md u-align-center-sm u-align-center-xl u-align-left-xs u-dropdown-icon u-menu u-menu-dropdown u-offcanvas u-menu-1">
-          <div class="menu-collapse u-custom-font u-font-roboto-slab" style="font-size: 1.25rem; letter-spacing: 0px;">
-            <a class="u-button-style u-custom-left-right-menu-spacing u-custom-padding-bottom u-custom-text-active-color u-custom-top-bottom-menu-spacing u-hamburger-link u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base u-hamburger-link-1" href="#" data-lang-en="{&quot;content&quot;:&quot;<svg class=\&quot;u-svg-link\&quot; viewBox=\&quot;0 0 24 24\&quot;><use xlink:href=\&quot;#menu-hamburger\&quot;></use></svg><svg class=\&quot;u-svg-content\&quot; version=\&quot;1.1\&quot; id=\&quot;menu-hamburger\&quot; viewBox=\&quot;0 0 16 16\&quot; x=\&quot;0px\&quot; y=\&quot;0px\&quot; xmlns:xlink=\&quot;http://www.w3.org/1999/xlink\&quot; xmlns=\&quot;http://www.w3.org/2000/svg\&quot;>    <g>        <rect y=\&quot;1\&quot; width=\&quot;16\&quot; height=\&quot;2\&quot;></rect>        <rect y=\&quot;7\&quot; width=\&quot;16\&quot; height=\&quot;2\&quot;></rect>        <rect y=\&quot;13\&quot; width=\&quot;16\&quot; height=\&quot;2\&quot;></rect>    </g></svg>&quot;,&quot;href&quot;:&quot;#&quot;}" data-lang-hr="{&quot;content&quot;:&quot;<svg class=\&quot;u-svg-link\&quot; viewBox=\&quot;0 0 24 24\&quot;><use xlink:href=\&quot;#menu-hamburger\&quot;></use></svg><svg class=\&quot;u-svg-content\&quot; version=\&quot;1.1\&quot; id=\&quot;menu-hamburger\&quot; viewBox=\&quot;0 0 16 16\&quot; x=\&quot;0px\&quot; y=\&quot;0px\&quot; xmlns:xlink=\&quot;http://www.w3.org/1999/xlink\&quot; xmlns=\&quot;http://www.w3.org/2000/svg\&quot;>    <g>        <rect y=\&quot;1\&quot; width=\&quot;16\&quot; height=\&quot;2\&quot;></rect>        <rect y=\&quot;7\&quot; width=\&quot;16\&quot; height=\&quot;2\&quot;></rect>        <rect y=\&quot;13\&quot; width=\&quot;16\&quot; height=\&quot;2\&quot;></rect>    </g></svg>&quot;,&quot;href&quot;:&quot;#&quot;}">
-              <svg class="u-svg-link" viewBox="0 0 24 24"><use xlink:href="#menu-hamburger"></use></svg>
-              <svg class="u-svg-content" version="1.1" id="menu-hamburger" viewBox="0 0 16 16" x="0px" y="0px" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g><rect y="1" width="16" height="2"></rect><rect y="7" width="16" height="2"></rect><rect y="13" width="16" height="2"></rect>
-</g></svg>
-            </a>
-          </div>
-          <div class="u-custom-menu u-nav-container">
-            <ul class="u-custom-font u-font-roboto-slab u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-custom-color-1 u-text-hover-palette-2-base" href="./" data-lang-en="{&quot;content&quot;:&quot;NASLOVNICA&quot;,&quot;href&quot;:&quot;PROVIDENTIA.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;NASLOVNICA&quot;,&quot;href&quot;:&quot;/PROVIDENTIA.html&quot;}" style="padding: 10px 20px;">NASLOVNICA</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-custom-color-1 u-text-hover-palette-2-base" href="./#carousel_6057" data-page-id="575930392" data-lang-en="{&quot;content&quot;:&quot;O NAMA&quot;,&quot;href&quot;:&quot;575930392#carousel_6057&quot;}" data-lang-hr="{&quot;content&quot;:&quot;O NAMA&quot;,&quot;href&quot;:&quot;575930392#carousel_6057&quot;}" style="padding: 10px 20px;">O NAMA</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-custom-color-1 u-text-hover-palette-2-base" href="./#carousel_d430" data-page-id="575930392" data-lang-en="{&quot;content&quot;:&quot;NAŠE USLUGE&quot;,&quot;href&quot;:&quot;575930392#carousel_d430&quot;}" data-lang-hr="{&quot;content&quot;:&quot;NAŠE USLUGE&quot;,&quot;href&quot;:&quot;575930392#carousel_d430&quot;}" style="padding: 10px 20px;">NAŠE USLUGE</a><div class="u-nav-popup"><ul class="u-custom-font u-font-roboto-slab u-h-spacing-20 u-nav u-unstyled u-v-spacing-10 u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link u-white" href="poslovno-savjetovanje.html" data-lang-en="{&quot;content&quot;:&quot;POSLOVNO SAVJETOVANJE&quot;,&quot;href&quot;:&quot;poslovno-savjetovanje.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;POSLOVNO SAVJETOVANJE&quot;,&quot;href&quot;:&quot;/poslovno-savjetovanje.html&quot;}">POSLOVNO SAVJETOVANJE</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-white" href="upravljanje-projektima.html" data-lang-en="{&quot;content&quot;:&quot;UPRAVLJANJE PROJEKTIMA&quot;,&quot;href&quot;:&quot;upravljanje-projektima.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;UPRAVLJANJE PROJEKTIMA&quot;,&quot;href&quot;:&quot;/upravljanje-projektima.html&quot;}">UPRAVLJANJE PROJEKTIMA</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-white" href="HR-usluge-i-radni-procesi.html" data-lang-en="{&quot;content&quot;:&quot;HR USLUGE I RADNI PROCESI&quot;,&quot;href&quot;:&quot;HR-usluge-i-radni-procesi.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;HR USLUGE I RADNI PROCESI&quot;,&quot;href&quot;:&quot;/HR-usluge-i-radni-procesi.html&quot;}">HR USLUGE I RADNI PROCESI</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-white" href="financijske-usluge.html" data-lang-en="{&quot;content&quot;:&quot;FINANCIJSKO - RAČUNOVODSTVENE USLUGE&quot;,&quot;href&quot;:&quot;financijske-usluge.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;FINANCIJSKO - RAČUNOVODSTVENE USLUGE&quot;,&quot;href&quot;:&quot;/financijske-usluge.html&quot;}">FINANCIJSKO - RAČUNOVODSTVENE USLUGE</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-white" href="administrativne-usluge.html" data-lang-en="{&quot;content&quot;:&quot;ADMINISTRATIVNE USLUGE&quot;,&quot;href&quot;:&quot;administrativne-usluge.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;ADMINISTRATIVNE USLUGE&quot;,&quot;href&quot;:&quot;/administrativne-usluge.html&quot;}">ADMINISTRATIVNE USLUGE</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-white" href="organizacija-eventa.html" data-lang-en="{&quot;content&quot;:&quot;ORGANIZACIJA EVENTA&quot;,&quot;href&quot;:&quot;organizacija-eventa.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;ORGANIZACIJA EVENTA&quot;,&quot;href&quot;:&quot;/organizacija-eventa.html&quot;}">ORGANIZACIJA EVENTA</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-white" href="virtualni-asistent-i-coaching.html" data-lang-en="{&quot;content&quot;:&quot;VIRTUALNI ASISTENT I COACHING&quot;,&quot;href&quot;:&quot;virtualni-asistent-i-coaching.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;VIRTUALNI ASISTENT I COACHING&quot;,&quot;href&quot;:&quot;/virtualni-asistent-i-coaching.html&quot;}">VIRTUALNI ASISTENT I COACHING</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-white" href="marketing-i-PR-usluge.html" data-lang-en="{&quot;content&quot;:&quot;MARKETING I PR USLUGE&quot;,&quot;href&quot;:&quot;marketing-i-PR-usluge.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;MARKETING I PR USLUGE&quot;,&quot;href&quot;:&quot;/marketing-i-PR-usluge.html&quot;}">MARKETING I PR USLUGE</a>
-</li></ul>
-</div>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-custom-color-1 u-text-hover-palette-2-base" href="./#carousel_4d70" data-page-id="575930392" data-lang-en="{&quot;content&quot;:&quot;FAQ&quot;,&quot;href&quot;:&quot;575930392#carousel_4d70&quot;}" data-lang-hr="{&quot;content&quot;:&quot;FAQ&quot;,&quot;href&quot;:&quot;575930392#carousel_4d70&quot;}" style="padding: 10px 20px;">FAQ</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-custom-color-1 u-text-hover-palette-2-base" href="./#sec-98b7" data-page-id="575930392" data-lang-en="{&quot;content&quot;:&quot;KONTAKT&quot;,&quot;href&quot;:&quot;575930392#sec-98b7&quot;}" data-lang-hr="{&quot;content&quot;:&quot;KONTAKT&quot;,&quot;href&quot;:&quot;575930392#sec-98b7&quot;}" style="padding: 10px 10px 10px 20px;">KONTAKT</a>
-</li></ul>
-          </div>
-          <div class="u-custom-menu u-nav-container-collapse">
-            <div class="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
-              <div class="u-inner-container-layout u-sidenav-overflow">
-                <div class="u-menu-close"></div>
-                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-3"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="./" data-lang-en="{&quot;content&quot;:&quot;NASLOVNICA&quot;,&quot;href&quot;:&quot;PROVIDENTIA.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;NASLOVNICA&quot;,&quot;href&quot;:&quot;/PROVIDENTIA.html&quot;}">NASLOVNICA</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="./#carousel_6057" data-page-id="575930392" data-lang-en="{&quot;content&quot;:&quot;O NAMA&quot;,&quot;href&quot;:&quot;575930392#carousel_6057&quot;}" data-lang-hr="{&quot;content&quot;:&quot;O NAMA&quot;,&quot;href&quot;:&quot;575930392#carousel_6057&quot;}">O NAMA</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="./#carousel_d430" data-page-id="575930392" data-lang-en="{&quot;content&quot;:&quot;NAŠE USLUGE&quot;,&quot;href&quot;:&quot;575930392#carousel_d430&quot;}" data-lang-hr="{&quot;content&quot;:&quot;NAŠE USLUGE&quot;,&quot;href&quot;:&quot;575930392#carousel_d430&quot;}">NAŠE USLUGE</a><div class="u-nav-popup"><ul class="u-custom-font u-font-roboto-slab u-h-spacing-20 u-nav u-unstyled u-v-spacing-10 u-nav-4"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="poslovno-savjetovanje.html" data-lang-en="{&quot;content&quot;:&quot;POSLOVNO SAVJETOVANJE&quot;,&quot;href&quot;:&quot;poslovno-savjetovanje.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;POSLOVNO SAVJETOVANJE&quot;,&quot;href&quot;:&quot;/poslovno-savjetovanje.html&quot;}">POSLOVNO SAVJETOVANJE</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="upravljanje-projektima.html" data-lang-en="{&quot;content&quot;:&quot;UPRAVLJANJE PROJEKTIMA&quot;,&quot;href&quot;:&quot;upravljanje-projektima.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;UPRAVLJANJE PROJEKTIMA&quot;,&quot;href&quot;:&quot;/upravljanje-projektima.html&quot;}">UPRAVLJANJE PROJEKTIMA</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="HR-usluge-i-radni-procesi.html" data-lang-en="{&quot;content&quot;:&quot;HR USLUGE I RADNI PROCESI&quot;,&quot;href&quot;:&quot;HR-usluge-i-radni-procesi.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;HR USLUGE I RADNI PROCESI&quot;,&quot;href&quot;:&quot;/HR-usluge-i-radni-procesi.html&quot;}">HR USLUGE I RADNI PROCESI</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="financijske-usluge.html" data-lang-en="{&quot;content&quot;:&quot;FINANCIJSKO - RAČUNOVODSTVENE USLUGE&quot;,&quot;href&quot;:&quot;financijske-usluge.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;FINANCIJSKO - RAČUNOVODSTVENE USLUGE&quot;,&quot;href&quot;:&quot;/financijske-usluge.html&quot;}">FINANCIJSKO - RAČUNOVODSTVENE USLUGE</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="administrativne-usluge.html" data-lang-en="{&quot;content&quot;:&quot;ADMINISTRATIVNE USLUGE&quot;,&quot;href&quot;:&quot;administrativne-usluge.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;ADMINISTRATIVNE USLUGE&quot;,&quot;href&quot;:&quot;/administrativne-usluge.html&quot;}">ADMINISTRATIVNE USLUGE</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="organizacija-eventa.html" data-lang-en="{&quot;content&quot;:&quot;ORGANIZACIJA EVENTA&quot;,&quot;href&quot;:&quot;organizacija-eventa.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;ORGANIZACIJA EVENTA&quot;,&quot;href&quot;:&quot;/organizacija-eventa.html&quot;}">ORGANIZACIJA EVENTA</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="virtualni-asistent-i-coaching.html" data-lang-en="{&quot;content&quot;:&quot;VIRTUALNI ASISTENT I COACHING&quot;,&quot;href&quot;:&quot;virtualni-asistent-i-coaching.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;VIRTUALNI ASISTENT I COACHING&quot;,&quot;href&quot;:&quot;/virtualni-asistent-i-coaching.html&quot;}">VIRTUALNI ASISTENT I COACHING</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="marketing-i-PR-usluge.html" data-lang-en="{&quot;content&quot;:&quot;MARKETING I PR USLUGE&quot;,&quot;href&quot;:&quot;marketing-i-PR-usluge.html&quot;}" data-lang-hr="{&quot;content&quot;:&quot;MARKETING I PR USLUGE&quot;,&quot;href&quot;:&quot;/marketing-i-PR-usluge.html&quot;}">MARKETING I PR USLUGE</a>
-</li></ul>
-</div>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="./#carousel_4d70" data-page-id="575930392" data-lang-en="{&quot;content&quot;:&quot;FAQ&quot;,&quot;href&quot;:&quot;575930392#carousel_4d70&quot;}" data-lang-hr="{&quot;content&quot;:&quot;FAQ&quot;,&quot;href&quot;:&quot;575930392#carousel_4d70&quot;}">FAQ</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="./#sec-98b7" data-page-id="575930392" data-lang-en="{&quot;content&quot;:&quot;KONTAKT&quot;,&quot;href&quot;:&quot;575930392#sec-98b7&quot;}" data-lang-hr="{&quot;content&quot;:&quot;KONTAKT&quot;,&quot;href&quot;:&quot;575930392#sec-98b7&quot;}">KONTAKT</a>
-</li></ul>
-              </div>
+    <header id="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logozaweb1.png" alt="PROVIDENTIA logo">
+                </a>
             </div>
-            <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
-          </div>
-        </nav>
-        <a href="" class="u-image u-logo u-image-1" data-image-width="980" data-image-height="596">
-          <img src="images/logozaweb1.png" class="u-logo-image u-logo-image-1">
-        </a>
-      </div></header>
-<section class="u-clearfix u-gradient u-section-1" id="sec-financije">
-  <div class="u-sheet u-valign-middle u-sheet-1">
-<style>
-@media (max-width: 767px) {
-  .u-text-1:not(footer .u-text-1) {
-    font-size: 1.5rem !important;
-  }
-}
-</style>
 
-<h2 class="u-align-center u-custom-font u-font-roboto-slab u-text u-text-default u-text-1">
-  Financijsko – računovodstvene usluge
-</h2>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Naslovnica</a></li>
+                    <li><a href="index.html#about">O nama</a></li>
+                    <li class="nav-item-dropdown">
+                        <a href="index.html#services">Naše usluge <i class="fas fa-chevron-down" style="font-size: 0.6em; margin-left: 4px;"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="poslovno-savjetovanje.html">Poslovno savjetovanje</a></li>
+                            <li><a href="upravljanje-projektima.html">Upravljanje projektima</a></li>
+                            <li><a href="HR-usluge-i-radni-procesi.html">HR usluge i radni procesi</a></li>
+                            <li><a href="financijske-usluge.html">Financijsko-računovodstvene usluge</a></li>
+                            <li><a href="administrativne-usluge.html">Administrativne usluge</a></li>
+                            <li><a href="organizacija-eventa.html">Organizacija eventa</a></li>
+                            <li><a href="virtualni-asistent-i-coaching.html">Virtualni asistent i coaching</a></li>
+                            <li><a href="marketing-i-PR-usluge.html">Digitalni marketing i izrada weba</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="index.html#faq">FAQ</a></li>
+                    <li><a href="index.html#contact">Kontakt</a></li>
+                </ul>
+            </nav>
 
-    <div class="custom-expanded u-align-justify u-border-13 u-border-white u-container-style u-expanded-width-lg u-group u-shape-rectangle u-group-1"
-         data-animation-name="customAnimationIn" data-animation-duration="1500">
-      <div class="u-container-layout u-valign-top-xs u-container-layout-1">
-        
-        <p>
-          Precizno i učinkovito financijsko upravljanje temelj je stabilnog poslovanja. Naš tim pruža operativnu
-          i savjetodavnu podršku u svim aspektima financijsko-računovodstvenog poslovanja – od svakodnevne organizacije
-          dokumentacije do strateške analize i planiranja. Uz redovnu suradnju s knjigovodstvenim servisima, pomažemo vam
-          osigurati transparentnost, zakonitost i pravovremenost svih financijskih obveza. Usluge su fleksibilne i
-          prilagođene specifičnim potrebama svakog klijenta.
-        </p>
-        
-        <h3>Što uključuju naše financijsko-računovodstvene usluge:</h3>
-        <ol>
-          <li>
-            <strong>Priprema i organizacija financijske dokumentacije:</strong>
-            prikupljanje i sistematizacija ulaznih i izlaznih računa; priprema dokumentacije za knjigovodstvene servise;
-            organizacija arhiviranja i pohrane dokumenata.
-          </li>
-          <li>
-            <strong>**Računovodstvena podrška:</strong>
-            evidencija plaćanja i praćenje novčanih tijekova; izrada i upravljanje evidencijama o troškovima i prihodima;
-            suradnja s knjigovođom te priprema dokumenata za obračun plaća, PDV-a i drugih obveza; usluge knjiženja.
-          </li>
-          <li>
-            <strong>**Upravljanje obvezama i potraživanjima:</strong>
-            praćenje dospijeća računa i podsjetnici za plaćanja; upravljanje naplatom potraživanja; vođenje evidencije o
-            nepodmirenim obvezama i poduzimanje potrebnih koraka.
-          </li>
-          <li>
-            <strong>Savjetovanje o financijskom poslovanju:</strong>
-            analiza financijskog stanja poduzeća; prijedlozi za optimizaciju troškova i povećanje profitabilnosti;
-            pomoć pri planiranju budžeta i upravljanju resursima.
-          </li>
-          <li>
-            <strong>**Podrška u poreznim pitanjima:</strong>
-            informiranje o poreznim obvezama i rokovima; priprema dokumentacije za porezne nadzore; suradnja s
-            poreznim savjetnicima za usklađivanje poslovanja s propisima.
-          </li>
-          <li>
-            <strong>**Izrada financijskih izvještaja:</strong>
-            priprema osnovnih izvještaja za upravljanje poslovanjem (analiza prihoda i rashoda); podrška u izradi poslovnih
-            planova i financijskih projekcija; suradnja na zakonskim financijskim izvještajima.
-          </li>
-          <li>
-            <strong>Evidencija i praćenje ulaganja:</strong>
-            vođenje evidencije o imovini i investicijama; pomoć pri analiziranju povrata na investicije (ROI).
-          </li>
-          <li>
-            <strong>Personalizirane usluge:</strong>
-            prilagodba usluga specifičnim potrebama klijenta; fleksibilna podrška za povremene projekte ili dugoročne obveze.
-          </li>
-        </ol>
-        
-        <p><em>**Napomena:</em> Računovodstvene usluge obavlja vanjski ovlašteni knjigovodstveni servis uz našu poslovnu koordinaciju i podršku te podršku u poreznim pitanjima pružamo u suradnji s stručnim vanjskim poreznim savjetnicima. Time klijentima osiguravamo pouzdanu i kvalitetnu uslugu, bez potrebe za dodatnim angažmanima jer sve možete dogovoriti na jednom mjestu kroz naš tim.</p>
-        
-      </div>
-    </div>
-  </div>
-</section>
+            <div class="header-actions">
+                <div class="lang-switcher">
+                    <a href="en/financial-services.html" title="English"><img src="images/197374.png" alt="EN"></a>
+                    <a href="./" class="active" title="Hrvatski"><img src="images/197503.png" alt="HR"></a>
+                </div>
+                <button class="mobile-menu-toggle" aria-label="Otvori izbornik">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+        <div class="mobile-overlay"></div>
+    </header>
 
-    
-    
-    
-    <footer class="u-align-center u-clearfix u-container-align-center-lg u-container-align-center-xl u-footer u-grey-80 u-footer" id="sec-891e"><div class="u-clearfix u-sheet u-sheet-1">
-        <a href="mailto:info@site.com" class="u-active-none u-btn u-btn-rectangle u-button-style u-custom-font u-font-roboto-slab u-hover-none u-none u-text-body-alt-color u-btn-1" data-lang-en="{&quot;content&quot;:&quot;​<span class=\&quot;u-icon-1 u-icon\&quot;><svg xmlns=\&quot;http://www.w3.org/2000/svg\&quot; xmlns:xlink=\&quot;http://www.w3.org/1999/xlink\&quot; version=\&quot;1.1\&quot; xml:space=\&quot;preserve\&quot; class=\&quot;u-svg-content\&quot; viewBox=\&quot;0 0 24 16\&quot; x=\&quot;0px\&quot; y=\&quot;0px\&quot; style=\&quot;width: 1em; height: 1em;\&quot; data-color=\&quot;#468ac9\&quot;><path fill=\&quot;currentColor\&quot; d=\&quot;M23.8,1.1l-7.3,6.8l7.3,6.8c0.1-0.2,0.2-0.6,0.2-0.9V2C24,1.7,23.9,1.4,23.8,1.1z M21.8,0H2.2\n\tc-0.4,0-0.7,0.1-1,0.2L10.6,9c0.8,0.8,2.2,0.8,3,0l9.2-8.7C22.6,0.1,22.2,0,21.8,0z M0.2,1.1C0.1,1.4,0,1.7,0,2V14\n\tc0,0.3,0.1,0.6,0.2,0.9l7.3-6.8L0.2,1.1z M15.5,9l-1.1,1c-1.3,1.2-3.6,1.2-4.9,0l-1-1l-7.3,6.8c0.2,0.1,0.6,0.2,1,0.2H22\n\tc0.4,0,0.6-0.1,1-0.2L15.5,9z\&quot;></path></svg></span>&amp;nbsp;info@providentia-poslovanje-eventi.hr<br>&quot;,&quot;href&quot;:&quot;mailto:info@site.com&quot;}" data-lang-hr="{&quot;content&quot;:&quot;​<span class=\&quot;u-icon u-block-control u-icon-1\&quot; style=\&quot;color: rgb(70, 138, 201) !important\&quot; data-block=\&quot;94\&quot; data-block-type=\&quot;Icon\&quot;><svg xmlns=\&quot;http://www.w3.org/2000/svg\&quot; xmlns:xlink=\&quot;http://www.w3.org/1999/xlink\&quot; version=\&quot;1.1\&quot; xml:space=\&quot;preserve\&quot; class=\&quot;u-svg-content\&quot; viewBox=\&quot;0 0 24 16\&quot; x=\&quot;0px\&quot; y=\&quot;0px\&quot; style=\&quot;width: 1em; height: 1em;\&quot; data-color=\&quot;#468ac9\&quot;><path fill=\&quot;currentColor\&quot; d=\&quot;M23.8,1.1l-7.3,6.8l7.3,6.8c0.1-0.2,0.2-0.6,0.2-0.9V2C24,1.7,23.9,1.4,23.8,1.1z M21.8,0H2.2\n\tc-0.4,0-0.7,0.1-1,0.2L10.6,9c0.8,0.8,2.2,0.8,3,0l9.2-8.7C22.6,0.1,22.2,0,21.8,0z M0.2,1.1C0.1,1.4,0,1.7,0,2V14\n\tc0,0.3,0.1,0.6,0.2,0.9l7.3-6.8L0.2,1.1z M15.5,9l-1.1,1c-1.3,1.2-3.6,1.2-4.9,0l-1-1l-7.3,6.8c0.2,0.1,0.6,0.2,1,0.2H22\n\tc0.4,0,0.6-0.1,1-0.2L15.5,9z\&quot;></path></svg></span>&amp;nbsp;info@providentia-poslovanje-eventi.hr<br>&quot;,&quot;href&quot;:&quot;mailto:info@site.com&quot;}">
-          <span class="u-icon u-block-control u-icon-1"><svg class="u-svg-content" viewBox="0 0 24 16" x="0px" y="0px" style="width: 1em; height: 1em;"><path fill="currentColor" d="M23.8,1.1l-7.3,6.8l7.3,6.8c0.1-0.2,0.2-0.6,0.2-0.9V2C24,1.7,23.9,1.4,23.8,1.1z M21.8,0H2.2
-	c-0.4,0-0.7,0.1-1,0.2L10.6,9c0.8,0.8,2.2,0.8,3,0l9.2-8.7C22.6,0.1,22.2,0,21.8,0z M0.2,1.1C0.1,1.4,0,1.7,0,2V14
-	c0,0.3,0.1,0.6,0.2,0.9l7.3-6.8L0.2,1.1z M15.5,9l-1.1,1c-1.3,1.2-3.6,1.2-4.9,0l-1-1l-7.3,6.8c0.2,0.1,0.6,0.2,1,0.2H22
-	c0.4,0,0.6-0.1,1-0.2L15.5,9z"></path></svg></span>&nbsp;info@providentia-poslovanje-eventi.hr<br>
-        </a>
-        <a href="" class="u-active-none u-btn u-btn-rectangle u-button-style u-custom-font u-font-roboto-slab u-hover-none u-none u-btn-2" data-lang-en="{&quot;content&quot;:&quot;​<span class=\&quot; u-icon\&quot;><svg xmlns=\&quot;http://www.w3.org/2000/svg\&quot; xmlns:xlink=\&quot;http://www.w3.org/1999/xlink\&quot; version=\&quot;1.1\&quot; xml:space=\&quot;preserve\&quot; class=\&quot;u-svg-content\&quot; viewBox=\&quot;0 0 405.333 405.333\&quot; x=\&quot;0px\&quot; y=\&quot;0px\&quot; style=\&quot;width: 1em; height: 1em;\&quot; data-color=\&quot;#000000\&quot;><path d=\&quot;M373.333,266.88c-25.003,0-49.493-3.904-72.704-11.563c-11.328-3.904-24.192-0.896-31.637,6.699l-46.016,34.752    c-52.8-28.181-86.592-61.952-114.389-114.368l33.813-44.928c8.512-8.512,11.563-20.971,7.915-32.64    C142.592,81.472,138.667,56.96,138.667,32c0-17.643-14.357-32-32-32H32C14.357,0,0,14.357,0,32    c0,205.845,167.488,373.333,373.333,373.333c17.643,0,32-14.357,32-32V298.88C405.333,281.237,390.976,266.88,373.333,266.88z\&quot;></path></svg></span>&amp;nbsp;099-635-9829 - Kristina Bakula&quot;,&quot;href&quot;:&quot;&quot;}" data-lang-hr="{&quot;content&quot;:&quot;​<span class=\&quot;u-icon u-block-control\&quot; style=\&quot;\&quot; data-block=\&quot;96\&quot; data-block-type=\&quot;Icon\&quot;><svg xmlns=\&quot;http://www.w3.org/2000/svg\&quot; xmlns:xlink=\&quot;http://www.w3.org/1999/xlink\&quot; version=\&quot;1.1\&quot; xml:space=\&quot;preserve\&quot; class=\&quot;u-svg-content\&quot; viewBox=\&quot;0 0 405.333 405.333\&quot; x=\&quot;0px\&quot; y=\&quot;0px\&quot; style=\&quot;width: 1em; height: 1em;\&quot; data-color=\&quot;#000000\&quot;><path d=\&quot;M373.333,266.88c-25.003,0-49.493-3.904-72.704-11.563c-11.328-3.904-24.192-0.896-31.637,6.699l-46.016,34.752    c-52.8-28.181-86.592-61.952-114.389-114.368l33.813-44.928c8.512-8.512,11.563-20.971,7.915-32.64    C142.592,81.472,138.667,56.96,138.667,32c0-17.643-14.357-32-32-32H32C14.357,0,0,14.357,0,32    c0,205.845,167.488,373.333,373.333,373.333c17.643,0,32-14.357,32-32V298.88C405.333,281.237,390.976,266.88,373.333,266.88z\&quot;></path></svg></span>&amp;nbsp;099-635-9829 - Kristina Bakula&quot;,&quot;href&quot;:&quot;&quot;}">
-          <span class="u-icon u-block-control"><svg class="u-svg-content" viewBox="0 0 405.333 405.333" x="0px" y="0px" style="width: 1em; height: 1em;"><path d="M373.333,266.88c-25.003,0-49.493-3.904-72.704-11.563c-11.328-3.904-24.192-0.896-31.637,6.699l-46.016,34.752    c-52.8-28.181-86.592-61.952-114.389-114.368l33.813-44.928c8.512-8.512,11.563-20.971,7.915-32.64    C142.592,81.472,138.667,56.96,138.667,32c0-17.643-14.357-32-32-32H32C14.357,0,0,14.357,0,32    c0,205.845,167.488,373.333,373.333,373.333c17.643,0,32-14.357,32-32V298.88C405.333,281.237,390.976,266.88,373.333,266.88z"></path></svg></span>&nbsp;099-635-9829 - Kristina Bakula
-        </a>
-        <p class="u-custom-font u-font-roboto-slab u-small-text u-text u-text-variant u-text-1" data-lang-en="PROVIDENTIA - POSLOVANJE - EVENTI<br><b>© 2025 Providentia</b>" data-lang-hr="PROVIDENTIA - POSLOVANJE - EVENTI<br><b>© 2025 Providentia</b>">PROVIDENTIA - POSLOVANJE - EVENTI<br><b>© 2025 Providentia</b>
-        </p>
-        <img class="u-image u-image-contain u-image-default u-image-1" src="images/logozaweb1.png" alt="" data-image-width="980" data-image-height="596" data-lang-hr="" data-lang-en="">
-      </div></footer>
-  
-</body></html>
+    <section class="service-hero">
+        <div class="container">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <a href="index.html">Naslovnica</a>
+                <span>/</span>
+                <a href="index.html#services">Usluge</a>
+                <span>/</span>
+                <span aria-current="page">Financijsko-računovodstvene usluge</span>
+            </nav>
+            <h1>Financijsko-računovodstvene usluge</h1>
+        </div>
+    </section>
+
+    <article class="service-content">
+        <div class="container">
+            <p class="service-intro">Precizno i učinkovito financijsko upravljanje temelj je stabilnog poslovanja. Naš tim pruža operativnu i savjetodavnu podršku u svim aspektima financijsko-računovodstvenog poslovanja – od svakodnevne organizacije dokumentacije do strateške analize i planiranja.</p>
+
+            <h2>Što uključuju naše financijsko-računovodstvene usluge:</h2>
+
+            <div class="service-items">
+                <div class="service-item">
+                    <h3>Priprema i organizacija financijske dokumentacije</h3>
+                    <p>Prikupljanje i sistematizacija ulaznih i izlaznih računa, priprema dokumentacije za knjigovodstvene servise, organizacija arhiviranja i pohrane dokumenata.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Računovodstvena podrška</h3>
+                    <p>Evidencija plaćanja i praćenje novčanih tijekova, izrada i upravljanje evidencijama o troškovima i prihodima, suradnja s knjigovođom te priprema dokumenata za obračun plaća, PDV-a i drugih obveza.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Upravljanje obvezama i potraživanjima</h3>
+                    <p>Praćenje dospijeća računa i podsjetnici za plaćanja, upravljanje naplatom potraživanja, vođenje evidencije o nepodmirenim obvezama.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Savjetovanje o financijskom poslovanju</h3>
+                    <p>Analiza financijskog stanja poduzeća, prijedlozi za optimizaciju troškova i povećanje profitabilnosti, pomoć pri planiranju budžeta i upravljanju resursima.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Podrška u poreznim pitanjima</h3>
+                    <p>Informiranje o poreznim obvezama i rokovima, priprema dokumentacije za porezne nadzore, suradnja s poreznim savjetnicima.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Izrada financijskih izvještaja</h3>
+                    <p>Priprema osnovnih izvještaja za upravljanje poslovanjem (analiza prihoda i rashoda), podrška u izradi poslovnih planova i financijskih projekcija.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Evidencija i praćenje ulaganja</h3>
+                    <p>Vođenje evidencije o imovini i investicijama, pomoć pri analiziranju povrata na investicije (ROI).</p>
+                </div>
+                <div class="service-item">
+                    <h3>Personalizirane usluge</h3>
+                    <p>Prilagodba usluga specifičnim potrebama klijenta, fleksibilna podrška za povremene projekte ili dugoročne obveze.</p>
+                </div>
+            </div>
+
+            <p class="service-note">Računovodstvene usluge obavlja vanjski ovlašteni knjigovodstveni servis uz našu poslovnu koordinaciju i podršku te podršku u poreznim pitanjima pružamo u suradnji s stručnim vanjskim poreznim savjetnicima.</p>
+
+            <div class="service-cta">
+                <a href="index.html#contact" class="btn btn-primary">Zatraži ponudu</a>
+            </div>
+        </div>
+    </article>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <a href="index.html" class="footer-logo">
+                    <img src="images/logozaweb1.png" alt="PROVIDENTIA">
+                </a>
+                <p class="footer-copyright">&copy; <span id="currentYear">2025</span> Providentia. Sva prava pridržana.</p>
+                <div class="footer-contact">
+                    <a href="mailto:info@providentia-poslovanje-eventi.hr"><i class="fas fa-envelope"></i> info@providentia-poslovanje-eventi.hr</a>
+                    <span class="footer-divider">|</span>
+                    <a href="tel:+385996359829"><i class="fas fa-phone"></i> 099-635-9829</a>
+                </div>
+                <div class="footer-legal">
+                    <a href="politika-privatnosti.html">Politika privatnosti</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="back-to-top" aria-label="Povratak na vrh"><i class="fas fa-chevron-up"></i></button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var yearEl = document.getElementById('currentYear');
+            if (yearEl) yearEl.textContent = new Date().getFullYear();
+            var header = document.getElementById('header');
+            var toggle = document.querySelector('.mobile-menu-toggle');
+            var overlay = document.querySelector('.mobile-overlay');
+            if (toggle) toggle.addEventListener('click', function(){ header.classList.toggle('mobile-menu-active'); });
+            if (overlay) overlay.addEventListener('click', function(){ header.classList.remove('mobile-menu-active'); });
+            document.querySelectorAll('.main-nav a').forEach(function(l){ l.addEventListener('click', function(){ header.classList.remove('mobile-menu-active'); }); });
+            window.addEventListener('scroll', function(){
+                header.classList.toggle('sticky', window.scrollY > 100);
+                var btn = document.getElementById('back-to-top');
+                if (btn) btn.classList.toggle('visible', window.scrollY > 300);
+            });
+            var btn = document.getElementById('back-to-top');
+            if (btn) btn.addEventListener('click', function(e){ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); });
+        });
+    </script>
+</body>
+</html>

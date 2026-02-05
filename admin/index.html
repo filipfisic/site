@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROVIDENTIA Blog Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.6/quill.snow.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- LOGIN SCREEN -->
+    <div id="login-screen" class="screen active">
+        <div class="login-container">
+            <div class="login-box">
+                <h1><i class="fas fa-lock"></i> PROVIDENTIA Blog Admin</h1>
+                <p class="login-subtitle">Upravlja blog člancima - dodaj, uredi, obriši</p>
+
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="password">Lozinka:</label>
+                        <input type="password" id="password" name="password" placeholder="Unesi lozinku" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="github-token">GitHub Personal Access Token (PAT):</label>
+                        <input type="password" id="github-token" name="github-token" placeholder="ghp_xxxx..." required>
+                        <small>
+                            <strong>Kako dobiti token:</strong><br>
+                            1. Otvori GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)<br>
+                            2. Klikni "Generate new token (classic)"<br>
+                            3. Naziv: "PROVIDENTIA Blog"<br>
+                            4. Expiration: "No expiration"<br>
+                            5. Selektiraj samo "repo" (all)<br>
+                            6. Klikni "Generate token" i kopiraj cijeli kod<br>
+                            <em>Token će biti spreman u lokalnom storage - trebat će ti samo prvi put.</em>
+                        </small>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Uđi u Admin Panel</button>
+                    <div id="login-error" class="error-message" style="display: none;"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- DASHBOARD SCREEN -->
+    <div id="dashboard-screen" class="screen">
+        <header class="admin-header">
+            <div class="header-left">
+                <h1>PROVIDENTIA Blog Admin</h1>
+            </div>
+            <div class="header-right">
+                <button id="new-post-btn" class="btn-primary"><i class="fas fa-plus"></i> Novi članak</button>
+                <button id="logout-btn" class="btn-secondary"><i class="fas fa-sign-out-alt"></i> Odjava</button>
+            </div>
+        </header>
+
+        <div class="admin-container">
+            <!-- POSTS LIST -->
+            <div id="posts-list-view" class="view">
+                <div class="posts-header">
+                    <h2>Svi članci</h2>
+                    <div class="posts-filters">
+                        <select id="language-filter">
+                            <option value="all">Svi jezici</option>
+                            <option value="hr">Hrvatski</option>
+                            <option value="en">Engleski</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="posts-container" class="posts-grid">
+                    <!-- Posts će biti učitani ovdje -->
+                </div>
+
+                <div id="loading-posts" class="loading">
+                    <div class="spinner"></div>
+                    Učitavanje članova...
+                </div>
+
+                <div id="no-posts" class="no-posts" style="display: none;">
+                    <p>Nema objavljenih članaka. <a href="#" id="no-posts-new-link">Kreni s prvim člankom!</a></p>
+                </div>
+            </div>
+
+            <!-- EDITOR VIEW -->
+            <div id="editor-view" class="view" style="display: none;">
+                <div class="editor-header">
+                    <button id="back-to-list-btn" class="btn-secondary"><i class="fas fa-arrow-left"></i> Natrag</button>
+                    <h2 id="editor-title">Novi članek</h2>
+                    <div></div>
+                </div>
+
+                <div class="editor-form">
+                    <div class="editor-row">
+                        <div class="form-group editor-full-width">
+                            <label for="post-title">Naslov (Hrvatski):</label>
+                            <input type="text" id="post-title" placeholder="Unesi naslov članka" maxlength="150">
+                        </div>
+                    </div>
+
+                    <div class="editor-row">
+                        <div class="form-group editor-full-width">
+                            <label for="post-title-en">Naslov (Engleski):</label>
+                            <input type="text" id="post-title-en" placeholder="Enter article title" maxlength="150">
+                        </div>
+                    </div>
+
+                    <div class="editor-row">
+                        <div class="form-group editor-half-width">
+                            <label for="post-excerpt">Kratko opažanje (HR):</label>
+                            <textarea id="post-excerpt" placeholder="Kratko opažanje članka..." maxlength="200" rows="2"></textarea>
+                        </div>
+
+                        <div class="form-group editor-half-width">
+                            <label for="post-excerpt-en">Short description (EN):</label>
+                            <textarea id="post-excerpt-en" placeholder="Short article description..." maxlength="200" rows="2"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="editor-row">
+                        <div class="form-group editor-half-width">
+                            <label for="post-tag">Tag (Hrvatski):</label>
+                            <input type="text" id="post-tag" placeholder="npr. Poslovanje" maxlength="50">
+                        </div>
+
+                        <div class="form-group editor-half-width">
+                            <label for="post-tag-en">Tag (Engleski):</label>
+                            <input type="text" id="post-tag-en" placeholder="e.g. Business" maxlength="50">
+                        </div>
+                    </div>
+
+                    <div class="editor-row">
+                        <div class="form-group editor-half-width">
+                            <label for="post-read-time">Vrijeme čitanja (u minutama):</label>
+                            <input type="number" id="post-read-time" placeholder="3" min="1" max="60" value="3">
+                        </div>
+
+                        <div class="form-group editor-half-width">
+                            <label for="post-date">Datum objave:</label>
+                            <input type="date" id="post-date">
+                        </div>
+                    </div>
+
+                    <div class="editor-row">
+                        <div class="form-group editor-full-width">
+                            <label for="post-image">Slika članka:</label>
+                            <div class="image-upload">
+                                <input type="file" id="post-image" accept="image/*">
+                                <div id="image-preview" class="image-preview" style="display: none;">
+                                    <img id="preview-img" src="" alt="preview">
+                                    <button type="button" id="remove-image-btn" class="btn-remove">Ukloni</button>
+                                </div>
+                                <div class="upload-hint">Klikni ili povuci sliku ovdje</div>
+                            </div>
+                            <small>Maksimalno: 5MB, PNG/JPG/WebP</small>
+                        </div>
+                    </div>
+
+                    <div class="editor-row">
+                        <div class="form-group editor-full-width">
+                            <label>Sadržaj članka (Hrvatski):</label>
+                            <div id="post-content-hr" class="editor-quill" style="height: 400px;"></div>
+                        </div>
+                    </div>
+
+                    <div class="editor-row">
+                        <div class="form-group editor-full-width">
+                            <label>Article content (English):</label>
+                            <div id="post-content-en" class="editor-quill" style="height: 400px;"></div>
+                        </div>
+                    </div>
+
+                    <div class="editor-actions">
+                        <button type="button" id="save-post-btn" class="btn-primary">
+                            <i class="fas fa-save"></i> Spremi članak
+                        </button>
+                        <button type="button" id="delete-post-btn" class="btn-danger" style="display: none;">
+                            <i class="fas fa-trash"></i> Obriši članak
+                        </button>
+                        <button type="button" id="cancel-edit-btn" class="btn-secondary">Otkaži</button>
+                    </div>
+
+                    <div id="editor-error" class="error-message" style="display: none;"></div>
+                    <div id="editor-success" class="success-message" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Delete Confirmation -->
+    <div id="delete-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Obriši članek?</h3>
+            <p id="delete-modal-text">Jeste li sigurni da želite obrisati ovaj članek? Ova akcija se ne može pozvati.</p>
+            <div class="modal-actions">
+                <button id="confirm-delete-btn" class="btn-danger">Obriši trajno</button>
+                <button id="cancel-delete-btn" class="btn-secondary">Otkaži</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Saving -->
+    <div id="saving-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="spinner"></div>
+            <p>Čuvanje članka...</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
