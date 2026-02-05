@@ -390,14 +390,14 @@ document.addEventListener('DOMContentLoaded', function() {
             var formData = new FormData(form);
 
             // Dodaj recipient email
-            formData.append('_to', 'filip.fisic@gmail.com');
+            formData.append('_to', 'kristinabakula3@gmail.com');
 
             // Skriveni polja za Formsubmit
             formData.append('_captcha', 'false');
             formData.append('_subject', isNewsletter ? 'Nova prijava na newsletter - PROVIDENTIA' : 'Novi zahtjev za kontakt - PROVIDENTIA');
 
             // Slanje putem Formsubmit.co
-            fetch('https://formsubmit.co/filip.fisic@gmail.com', {
+            fetch('https://formsubmit.co/kristinabakula3@gmail.com', {
                 method: 'POST',
                 body: formData
             })
