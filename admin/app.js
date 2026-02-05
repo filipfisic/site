@@ -656,6 +656,13 @@ async function saveFileToGithub(filepath, content, isBase64 = false) {
 
     // Prvo provjeri postoji li fajl
     let sha = null;
+
+    // Debug: Check token before making request
+    if (!state.token) {
+        throw new Error('No GitHub token set. Please log in first.');
+    }
+    console.log(`Using token: ${state.token.substring(0, 10)}...${state.token.substring(state.token.length - 10)}`);
+
     try {
         const getRes = await fetch(url, {
             headers: {
@@ -664,10 +671,21 @@ async function saveFileToGithub(filepath, content, isBase64 = false) {
             }
         });
 
+        console.log(`GitHub GET response status: ${getRes.status}`);
+        console.log(`GitHub GET content-type: ${getRes.headers.get('content-type')}`);
+
         if (getRes.ok) {
-            const data = await getRes.json();
-            sha = data.sha;
-            console.log(`File exists, SHA: ${sha}`);
+            try {
+                const data = await getRes.json();
+                sha = data.sha;
+                console.log(`File exists, SHA: ${sha}`);
+            } catch (parseError) {
+                // Response is 200 but not JSON - this means something is wrong
+                const textContent = await getRes.text();
+                console.error(`GitHub returned 200 OK but content is not JSON. First 200 chars: ${textContent.substring(0, 200)}`);
+                console.error(`Parse error: ${parseError.message}`);
+                throw new Error(`GitHub API returned non-JSON response: ${parseError.message}`);
+            }
         } else if (getRes.status === 404) {
             // OK - novo je file
             console.log(`File doesn't exist (404), will create new`);
@@ -679,7 +697,8 @@ async function saveFileToGithub(filepath, content, isBase64 = false) {
                 const errorData = await getRes.json();
                 console.warn(`GitHub error: ${errorData.message}`);
             } catch (e) {
-                console.warn(`Could not parse error response`);
+                const textContent = await getRes.text();
+                console.warn(`Could not parse error response as JSON. First 200 chars: ${textContent.substring(0, 200)}`);
             }
             // Nastavi dalje - možda je privremeni problem
         }
@@ -689,6 +708,8 @@ async function saveFileToGithub(filepath, content, isBase64 = false) {
         if (error instanceof TypeError) {
             throw error;
         }
+        // Re-throw other errors (like JSON parse errors from GitHub API)
+        throw error;
     }
 
     const body = {
@@ -699,14 +720,18 @@ async function saveFileToGithub(filepath, content, isBase64 = false) {
 
     if (sha) body.sha = sha;
 
+    console.log(`Sending PUT request with body:`, body);
     const res = await fetch(url, {
         method: 'PUT',
         headers: {
             'Authorization': `token ${state.token}`,
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github+json'
         },
         body: JSON.stringify(body)
     });
+
+    console.log(`GitHub PUT response status: ${res.status}`);
 
     if (!res.ok) {
         const text = await res.text();
