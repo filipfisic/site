@@ -20,10 +20,19 @@ let state = {
 // INITIALIZATION
 // ============================================
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     if (state.token) {
-        showDashboard();
-        loadPosts();
+        // Validate token before using it
+        const isValid = await validateToken();
+        if (isValid) {
+            showDashboard();
+            loadPosts();
+        } else {
+            console.log('Stored token is invalid, showing login');
+            localStorage.removeItem('github_token');
+            state.token = null;
+            showLogin();
+        }
     } else {
         showLogin();
     }
@@ -107,6 +116,31 @@ function showDashboard() {
     document.getElementById('dashboard-screen').classList.add('active');
 }
 
+async function validateToken() {
+    if (!state.token) return false;
+
+    try {
+        // Simple API call to check if token works
+        const response = await fetch('https://api.github.com/user', {
+            headers: {
+                'Authorization': `token ${state.token}`,
+                'Accept': 'application/vnd.github.v3+json'
+            }
+        });
+
+        if (response.ok) {
+            console.log('Token is valid');
+            return true;
+        } else {
+            console.log('Token validation failed:', response.status);
+            return false;
+        }
+    } catch (error) {
+        console.error('Token validation error:', error);
+        return false;
+    }
+}
+
 // ============================================
 // POSTS MANAGEMENT
 // ============================================
@@ -175,9 +209,25 @@ async function loadPostsFromPath(path) {
             }
         });
 
+        // Check for auth errors first
+        if (response.status === 401 || response.status === 403) {
+            console.error('Token invalid or expired');
+            localStorage.removeItem('github_token');
+            state.token = null;
+            showLogin();
+            throw new Error('Token je nevažeći ili istekao. Molimo unesite novi token.');
+        }
+
         if (!response.ok) {
             if (response.status === 404) return [];
             throw new Error(`GitHub API error: ${response.status}`);
+        }
+
+        // Check content type before parsing
+        const contentType = response.headers.get('content-type') || '';
+        if (!contentType.includes('application/json')) {
+            console.error('Unexpected content type:', contentType);
+            throw new Error('GitHub API vratio neočekivani odgovor. Provjeri token.');
         }
 
         const files = await response.json();
@@ -207,6 +257,10 @@ async function fetchFileContent(filepath) {
             'Accept': 'application/vnd.github.v3.raw'
         }
     });
+
+    if (response.status === 401 || response.status === 403) {
+        throw new Error('Token nevažeći');
+    }
 
     if (!response.ok) throw new Error(`Failed to fetch ${filepath}`);
     return await response.text();
