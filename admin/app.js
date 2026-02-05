@@ -1030,7 +1030,8 @@ async function generateManifest(newEntry) {
 
         if (response.ok) {
             const data = await response.json();
-            const content = atob(data.content);
+            // Properly decode UTF-8 from base64
+            const content = decodeBase64UTF8(data.content);
             manifest = JSON.parse(content);
         }
     } catch (e) {
@@ -1258,7 +1259,8 @@ async function getManifestWithoutPost(postId) {
 
         if (response.ok) {
             const data = await response.json();
-            const content = atob(data.content);
+            // Properly decode UTF-8 from base64
+            const content = decodeBase64UTF8(data.content);
             manifest = JSON.parse(content);
         }
     } catch (e) {
@@ -1358,6 +1360,16 @@ async function deleteFilesAndUpdateManifest(filePaths, manifestContent, commitMe
 // ============================================
 // HELPERS
 // ============================================
+
+// Properly decode base64 to UTF-8 string (handles Croatian characters etc.)
+function decodeBase64UTF8(base64) {
+    const binaryString = atob(base64);
+    const bytes = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    return new TextDecoder('utf-8').decode(bytes);
+}
 
 function slugify(text) {
     return text
