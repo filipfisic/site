@@ -504,36 +504,55 @@
                     `;
                 }).join('');
 
-                // Add dots
+                // Add dots (use button elements and blog-preview-dot class to match main.js styling)
                 dots.innerHTML = postsToShow.map((_, i) =>
-                    `<span class="dot${i === 0 ? ' active' : ''}" data-index="${i}"></span>`
+                    `<button class="blog-preview-dot${i === 0 ? ' active' : ''}" aria-label="Članak ${i + 1}"></button>`
                 ).join('');
 
                 // Initialize slider functionality
-                initBlogSlider();
+                initBlogSlider(postsToShow.length);
             } catch (e) {
                 console.error('Error loading blog preview:', e);
             }
         })();
 
-        function initBlogSlider() {
-            const cards = document.querySelectorAll('#blog-preview-cards .blog-card');
-            const dots = document.querySelectorAll('#blog-preview-dots .dot');
+        function initBlogSlider(cardCount) {
+            const cardsContainer = document.getElementById('blog-preview-cards');
+            const dotsContainer = document.getElementById('blog-preview-dots');
+            const blogCards = cardsContainer.querySelectorAll('.blog-card');
+            const blogDots = dotsContainer.querySelectorAll('.blog-preview-dot');
             const prevBtn = document.querySelector('.blog-prev');
             const nextBtn = document.querySelector('.blog-next');
-            if (cards.length === 0) return;
 
-            let currentIndex = 0;
+            if (blogCards.length === 0) return;
 
-            function showCard(index) {
-                cards.forEach((c, i) => c.classList.toggle('active', i === index));
-                dots.forEach((d, i) => d.classList.toggle('active', i === index));
-                currentIndex = index;
+            let currentBlog = 0;
+            let blogAutoInterval = null;
+
+            function showBlogCard(index) {
+                blogCards.forEach(c => { c.classList.remove('active'); c.classList.remove('exit-left'); });
+                blogDots.forEach(d => d.classList.remove('active'));
+                currentBlog = index;
+                blogCards[currentBlog].classList.add('active');
+                blogDots[currentBlog].classList.add('active');
             }
 
-            prevBtn?.addEventListener('click', () => showCard((currentIndex - 1 + cards.length) % cards.length));
-            nextBtn?.addEventListener('click', () => showCard((currentIndex + 1) % cards.length));
-            dots.forEach(dot => dot.addEventListener('click', () => showCard(parseInt(dot.dataset.index))));
+            prevBtn?.addEventListener('click', () => showBlogCard((currentBlog - 1 + blogCards.length) % blogCards.length));
+            nextBtn?.addEventListener('click', () => showBlogCard((currentBlog + 1) % blogCards.length));
+            blogDots.forEach((dot, i) => dot.addEventListener('click', () => showBlogCard(i)));
+
+            // Auto-rotate (only if more than 1 card)
+            if (blogCards.length > 1) {
+                function startBlogAutoPlay() {
+                    blogAutoInterval = setInterval(() => showBlogCard((currentBlog + 1) % blogCards.length), 6000);
+                }
+                function stopBlogAutoPlay() {
+                    clearInterval(blogAutoInterval);
+                }
+                cardsContainer.addEventListener('mouseenter', stopBlogAutoPlay);
+                cardsContainer.addEventListener('mouseleave', startBlogAutoPlay);
+                startBlogAutoPlay();
+            }
         }
     </script>
 </body>
