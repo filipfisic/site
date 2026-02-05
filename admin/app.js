@@ -1212,13 +1212,22 @@ async function deletePost() {
 
     try {
         const post = state.currentPost;
+        const filesToDelete = [];
 
-        if (post.versions['hr']) {
-            await deleteFileFromGithub(post.versions['hr'].filepath);
+        // Collect files to delete
+        if (post.versions['hr']?.filepath) {
+            filesToDelete.push(post.versions['hr'].filepath);
         }
-        if (post.versions['en']) {
-            await deleteFileFromGithub(post.versions['en'].filepath);
+        if (post.versions['en']?.filepath) {
+            filesToDelete.push(post.versions['en'].filepath);
         }
+
+        // Get updated manifest (remove this post)
+        const manifest = await getManifestWithoutPost(post.articleId);
+        const manifestJson = JSON.stringify(manifest, null, 2);
+
+        // Delete files and update manifest in a single commit
+        await deleteFilesAndUpdateManifest(filesToDelete, manifestJson, `Delete: ${post.articleId}`);
 
         savingModal.style.display = 'none';
         alert('Clanak je obrisan!');
@@ -1228,39 +1237,122 @@ async function deletePost() {
     } catch (error) {
         savingModal.style.display = 'none';
         alert(`Greska pri brisanju: ${error.message}`);
+        console.error('Delete error:', error);
     }
 
     document.getElementById('delete-modal').style.display = 'none';
 }
 
-async function deleteFileFromGithub(filepath) {
-    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filepath}`;
+// Get manifest with a specific post removed
+async function getManifestWithoutPost(postId) {
+    let manifest = { posts: [] };
 
-    const getRes = await fetch(url, {
-        headers: {
-            'Authorization': `token ${state.token}`,
-            'Accept': 'application/vnd.github.v3+json'
+    try {
+        const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/blog-posts.json`;
+        const response = await fetch(url, {
+            headers: {
+                'Authorization': `token ${state.token}`,
+                'Accept': 'application/vnd.github.v3+json'
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            const content = atob(data.content);
+            manifest = JSON.parse(content);
         }
+    } catch (e) {
+        console.log('No existing manifest');
+    }
+
+    // Remove the post from manifest
+    manifest.posts = manifest.posts.filter(p => p.id !== postId);
+
+    return manifest;
+}
+
+// Delete multiple files and update manifest in a single commit using Git Trees API
+async function deleteFilesAndUpdateManifest(filePaths, manifestContent, commitMessage) {
+    const apiBase = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}`;
+    const headers = {
+        'Authorization': `token ${state.token}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.github.v3+json'
+    };
+
+    // 1. Get the current commit SHA (HEAD of branch)
+    const refRes = await fetch(`${apiBase}/git/refs/heads/${GITHUB_BRANCH}`, { headers });
+    if (!refRes.ok) throw new Error('Ne mogu dohvatiti referencu grane');
+    const refData = await refRes.json();
+    const latestCommitSha = refData.object.sha;
+
+    // 2. Get the base tree SHA from that commit
+    const commitRes = await fetch(`${apiBase}/git/commits/${latestCommitSha}`, { headers });
+    if (!commitRes.ok) throw new Error('Ne mogu dohvatiti commit');
+    const commitData = await commitRes.json();
+    const baseTreeSha = commitData.tree.sha;
+
+    // 3. Create tree entries - null sha means delete the file
+    const treeEntries = [];
+
+    // Add delete entries for each file
+    for (const filePath of filePaths) {
+        treeEntries.push({
+            path: filePath,
+            mode: '100644',
+            type: 'blob',
+            sha: null  // null sha = delete file
+        });
+    }
+
+    // Add updated manifest
+    treeEntries.push({
+        path: 'blog-posts.json',
+        mode: '100644',
+        type: 'blob',
+        content: manifestContent
     });
 
-    if (!getRes.ok) throw new Error(`File not found: ${filepath}`);
-
-    const data = await getRes.json();
-
-    const res = await fetch(url, {
-        method: 'DELETE',
-        headers: {
-            'Authorization': `token ${state.token}`,
-            'Content-Type': 'application/json'
-        },
+    // 4. Create a new tree
+    const treeRes = await fetch(`${apiBase}/git/trees`, {
+        method: 'POST',
+        headers,
         body: JSON.stringify({
-            message: `Delete: ${filepath}`,
-            sha: data.sha,
-            branch: GITHUB_BRANCH
+            base_tree: baseTreeSha,
+            tree: treeEntries
         })
     });
+    if (!treeRes.ok) {
+        const err = await treeRes.text();
+        console.error('Tree creation failed:', err);
+        throw new Error('Ne mogu kreirati stablo');
+    }
+    const treeData = await treeRes.json();
 
-    if (!res.ok) throw new Error('Failed to delete file');
+    // 5. Create a new commit
+    const newCommitRes = await fetch(`${apiBase}/git/commits`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+            message: commitMessage,
+            tree: treeData.sha,
+            parents: [latestCommitSha]
+        })
+    });
+    if (!newCommitRes.ok) throw new Error('Ne mogu kreirati commit');
+    const newCommitData = await newCommitRes.json();
+
+    // 6. Update the branch reference
+    const updateRefRes = await fetch(`${apiBase}/git/refs/heads/${GITHUB_BRANCH}`, {
+        method: 'PATCH',
+        headers,
+        body: JSON.stringify({
+            sha: newCommitData.sha
+        })
+    });
+    if (!updateRefRes.ok) throw new Error('Ne mogu ažurirati referencu grane');
+
+    console.log('Successfully deleted files and updated manifest:', newCommitData.sha);
 }
 
 // ============================================
