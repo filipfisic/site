@@ -945,11 +945,10 @@ async function saveFileToGithub(filepath, content, isBase64 = false) {
 
     // Check if file exists to get SHA
     let sha = null;
-    const getRes = await fetch(url, {
+    const getRes = await fetch(url + '?t=' + Date.now(), {
         headers: {
             'Authorization': `token ${state.token}`,
-            'Accept': 'application/vnd.github.v3+json',
-            'Cache-Control': 'no-cache'
+            'Accept': 'application/vnd.github.v3+json'
         }
     });
 
