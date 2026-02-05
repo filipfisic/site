@@ -669,13 +669,23 @@ async function saveFileToGithub(filepath, content, isBase64 = false) {
             sha = data.sha;
         } else if (getRes.status !== 404) {
             // Ako nije 404 (file ne postoji), to je greška
-            const errorData = await getRes.json();
-            throw new Error(`Failed to fetch file info: ${errorData.message}`);
+            try {
+                const errorData = await getRes.json();
+                throw new Error(`Failed to fetch file info: ${errorData.message}`);
+            } catch (jsonError) {
+                throw new Error(`Failed to fetch file info: HTTP ${getRes.status}`);
+            }
         }
         // Ako je 404, OK - novo je file
     } catch (error) {
+        if (error.message.includes('Failed to fetch file info')) {
+            throw error;
+        }
         console.error(`Error checking file: ${error.message}`);
-        throw error;
+        // Provjeri je li network error - ako je, proslijedi dalje
+        if (error instanceof TypeError) {
+            throw error;
+        }
     }
 
     const body = {
