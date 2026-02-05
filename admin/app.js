@@ -563,7 +563,7 @@ async function savePost() {
         // Generiraj HTML za HR verziju
         const dateFormatted = formatBlogDate(new Date(date), 'hr');
         const htmlHR = generatePostHTML(
-            titleEn,
+            title,
             titleEn,
             tag,
             dateFormatted,
@@ -578,8 +578,8 @@ async function savePost() {
         // Generiraj HTML za EN verziju
         const dateFormattedEn = formatBlogDate(new Date(date), 'en');
         const htmlEN = generatePostHTML(
-            titleEn,
             title,
+            titleEn,
             tagEn,
             dateFormattedEn,
             parseInt(document.getElementById('post-read-time').value),
