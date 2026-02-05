@@ -948,27 +948,35 @@ async function saveFileToGithub(filepath, content, isBase64 = false) {
     const getRes = await fetch(url, {
         headers: {
             'Authorization': `token ${state.token}`,
-            'Accept': 'application/vnd.github.v3+json'
+            'Accept': 'application/vnd.github.v3+json',
+            'Cache-Control': 'no-cache'
         }
     });
 
-    // Check content type before parsing JSON
-    const contentType = getRes.headers.get('content-type') || '';
-
-    if (getRes.ok && contentType.includes('application/json')) {
-        const data = await getRes.json();
-        sha = data.sha;
-        console.log(`File exists, SHA: ${sha}`);
-    } else if (getRes.status === 404) {
+    if (getRes.status === 404) {
         console.log('File does not exist, creating new');
     } else if (getRes.status === 401 || getRes.status === 403) {
         throw new Error('GitHub token je nevazeci ili istekao. Odjavi se i unesi novi token.');
-    } else {
-        console.error(`Error checking file: ${getRes.status}, content-type: ${contentType}`);
-        // If we got HTML instead of JSON, token might be bad
-        if (contentType.includes('text/html')) {
-            throw new Error('GitHub API vraca HTML umjesto JSON. Provjeri token.');
+    } else if (getRes.ok) {
+        // Try to parse as JSON regardless of content-type
+        try {
+            const data = await getRes.json();
+            if (data && data.sha) {
+                sha = data.sha;
+                console.log(`File exists, SHA: ${sha}`);
+            } else {
+                console.error('Got JSON but no sha field:', data);
+                throw new Error('Ne mogu dohvatiti SHA postojece datoteke.');
+            }
+        } catch (parseError) {
+            const contentType = getRes.headers.get('content-type') || '';
+            console.error('Failed to parse response as JSON:', contentType, parseError);
+            throw new Error('GitHub API vratio neocekivani format. Osvjezi stranicu i pokusaj ponovo.');
         }
+    } else {
+        const contentType = getRes.headers.get('content-type') || '';
+        console.error(`Error checking file: ${getRes.status}, content-type: ${contentType}`);
+        throw new Error(`Greska pri provjeri datoteke: ${getRes.status}`);
     }
 
     // Save file
