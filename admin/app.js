@@ -1,9 +1,10 @@
 // ============================================
-// PROVIDENTIA BLOG ADMIN - APPLICATION
+// PROVIDENTIA BLOG ADMIN - STRUCTURED EDITOR
+// Version 3.0 - No WYSIWYG, structured sections
 // ============================================
 
 // CONFIG
-const ADMIN_PASSWORD = 'BakKris01'; // Hardkodirani password - promijeni!
+const ADMIN_PASSWORD = 'BakKris01';
 const GITHUB_OWNER = 'filipfisic';
 const GITHUB_REPO = 'site';
 const GITHUB_BRANCH = 'main';
@@ -12,26 +13,8 @@ const GITHUB_BRANCH = 'main';
 let state = {
     token: localStorage.getItem('github_token') || null,
     currentPost: null,
-    posts: [],
-    editors: {}
+    posts: []
 };
-
-// DOM Elements
-const loginScreen = document.getElementById('login-screen');
-const dashboardScreen = document.getElementById('dashboard-screen');
-const loginForm = document.getElementById('login-form');
-const logoutBtn = document.getElementById('logout-btn');
-const newPostBtn = document.getElementById('new-post-btn');
-const postsListView = document.getElementById('posts-list-view');
-const editorView = document.getElementById('editor-view');
-const backToListBtn = document.getElementById('back-to-list-btn');
-const savePostBtn = document.getElementById('save-post-btn');
-const deletePostBtn = document.getElementById('delete-post-btn');
-const cancelEditBtn = document.getElementById('cancel-edit-btn');
-const postsContainer = document.getElementById('posts-container');
-const loadingPosts = document.getElementById('loading-posts');
-const noPosts = document.getElementById('no-posts');
-const languageFilter = document.getElementById('language-filter');
 
 // ============================================
 // INITIALIZATION
@@ -46,37 +29,28 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Event listeners
-    loginForm.addEventListener('submit', handleLogin);
-    logoutBtn.addEventListener('click', handleLogout);
-    newPostBtn.addEventListener('click', showNewPostEditor);
-    backToListBtn.addEventListener('click', showPostsList);
-    cancelEditBtn.addEventListener('click', showPostsList);
-    savePostBtn.addEventListener('click', savePost);
-    deletePostBtn.addEventListener('click', showDeleteConfirm);
-    languageFilter.addEventListener('change', filterPosts);
+    document.getElementById('login-form').addEventListener('submit', handleLogin);
+    document.getElementById('logout-btn').addEventListener('click', handleLogout);
+    document.getElementById('new-post-btn').addEventListener('click', showNewPostEditor);
+    document.getElementById('back-to-list-btn').addEventListener('click', showPostsList);
+    document.getElementById('cancel-edit-btn').addEventListener('click', showPostsList);
+    document.getElementById('save-post-btn').addEventListener('click', savePost);
+    document.getElementById('delete-post-btn').addEventListener('click', showDeleteConfirm);
+    document.getElementById('language-filter').addEventListener('change', filterPosts);
+
+    // Section builders
+    document.getElementById('add-section-hr').addEventListener('click', () => addSection('hr'));
+    document.getElementById('add-section-en').addEventListener('click', () => addSection('en'));
 
     // Image upload
-    const postImage = document.getElementById('post-image');
-    const imageUpload = document.querySelector('.image-upload');
-    postImage.addEventListener('change', handleImageSelect);
-    imageUpload.addEventListener('click', () => postImage.click());
-    imageUpload.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        imageUpload.style.borderColor = '#d7ae61';
-    });
-    imageUpload.addEventListener('dragleave', () => {
-        imageUpload.style.borderColor = '#ddd';
-    });
-    imageUpload.addEventListener('drop', (e) => {
-        e.preventDefault();
-        imageUpload.style.borderColor = '#ddd';
-        if (e.dataTransfer.files[0]) {
-            postImage.files = e.dataTransfer.files;
-            handleImageSelect({ target: postImage });
-        }
+    setupImageUpload();
+
+    // Delete modal
+    document.getElementById('confirm-delete-btn')?.addEventListener('click', deletePost);
+    document.getElementById('cancel-delete-btn')?.addEventListener('click', () => {
+        document.getElementById('delete-modal').style.display = 'none';
     });
 
-    document.getElementById('remove-image-btn')?.addEventListener('click', removeImage);
     document.getElementById('no-posts-new-link')?.addEventListener('click', (e) => {
         e.preventDefault();
         showNewPostEditor();
@@ -96,7 +70,7 @@ function handleLogin(e) {
     errorEl.style.display = 'none';
 
     if (password !== ADMIN_PASSWORD) {
-        errorEl.textContent = 'Pogrešna lozinka!';
+        errorEl.textContent = 'Pogresna lozinka!';
         errorEl.style.display = 'block';
         return;
     }
@@ -107,36 +81,30 @@ function handleLogin(e) {
         return;
     }
 
-    // Spremi token u localStorage
     localStorage.setItem('github_token', token);
     state.token = token;
-
-    // Očisti formu
-    loginForm.reset();
-
-    // Pokaži dashboard
+    document.getElementById('login-form').reset();
     showDashboard();
     loadPosts();
 }
 
 function handleLogout() {
-    if (confirm('Jeste li sigurni da se želite odjaviti?')) {
+    if (confirm('Jeste li sigurni da se zelite odjaviti?')) {
         localStorage.removeItem('github_token');
         state.token = null;
         state.posts = [];
         showLogin();
-        loginForm.reset();
     }
 }
 
 function showLogin() {
-    loginScreen.classList.add('active');
-    dashboardScreen.classList.remove('active');
+    document.getElementById('login-screen').classList.add('active');
+    document.getElementById('dashboard-screen').classList.remove('active');
 }
 
 function showDashboard() {
-    loginScreen.classList.remove('active');
-    dashboardScreen.classList.add('active');
+    document.getElementById('login-screen').classList.remove('active');
+    document.getElementById('dashboard-screen').classList.add('active');
 }
 
 // ============================================
@@ -144,6 +112,10 @@ function showDashboard() {
 // ============================================
 
 async function loadPosts() {
+    const loadingPosts = document.getElementById('loading-posts');
+    const postsContainer = document.getElementById('posts-container');
+    const noPosts = document.getElementById('no-posts');
+
     loadingPosts.style.display = 'block';
     postsContainer.innerHTML = '';
 
@@ -152,14 +124,14 @@ async function loadPosts() {
         const enPosts = await loadPostsFromPath('en/blog');
         const allPosts = [...hrPosts, ...enPosts];
 
-        // Mapira članke po articleId - spaja HR + EN verzije
+        // Group by articleId
         const postsMap = {};
         allPosts.forEach(post => {
             if (!postsMap[post.articleId]) {
                 postsMap[post.articleId] = {
                     articleId: post.articleId,
-                    title: post.title,  // Title from first version (HR preferred)
-                    tag: post.tag,      // Tag from first version
+                    title: post.title,
+                    tag: post.tag,
                     date: post.date,
                     readTime: post.readTime,
                     excerpt: post.excerpt,
@@ -167,31 +139,28 @@ async function loadPosts() {
                     versions: {}
                 };
             }
-            // Spremi sve podatke po jeziku
             postsMap[post.articleId].versions[post.lang] = {
                 title: post.title,
                 tag: post.tag,
                 excerpt: post.excerpt,
                 filepath: post.filepath,
                 filename: post.filename,
-                content: post.content
+                sections: post.sections
             };
         });
 
         state.posts = Object.values(postsMap);
 
-        if (state.posts.length === 0) {
-            loadingPosts.style.display = 'none';
-            noPosts.style.display = 'block';
-            return;
-        }
-
         loadingPosts.style.display = 'none';
-        noPosts.style.display = 'none';
-        displayPosts(state.posts);
+        if (state.posts.length === 0) {
+            noPosts.style.display = 'block';
+        } else {
+            noPosts.style.display = 'none';
+            displayPosts(state.posts);
+        }
     } catch (error) {
         console.error('Error loading posts:', error);
-        loadingPosts.innerHTML = `<div class="error-message">Greška pri učitavanju članaka: ${error.message}</div>`;
+        loadingPosts.innerHTML = `<div class="error-message">Greska pri ucitavanju: ${error.message}</div>`;
     }
 }
 
@@ -202,12 +171,11 @@ async function loadPostsFromPath(path) {
         const response = await fetch(url, {
             headers: {
                 'Authorization': `token ${state.token}`,
-                'Accept': 'application/vnd.github+json'
+                'Accept': 'application/vnd.github.v3+json'
             }
         });
 
         if (!response.ok) {
-            // Ako path ne postoji, vrati prazan niz
             if (response.status === 404) return [];
             throw new Error(`GitHub API error: ${response.status}`);
         }
@@ -244,12 +212,15 @@ async function fetchFileContent(filepath) {
     return await response.text();
 }
 
+// ============================================
+// PARSE HTML TO STRUCTURED DATA
+// ============================================
+
 function parsePostFromHTML(html, filepath) {
     try {
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
 
-        // Provjera je li to blog post
         if (!doc.querySelector('.blog-post-hero')) return null;
 
         const isEnglish = filepath.startsWith('en/') || filepath.includes('/en/');
@@ -263,19 +234,12 @@ function parsePostFromHTML(html, filepath) {
         const readTime = readTimeEl?.textContent || '';
         const excerptEl = doc.querySelector('.blog-post-content > .container > p:first-of-type');
         const excerpt = excerptEl?.textContent || '';
-        const heroImageStyle = doc.querySelector('.blog-post-hero')?.style.backgroundImage || '';
-        const image = heroImageStyle.match(/url\(['"]?([^'"]+)['"]?\)/)?.[1] || '';
+        const heroImageStyle = doc.querySelector('.blog-post-hero')?.getAttribute('style') || '';
+        const imageMatch = heroImageStyle.match(/url\(['"]?([^'")\s]+)['"]?\)/);
+        const image = imageMatch ? imageMatch[1] : '';
 
-        // Extrahiraj content (sve nakon <hr class="blog-post-divider">)
-        const divider = doc.querySelector('.blog-post-divider');
-        let content = '';
-        if (divider) {
-            let elem = divider.nextElementSibling;
-            while (elem && !elem.classList.contains('blog-post-footer')) {
-                content += elem.outerHTML;
-                elem = elem.nextElementSibling;
-            }
-        }
+        // Parse sections from content
+        const sections = parseContentToSections(doc);
 
         const filename = filepath.split('/').pop().replace('.html', '');
 
@@ -285,7 +249,7 @@ function parsePostFromHTML(html, filepath) {
             date: parseBlogDate(date),
             readTime: parseInt(readTime) || 3,
             excerpt,
-            content,
+            sections,
             image,
             filepath,
             filename,
@@ -298,12 +262,58 @@ function parsePostFromHTML(html, filepath) {
     }
 }
 
+function parseContentToSections(doc) {
+    const sections = [];
+    const divider = doc.querySelector('.blog-post-divider');
+    if (!divider) return sections;
+
+    let currentSection = null;
+    let elem = divider.nextElementSibling;
+
+    while (elem && !elem.classList.contains('blog-post-footer')) {
+        const tagName = elem.tagName.toLowerCase();
+
+        if (tagName === 'h3') {
+            // New section starts
+            if (currentSection) {
+                sections.push(currentSection);
+            }
+            currentSection = {
+                subtitle: elem.textContent.trim(),
+                text: '',
+                bullets: []
+            };
+        } else if (tagName === 'p' && currentSection) {
+            // Add paragraph text
+            if (currentSection.text) {
+                currentSection.text += '\n\n' + elem.textContent.trim();
+            } else {
+                currentSection.text = elem.textContent.trim();
+            }
+        } else if (tagName === 'ul' && currentSection) {
+            // Add bullet points
+            const items = elem.querySelectorAll('li');
+            items.forEach(li => {
+                currentSection.bullets.push(li.textContent.trim());
+            });
+        }
+
+        elem = elem.nextElementSibling;
+    }
+
+    // Add last section
+    if (currentSection) {
+        sections.push(currentSection);
+    }
+
+    return sections;
+}
+
 function parseBlogDate(dateStr) {
-    // "Kolovoz 2025" → 2025-08-01
     const months = {
-        'Siječanj': '01', 'Veljača': '02', 'Ožujak': '03', 'Travanj': '04',
+        'Sijecanj': '01', 'Veljaca': '02', 'Ozujak': '03', 'Travanj': '04',
         'Svibanj': '05', 'Lipanj': '06', 'Srpanj': '07', 'Kolovoz': '08',
-        'Rujan': '09', 'Listopad': '10', 'Studeni': '11', 'Siječanj': '12',
+        'Rujan': '09', 'Listopad': '10', 'Studeni': '11', 'Prosinac': '12',
         'January': '01', 'February': '02', 'March': '03', 'April': '04',
         'May': '05', 'June': '06', 'July': '07', 'August': '08',
         'September': '09', 'October': '10', 'November': '11', 'December': '12'
@@ -316,24 +326,27 @@ function parseBlogDate(dateStr) {
     return `${year}-${month}-01`;
 }
 
+// ============================================
+// DISPLAY POSTS
+// ============================================
+
 function displayPosts(posts) {
-    const lang = languageFilter.value;
+    const lang = document.getElementById('language-filter').value;
     const filtered = lang === 'all' ? posts : posts.filter(p => p.versions[lang]);
 
-    postsContainer.innerHTML = filtered.map(post => {
-        const availableLangs = Object.keys(post.versions).map(l => l === 'hr' ? 'Hrvatski' : 'English').join(' + ');
+    document.getElementById('posts-container').innerHTML = filtered.map(post => {
+        const availableLangs = Object.keys(post.versions).map(l => l === 'hr' ? 'HR' : 'EN').join(' + ');
         const defaultLang = post.versions['hr'] ? 'hr' : 'en';
 
         return `
         <div class="post-card">
-            ${post.image ? `<div class="post-card-image"><img src="${post.image}" alt="${post.title}"></div>` : '<div class="post-card-image"></div>'}
+            ${post.image ? `<div class="post-card-image"><img src="${post.image}" alt="${escapeHtml(post.title)}"></div>` : '<div class="post-card-image"></div>'}
             <div class="post-card-content">
                 <span class="post-card-lang">${availableLangs}</span>
                 <h3 class="post-card-title">${escapeHtml(post.title)}</h3>
                 <p class="post-card-excerpt">${escapeHtml(post.excerpt.substring(0, 100))}...</p>
                 <div class="post-card-meta">
-                    <span>${post.date}</span> •
-                    <span>${post.readTime} min čitanja</span>
+                    <span>${post.date}</span> - <span>${post.readTime} min</span>
                 </div>
                 <div class="post-card-actions">
                     <button class="btn-primary" onclick="editPost('${post.articleId}', '${defaultLang}')">
@@ -351,23 +364,88 @@ function filterPosts() {
 }
 
 // ============================================
+// SECTION MANAGEMENT
+// ============================================
+
+function addSection(lang, data = null) {
+    const container = document.getElementById(`sections-${lang}`);
+    const template = document.getElementById('section-template');
+    const clone = template.content.cloneNode(true);
+    const section = clone.querySelector('.content-section');
+
+    const index = container.children.length;
+    section.dataset.index = index;
+    section.querySelector('.section-number').textContent = `Sekcija ${index + 1}`;
+
+    // Fill data if provided
+    if (data) {
+        section.querySelector('.section-subtitle').value = data.subtitle || '';
+        section.querySelector('.section-text').value = data.text || '';
+        section.querySelector('.section-bullets').value = (data.bullets || []).map(b => `- ${b}`).join('\n');
+    }
+
+    // Remove button handler
+    section.querySelector('.btn-remove-section').addEventListener('click', function() {
+        section.remove();
+        renumberSections(lang);
+    });
+
+    container.appendChild(section);
+}
+
+function renumberSections(lang) {
+    const container = document.getElementById(`sections-${lang}`);
+    const sections = container.querySelectorAll('.content-section');
+    sections.forEach((section, i) => {
+        section.dataset.index = i;
+        section.querySelector('.section-number').textContent = `Sekcija ${i + 1}`;
+    });
+}
+
+function getSectionsData(lang) {
+    const container = document.getElementById(`sections-${lang}`);
+    const sections = container.querySelectorAll('.content-section');
+    const data = [];
+
+    sections.forEach(section => {
+        const subtitle = section.querySelector('.section-subtitle').value.trim();
+        const text = section.querySelector('.section-text').value.trim();
+        const bulletsRaw = section.querySelector('.section-bullets').value.trim();
+
+        // Parse bullets
+        const bullets = bulletsRaw.split('\n')
+            .map(line => line.replace(/^[-*]\s*/, '').trim())
+            .filter(line => line.length > 0);
+
+        if (subtitle || text || bullets.length > 0) {
+            data.push({ subtitle, text, bullets });
+        }
+    });
+
+    return data;
+}
+
+function clearSections(lang) {
+    document.getElementById(`sections-${lang}`).innerHTML = '';
+}
+
+// ============================================
 // EDITOR
 // ============================================
 
 function showNewPostEditor() {
     state.currentPost = null;
     clearEditorForm();
-    document.getElementById('editor-title').textContent = 'Novi članek';
-    deletePostBtn.style.display = 'none';
-
-    // Postavi datumi na danas
+    document.getElementById('editor-title').textContent = 'Novi clanak';
+    document.getElementById('delete-post-btn').style.display = 'none';
     document.getElementById('post-date').valueAsDate = new Date();
 
-    postsListView.style.display = 'none';
-    editorView.style.display = 'block';
+    // Add one empty section for each language
+    addSection('hr');
+    addSection('en');
 
-    // Inicijaliziraj Quill editory
-    initializeQuillEditors();
+    document.getElementById('posts-list-view').style.display = 'none';
+    document.getElementById('editor-view').style.display = 'block';
 }
 
 function editPost(articleId, lang) {
@@ -376,9 +454,8 @@ function editPost(articleId, lang) {
 
     state.currentPost = post;
     document.getElementById('editor-title').textContent = `Uredi: ${post.title}`;
-    deletePostBtn.style.display = 'inline-block';
+    document.getElementById('delete-post-btn').style.display = 'inline-block';
 
-    // Popuni formu s HR i EN verzijama
     const hrVer = post.versions['hr'] || {};
     const enVer = post.versions['en'] || {};
 
@@ -391,24 +468,34 @@ function editPost(articleId, lang) {
     document.getElementById('post-excerpt').value = hrVer.excerpt || '';
     document.getElementById('post-excerpt-en').value = enVer.excerpt || '';
 
-    // Prikaži sliku ako postoji
     if (post.image) {
         document.getElementById('image-preview').style.display = 'block';
         document.getElementById('preview-img').src = post.image;
     }
 
-    postsListView.style.display = 'none';
-    editorView.style.display = 'block';
+    // Load sections
+    clearSections('hr');
+    clearSections('en');
 
-    // Inicijaliziraj Quill editory s ispravnim sadržajima
-    const hrContent = hrVer.content || '';
-    const enContent = enVer.content || '';
-    initializeQuillEditors(hrContent, enContent);
+    if (hrVer.sections && hrVer.sections.length > 0) {
+        hrVer.sections.forEach(s => addSection('hr', s));
+    } else {
+        addSection('hr');
+    }
+
+    if (enVer.sections && enVer.sections.length > 0) {
+        enVer.sections.forEach(s => addSection('en', s));
+    } else {
+        addSection('en');
+    }
+
+    document.getElementById('posts-list-view').style.display = 'none';
+    document.getElementById('editor-view').style.display = 'block';
 }
 
 function showPostsList() {
-    postsListView.style.display = 'block';
-    editorView.style.display = 'none';
+    document.getElementById('posts-list-view').style.display = 'block';
+    document.getElementById('editor-view').style.display = 'none';
     clearEditorForm();
 }
 
@@ -422,86 +509,67 @@ function clearEditorForm() {
     document.getElementById('post-excerpt').value = '';
     document.getElementById('post-excerpt-en').value = '';
     document.getElementById('post-image').value = '';
+    document.getElementById('post-image').dataset.base64 = '';
     document.getElementById('image-preview').style.display = 'none';
     document.getElementById('editor-error').style.display = 'none';
     document.getElementById('editor-success').style.display = 'none';
 
-    // Očisti Quill editory
-    if (state.editors.hr) state.editors.hr.setContents([]);
-    if (state.editors.en) state.editors.en.setContents([]);
+    clearSections('hr');
+    clearSections('en');
 }
 
-function initializeQuillEditors(contentHR = '', contentEN = '') {
-    // Uništi stare editory ako postoje
-    if (state.editors.hr) {
-        state.editors.hr = null;
-    }
-    if (state.editors.en) {
-        state.editors.en = null;
-    }
+// ============================================
+// IMAGE UPLOAD
+// ============================================
 
-    // Kreiraj nove editory
-    state.editors.hr = new Quill('#post-content-hr', {
-        theme: 'snow',
-        modules: {
-            toolbar: [
-                [{ 'header': [1, 2, 3, false] }],
-                ['bold', 'italic', 'underline'],
-                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                ['blockquote', 'code-block'],
-                ['link'],
-                ['clean']
-            ]
+function setupImageUpload() {
+    const postImage = document.getElementById('post-image');
+    const imageUpload = document.querySelector('.image-upload');
+
+    postImage.addEventListener('change', handleImageSelect);
+    imageUpload.addEventListener('click', (e) => {
+        if (e.target !== postImage) postImage.click();
+    });
+    imageUpload.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        imageUpload.style.borderColor = '#d7ae61';
+    });
+    imageUpload.addEventListener('dragleave', () => {
+        imageUpload.style.borderColor = '#ddd';
+    });
+    imageUpload.addEventListener('drop', (e) => {
+        e.preventDefault();
+        imageUpload.style.borderColor = '#ddd';
+        if (e.dataTransfer.files[0]) {
+            postImage.files = e.dataTransfer.files;
+            handleImageSelect({ target: postImage });
         }
     });
 
-    state.editors.en = new Quill('#post-content-en', {
-        theme: 'snow',
-        modules: {
-            toolbar: [
-                [{ 'header': [1, 2, 3, false] }],
-                ['bold', 'italic', 'underline'],
-                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                ['blockquote', 'code-block'],
-                ['link'],
-                ['clean']
-            ]
-        }
+    document.getElementById('remove-image-btn')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        removeImage();
     });
-
-    // Ako postoji sadržaj, postavi ga
-    if (contentHR) {
-        state.editors.hr.root.innerHTML = contentHR;
-        state.editors.hr.update('silent');
-    }
-    if (contentEN) {
-        state.editors.en.root.innerHTML = contentEN;
-        state.editors.en.update('silent');
-    }
 }
 
 function handleImageSelect(e) {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Provjera veličine
     if (file.size > 5 * 1024 * 1024) {
         alert('Slika je prevelika! Maksimalno 5MB.');
         return;
     }
 
-    // Provjera tipa
     if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) {
         alert('Dozvoljeni formati: PNG, JPG, WebP');
         return;
     }
 
-    // Prikaži preview
     const reader = new FileReader();
     reader.onload = (e) => {
         document.getElementById('preview-img').src = e.target.result;
         document.getElementById('image-preview').style.display = 'block';
-        // Spremi base64 u atribut
         document.getElementById('post-image').dataset.base64 = e.target.result;
     };
     reader.readAsDataURL(file);
@@ -514,575 +582,49 @@ function removeImage() {
 }
 
 // ============================================
-// UPDATE EXISTING POST (preserve structure, change only what's needed)
+// GENERATE HTML FROM STRUCTURED DATA
 // ============================================
 
-function updatePostHTML(existingHtml, titleHR, titleEN, tag, dateFormatted, readTime, excerpt, contentHTML, imageUrl, lang, articleId) {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(existingHtml, 'text/html');
+function generateContentHTML(sections) {
+    let html = '';
 
-    const isBlogPostPage = doc.querySelector('.blog-post-hero') !== null;
-    if (!isBlogPostPage) {
-        throw new Error('This is not a blog post HTML file');
-    }
-
-    // Ažuriraj samo relevantne dijelove - ostalo ostaje kako je bilo
-    const isEnglish = lang === 'en';
-    const newTitle = isEnglish ? titleEN : titleHR;
-
-    // 1. Update <title>
-    doc.title = `${newTitle} | PROVIDENTIA Blog`;
-
-    // 2. Update <meta name="description">
-    const metaDesc = doc.querySelector('meta[name="description"]');
-    if (metaDesc) metaDesc.setAttribute('content', excerpt);
-
-    // 3. Update <meta name="article-id">
-    const metaArticleId = doc.querySelector('meta[name="article-id"]');
-    if (metaArticleId) metaArticleId.setAttribute('content', articleId);
-
-    // 4. Update hero section background image
-    const heroSection = doc.querySelector('.blog-post-hero');
-    if (heroSection && imageUrl) {
-        heroSection.style.backgroundImage = `url('${imageUrl}')`;
-    }
-
-    // 5. Update hero h1 (title)
-    const heroTitle = doc.querySelector('.blog-post-hero h1');
-    if (heroTitle) {
-        heroTitle.textContent = newTitle;
-    }
-
-    // 6. Update blog tag
-    const blogTag = doc.querySelector('.blog-tag');
-    if (blogTag) {
-        blogTag.textContent = tag;
-    }
-
-    // 7. Update date (second span in hero-meta)
-    const herometaSpans = doc.querySelectorAll('.blog-post-hero-meta span');
-    if (herometaSpans[1]) {
-        herometaSpans[1].innerHTML = `<i class="far fa-calendar-alt"></i> ${dateFormatted}`;
-    }
-
-    // 8. Update read time (third span in hero-meta)
-    if (herometaSpans[2]) {
-        const readTimeText = isEnglish ? 'read' : 'čitanja';
-        herometaSpans[2].innerHTML = `<i class="far fa-clock"></i> ${readTime} min ${readTimeText}`;
-    }
-
-    // 9. Update excerpt (first p after divider)
-    const divider = doc.querySelector('.blog-post-divider');
-    if (divider) {
-        const firstP = divider.nextElementSibling;
-        if (firstP && firstP.tagName === 'P') {
-            firstP.textContent = excerpt;
+    sections.forEach(section => {
+        if (section.subtitle) {
+            html += `\n            <h3>${escapeHtml(section.subtitle)}</h3>`;
         }
-    }
-
-    // 10. Update content (everything between divider and footer)
-    if (divider) {
-        // Ukloni stari content između divider-a i footer-a
-        let elem = divider.nextElementSibling;
-        while (elem && !elem.classList.contains('blog-post-footer')) {
-            const nextElem = elem.nextElementSibling;
-            elem.remove();
-            elem = nextElem;
-        }
-
-        // Ubaci novi content
-        const tempDiv = doc.createElement('div');
-        tempDiv.innerHTML = contentHTML;
-        while (tempDiv.firstChild) {
-            divider.parentNode.insertBefore(tempDiv.firstChild, divider.nextSibling);
-        }
-    }
-
-    // Vrati ažurirani HTML
-    return new XMLSerializer().serializeToString(doc);
-}
-
-// ============================================
-// BATCH SAVE FILES (all files in one commit)
-// ============================================
-
-async function saveFilesToGithubBatch(files) {
-    // files = [{filepath, content, isBase64}, ...]
-    if (!state.token) {
-        throw new Error('No GitHub token set. Please log in first.');
-    }
-
-    // Prvo dobij trenutni commit SHA
-    const refUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/refs/heads/${GITHUB_BRANCH}`;
-    const refRes = await fetch(refUrl, {
-        headers: {
-            'Authorization': `token ${state.token}`,
-            'Accept': 'application/vnd.github.v3+json'
-        }
-    });
-
-    if (!refRes.ok) {
-        throw new Error(`Could not get branch reference: ${refRes.status}`);
-    }
-
-    const refData = await refRes.json();
-    const currentCommitSha = refData.object.sha;
-
-    // Dobij current commit i tree
-    const commitUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/commits/${currentCommitSha}`;
-    const commitRes = await fetch(commitUrl, {
-        headers: {
-            'Authorization': `token ${state.token}`,
-            'Accept': 'application/vnd.github.v3+json'
-        }
-    });
-
-    if (!commitRes.ok) {
-        throw new Error(`Could not get commit: ${commitRes.status}`);
-    }
-
-    const commitData = await commitRes.json();
-    const currentTreeSha = commitData.tree.sha;
-
-    // Pripremi tree items - GitHub Tree API trebam sadržaj za sve datoteke
-    const treeItems = [];
-
-    for (const file of files) {
-        // Tree API očekuje SIROVI sadržaj, NE base64!
-        // Za tekst: direktno file.content
-        // Za binarne datoteke (slike): trebalo bi koristiti Blobs API, ali
-        // u ovoj funkciji obrađujemo samo HTML datoteke
-        const treeItem = {
-            path: file.filepath,
-            mode: '100644',
-            type: 'blob',
-            content: file.content  // Sirovi sadržaj, Tree API sam enkodira
-        };
-
-        treeItems.push(treeItem);
-    }
-
-    // Kreiraj novu tree
-    const treeUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/trees`;
-    const treeRes = await fetch(treeUrl, {
-        method: 'POST',
-        headers: {
-            'Authorization': `token ${state.token}`,
-            'Content-Type': 'application/json',
-            'Accept': 'application/vnd.github.v3+json'
-        },
-        body: JSON.stringify({
-            tree: treeItems,
-            base_tree: currentTreeSha
-        })
-    });
-
-    if (!treeRes.ok) {
-        const errorText = await treeRes.text();
-        throw new Error(`Could not create tree: ${treeRes.status} - ${errorText.substring(0, 200)}`);
-    }
-
-    const treeData = await treeRes.json();
-    const newTreeSha = treeData.sha;
-
-    // Kreiraj novi commit sa svim datotekama
-    const newCommitUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/commits`;
-    const newCommitRes = await fetch(newCommitUrl, {
-        method: 'POST',
-        headers: {
-            'Authorization': `token ${state.token}`,
-            'Content-Type': 'application/json',
-            'Accept': 'application/vnd.github.v3+json'
-        },
-        body: JSON.stringify({
-            message: `Blog: ${files.map(f => f.filepath.split('/').pop()).join(', ')}`,
-            tree: newTreeSha,
-            parents: [currentCommitSha]
-        })
-    });
-
-    if (!newCommitRes.ok) {
-        const errorText = await newCommitRes.text();
-        throw new Error(`Could not create commit: ${newCommitRes.status} - ${errorText.substring(0, 200)}`);
-    }
-
-    const newCommitData = await newCommitRes.json();
-    const newCommitSha = newCommitData.sha;
-
-    // Ažuriraj branch da pokazuje na novi commit
-    const updateRefRes = await fetch(refUrl, {
-        method: 'PATCH',
-        headers: {
-            'Authorization': `token ${state.token}`,
-            'Content-Type': 'application/json',
-            'Accept': 'application/vnd.github.v3+json'
-        },
-        body: JSON.stringify({
-            sha: newCommitSha,
-            force: false
-        })
-    });
-
-    if (!updateRefRes.ok) {
-        const errorText = await updateRefRes.text();
-        throw new Error(`Could not update branch: ${updateRefRes.status} - ${errorText.substring(0, 200)}`);
-    }
-
-    console.log(`Batch commit created: ${newCommitSha}`);
-    return newCommitSha;
-}
-
-// ============================================
-// SAVE POST
-// ============================================
-
-async function savePost() {
-    const errorEl = document.getElementById('editor-error');
-    const successEl = document.getElementById('editor-success');
-    const savingModal = document.getElementById('saving-modal');
-
-    errorEl.style.display = 'none';
-    successEl.style.display = 'none';
-
-    // Validacija
-    const title = document.getElementById('post-title').value.trim();
-    const titleEn = document.getElementById('post-title-en').value.trim();
-    const tag = document.getElementById('post-tag').value.trim();
-    const tagEn = document.getElementById('post-tag-en').value.trim();
-    const date = document.getElementById('post-date').value;
-    const excerpt = document.getElementById('post-excerpt').value.trim();
-    const excerptEn = document.getElementById('post-excerpt-en').value.trim();
-
-    if (!title || !titleEn || !tag || !tagEn || !date || !excerpt || !excerptEn) {
-        errorEl.textContent = 'Popuni sva obavezna polja!';
-        errorEl.style.display = 'block';
-        return;
-    }
-
-    if (!state.editors.hr.getLength() || !state.editors.en.getLength()) {
-        errorEl.textContent = 'Dodaj sadržaj članku!';
-        errorEl.style.display = 'block';
-        return;
-    }
-
-    savingModal.style.display = 'flex';
-
-    try {
-        // Pripremi file names
-        const filename = slugify(title);
-        const filenameEn = slugify(titleEn);
-
-        // Upload slike ako postoji
-        let imageUrl = state.currentPost?.image || '';
-        const base64 = document.getElementById('post-image').dataset.base64;
-        if (base64) {
-            imageUrl = await uploadImage(base64, filename);
-        }
-
-        const dateFormatted = formatBlogDate(new Date(date), 'hr');
-        const dateFormattedEn = formatBlogDate(new Date(date), 'en');
-        const readTimeVal = parseInt(document.getElementById('post-read-time').value);
-
-        // Pripremi datoteke za batch commit
-        const filesToSave = [];
-        const listingsToUpdate = [];
-
-        if (state.currentPost) {
-            // Update postojeće članke - OČUVA STRUKTURU, samo ažurira potrebne dijelove
-            const hrFilepath = state.currentPost.versions['hr']?.filepath;
-            const enFilepath = state.currentPost.versions['en']?.filepath;
-
-            if (hrFilepath) {
-                // Pročitaj existing HR datoteku i ažuriraj je
-                const existingHrHtml = await fetchFileContent(hrFilepath);
-                const htmlHR = updatePostHTML(
-                    existingHrHtml,
-                    title,
-                    titleEn,
-                    tag,
-                    dateFormatted,
-                    readTimeVal,
-                    excerpt,
-                    state.editors.hr.root.innerHTML,
-                    imageUrl,
-                    'hr',
-                    filename
-                );
-                filesToSave.push({ filepath: hrFilepath, content: htmlHR, isBase64: false });
-            }
-
-            if (enFilepath) {
-                // EN verzija postoji, ažuriraj je (očuva strukturu)
-                const existingEnHtml = await fetchFileContent(enFilepath);
-                const htmlEN = updatePostHTML(
-                    existingEnHtml,
-                    title,
-                    titleEn,
-                    tagEn,
-                    dateFormattedEn,
-                    readTimeVal,
-                    excerptEn,
-                    state.editors.en.root.innerHTML,
-                    imageUrl,
-                    'en',
-                    filename
-                );
-                filesToSave.push({ filepath: enFilepath, content: htmlEN, isBase64: false });
-            } else {
-                // EN verzija ne postoji, kreiraj je (генериraj од нуле)
-                const htmlEN = generatePostHTML(
-                    title,
-                    titleEn,
-                    tagEn,
-                    dateFormattedEn,
-                    readTimeVal,
-                    excerptEn,
-                    state.editors.en.root.innerHTML,
-                    imageUrl,
-                    'en',
-                    filename
-                );
-                filesToSave.push({ filepath: `en/blog/${filenameEn}.html`, content: htmlEN, isBase64: false });
-                listingsToUpdate.push({ filename: filenameEn, title: titleEn, tag: tagEn, excerpt: excerptEn, lang: 'en' });
-            }
-        } else {
-            // Kreiraj nove članke - генериraj од нуле
-            const htmlHR = generatePostHTML(
-                title,
-                titleEn,
-                tag,
-                dateFormatted,
-                readTimeVal,
-                excerpt,
-                state.editors.hr.root.innerHTML,
-                imageUrl,
-                'hr',
-                filename
-            );
-
-            const htmlEN = generatePostHTML(
-                title,
-                titleEn,
-                tagEn,
-                dateFormattedEn,
-                readTimeVal,
-                excerptEn,
-                state.editors.en.root.innerHTML,
-                imageUrl,
-                'en',
-                filename
-            );
-
-            filesToSave.push({ filepath: `blog/${filename}.html`, content: htmlHR, isBase64: false });
-            filesToSave.push({ filepath: `en/blog/${filenameEn}.html`, content: htmlEN, isBase64: false });
-
-            // Ažuriraj blog.html i en/blog.html listing stranice
-            listingsToUpdate.push({ filename: filename, title: titleEn, tag: tag, excerpt: excerpt, lang: 'hr' });
-            listingsToUpdate.push({ filename: filenameEn, title: titleEn, tag: tagEn, excerpt: excerptEn, lang: 'en' });
-        }
-
-        // Spremi sve datoteke u jedan commit
-        if (filesToSave.length > 0) {
-            await saveFilesToGithubBatch(filesToSave);
-        }
-
-        // Ažuriraj listing stranice nakon što su datoteke spremljene
-        for (const listing of listingsToUpdate) {
-            await updateBlogListing(listing.filename, listing.title, listing.tag, listing.excerpt, imageUrl, listing.lang);
-        }
-
-        savingModal.style.display = 'none';
-        successEl.textContent = 'Članek je uspješno spreman! Osvježavanje...';
-        successEl.style.display = 'block';
-
-        setTimeout(() => {
-            showPostsList();
-            loadPosts();
-        }, 2000);
-    } catch (error) {
-        savingModal.style.display = 'none';
-        errorEl.textContent = `Greška: ${error.message}`;
-        errorEl.style.display = 'block';
-        console.error('Save error:', error);
-    }
-}
-
-async function uploadImage(base64Data, filename) {
-    // Extrahiraj samo base64 dio
-    const base64 = base64Data.split(',')[1];
-    const timestamp = Date.now();
-    const imagePath = `images/blog/${filename}-${timestamp}.webp`;
-
-    // Konvertiraj base64 u blob
-    const binaryString = atob(base64);
-    const bytes = new Uint8Array(binaryString.length);
-    for (let i = 0; i < binaryString.length; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-    }
-
-    await saveFileToGithub(imagePath, base64, true);
-    return `../images/blog/${filename}-${timestamp}.webp`;
-}
-
-async function saveFileToGithub(filepath, content, isBase64 = false) {
-    // Dodaj cache-busting query parameter
-    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filepath}?t=${Date.now()}`;
-
-    // Prvo provjeri postoji li fajl
-    let sha = null;
-
-    // Debug: Check token before making request
-    if (!state.token) {
-        throw new Error('No GitHub token set. Please log in first.');
-    }
-    console.log(`Using token: ${state.token.substring(0, 10)}...${state.token.substring(state.token.length - 10)}`);
-
-    try {
-        const getRes = await fetch(url, {
-            headers: {
-                'Authorization': `token ${state.token}`,
-                'Accept': 'application/vnd.github.v3+json'
-            }
-        });
-
-        console.log(`GitHub GET response status: ${getRes.status}`);
-        console.log(`GitHub GET content-type: ${getRes.headers.get('content-type')}`);
-
-        if (getRes.ok) {
-            // Kloniraj response da bi mogao čitati više puta
-            const responseClone = getRes.clone();
-            try {
-                const data = await getRes.json();
-                sha = data.sha;
-                console.log(`File exists, SHA: ${sha}`);
-            } catch (parseError) {
-                // Response je 200 ali nije JSON - nešto je loše
-                try {
-                    const textContent = await responseClone.text();
-                    console.error(`GitHub returned 200 OK but content is not JSON. First 200 chars: ${textContent.substring(0, 200)}`);
-                } catch (e) {
-                    console.error(`Could not read response body: ${e.message}`);
+        if (section.text) {
+            // Split text into paragraphs
+            const paragraphs = section.text.split(/\n\n+/);
+            paragraphs.forEach(p => {
+                if (p.trim()) {
+                    html += `\n            <p>${escapeHtml(p.trim())}</p>`;
                 }
-                console.error(`Parse error: ${parseError.message}`);
-                throw new Error(`GitHub API returned non-JSON response: ${parseError.message}`);
-            }
-        } else if (getRes.status === 404) {
-            // OK - novo je file
-            console.log(`File doesn't exist (404), will create new`);
-        } else {
-            // Neka druga greška
-            console.warn(`GitHub returned ${getRes.status} when checking file`);
-            // Pokušaj parsirati kao JSON, ali ako ne uspije, ignoriraj
-            try {
-                const errorData = await getRes.json();
-                console.warn(`GitHub error: ${errorData.message}`);
-            } catch (e) {
-                const responseClone = getRes.clone();
-                try {
-                    const textContent = await responseClone.text();
-                    console.warn(`Could not parse error response as JSON. First 200 chars: ${textContent.substring(0, 200)}`);
-                } catch (e2) {
-                    console.warn(`Could not read error response body`);
-                }
-            }
-            // Nastavi dalje - možda je privremeni problem
+            });
         }
-    } catch (error) {
-        console.error(`Error checking file: ${error.message}`);
-        // Network errors se proslijeđuju dalje
-        if (error instanceof TypeError) {
-            throw error;
+        if (section.bullets && section.bullets.length > 0) {
+            html += `\n            <ul>`;
+            section.bullets.forEach(bullet => {
+                html += `\n                <li>${escapeHtml(bullet)}</li>`;
+            });
+            html += `\n            </ul>`;
         }
-        // Re-throw other errors (like JSON parse errors from GitHub API)
-        throw error;
-    }
-
-    const body = {
-        message: `Blog: ${filepath.split('/').pop()}`,
-        content: isBase64 ? content : btoa(unescape(encodeURIComponent(content))),
-        branch: GITHUB_BRANCH
-    };
-
-    if (sha) body.sha = sha;
-
-    console.log(`Sending PUT request with body:`, body);
-    const res = await fetch(url, {
-        method: 'PUT',
-        headers: {
-            'Authorization': `token ${state.token}`,
-            'Content-Type': 'application/json',
-            'Accept': 'application/vnd.github.v3+json'
-        },
-        body: JSON.stringify(body)
     });
 
-    console.log(`GitHub PUT response status: ${res.status}`);
-
-    if (!res.ok) {
-        const text = await res.text();
-        console.error(`GitHub API returned ${res.status}: ${text.substring(0, 200)}`);
-        try {
-            const error = JSON.parse(text);
-            throw new Error(`GitHub API error: ${error.message}`);
-        } catch (parseError) {
-            throw new Error(`GitHub API error: HTTP ${res.status}`);
-        }
-    }
+    return html;
 }
 
-async function updateBlogListing(filename, title, tag, excerpt, image, lang) {
-    const blogPath = lang === 'hr' ? 'blog.html' : 'en/blog.html';
-    const linkPath = lang === 'hr' ? `blog/${filename}.html` : `blog/${filename}.html`;
-
-    const content = await fetchFileContent(blogPath);
-
-    // Generiraj novi blog card
-    const newCard = `<article class="blog-card">
-                    <a href="${linkPath}" class="blog-card-link">
-                        <div class="blog-card-image">
-                            <img src="${image}" alt="${escapeHtml(title)}">
-                            <div class="blog-card-overlay">
-                                <span class="blog-tag">${escapeHtml(tag)}</span>
-                            </div>
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span><i class="far fa-calendar-alt"></i> ${lang === 'hr' ? 'Nedavno' : 'Recently'}</span>
-                                <span><i class="far fa-clock"></i> 3 min čitanja</span>
-                            </div>
-                            <h3>${escapeHtml(title)}</h3>
-                            <p>${escapeHtml(excerpt)}</p>
-                            <span class="blog-read-more">${lang === 'hr' ? 'Pročitaj više' : 'Read more'} <i class="fas fa-arrow-right"></i></span>
-                        </div>
-                    </a>
-                </article>`;
-
-    // Injektiraj u blog-grid
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(content, 'text/html');
-    const grid = doc.querySelector('.blog-grid');
-
-    if (grid) {
-        grid.insertAdjacentHTML('afterbegin', newCard);
-        await saveFileToGithub(blogPath, doc.documentElement.outerHTML);
-    }
-}
-
-function generatePostHTML(titleHR, titleEN, tag, dateFormatted, readTime, excerpt, contentHTML, imageUrl, lang, articleId = '') {
-    const enVersion = lang === 'en';
-    const homeLink = enVersion ? '../index.html' : 'index.html';
-    const navHref = enVersion ? '../index.html' : '../index.html';
-    const blogLink = enVersion ? '../en/blog.html' : '../blog.html';
-    const langLink = enVersion ? './virtualni-asistenti.html' : '../en/blog/virtual-assistants.html';
+function generatePostHTML(title, tag, dateFormatted, readTime, excerpt, sections, imageUrl, lang, articleId) {
+    const isEn = lang === 'en';
+    const contentHTML = generateContentHTML(sections);
 
     return `<!DOCTYPE html>
 <html lang="${lang}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${escapeHtml(enVersion ? titleEN : titleHR)} | PROVIDENTIA Blog</title>
+    <title>${escapeHtml(title)} | PROVIDENTIA Blog</title>
     <meta name="description" content="${escapeHtml(excerpt)}">
-    <meta name="article-id" content="${escapeHtml(articleId || 'unknown')}">
+    <meta name="article-id" content="${escapeHtml(articleId)}">
     <meta name="theme-color" content="#53627f">
     <link rel="icon" href="../images/favicon.png">
 
@@ -1141,28 +683,40 @@ function generatePostHTML(titleHR, titleEN, tag, dateFormatted, readTime, excerp
     <header id="header">
         <div class="container">
             <div class="logo">
-                <a href="${homeLink}">
+                <a href="../index.html">
                     <img src="../images/logozaweb1.png" alt="PROVIDENTIA logo">
                 </a>
             </div>
 
             <nav class="main-nav">
                 <ul>
-                    <li><a href="${navHref}#hero">${enVersion ? 'Homepage' : 'Naslovnica'}</a></li>
-                    <li><a href="${navHref}#about">${enVersion ? 'About Us' : 'O nama'}</a></li>
-                    <li><a href="${blogLink}">${enVersion ? 'Blog' : 'Blog'}</a></li>
-                    <li><a href="${navHref}#faq">${enVersion ? 'FAQ' : 'FAQ'}</a></li>
-                    <li><a href="${navHref}#contact">${enVersion ? 'Contact' : 'Kontakt'}</a></li>
+                    <li><a href="../index.html#hero">${isEn ? 'Homepage' : 'Naslovnica'}</a></li>
+                    <li><a href="../index.html#about">${isEn ? 'About Us' : 'O nama'}</a></li>
+                    <li class="nav-item-dropdown">
+                        <a href="../index.html#services">${isEn ? 'Our Services' : 'Nase usluge'} <i class="fas fa-chevron-down" style="font-size: 0.6em; margin-left: 4px;"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../poslovno-savjetovanje.html">Poslovno savjetovanje</a></li>
+                            <li><a href="../upravljanje-projektima.html">Upravljanje projektima</a></li>
+                            <li><a href="../HR-usluge-i-radni-procesi.html">HR usluge i radni procesi</a></li>
+                            <li><a href="../financijske-usluge.html">Financijsko-racunovodstvene usluge</a></li>
+                            <li><a href="../administrativne-usluge.html">Administrativne usluge</a></li>
+                            <li><a href="../organizacija-eventa.html">Organizacija eventa</a></li>
+                            <li><a href="../virtualni-asistent-i-coaching.html">Virtualni asistent i coaching</a></li>
+                            <li><a href="../marketing-i-PR-usluge.html">Digitalni marketing i izrada weba</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="../blog.html">Blog</a></li>
+                    <li><a href="../index.html#faq">FAQ</a></li>
+                    <li><a href="../index.html#contact">${isEn ? 'Contact' : 'Kontakt'}</a></li>
                 </ul>
             </nav>
 
             <div class="header-actions">
                 <div class="lang-switcher">
-                    ${enVersion ? `<a href="./virtualni-asistenti.html" title="Hrvatski"><img src="../images/197503.png" alt="HR"></a>
-                    <a href="./" class="active" title="English"><img src="../images/197374.png" alt="EN"></a>` : `<a href="../en/blog/virtual-assistants.html" title="English"><img src="../images/197374.png" alt="EN"></a>
-                    <a href="./" class="active" title="Hrvatski"><img src="../images/197503.png" alt="HR"></a>`}
+                    <a href="../en/blog/${articleId}.html" title="English"><img src="../images/197374.png" alt="EN"></a>
+                    <a href="../blog/${articleId}.html" class="active" title="Hrvatski"><img src="../images/197503.png" alt="HR"></a>
                 </div>
-                <button class="mobile-menu-toggle" aria-label="${enVersion ? 'Open menu' : 'Otvori izbornik'}">
+                <button class="mobile-menu-toggle" aria-label="${isEn ? 'Open menu' : 'Otvori izbornik'}">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -1177,23 +731,26 @@ function generatePostHTML(titleHR, titleEN, tag, dateFormatted, readTime, excerp
             <div class="blog-post-hero-meta">
                 <span class="blog-tag">${escapeHtml(tag)}</span>
                 <span><i class="far fa-calendar-alt"></i> ${dateFormatted}</span>
-                <span><i class="far fa-clock"></i> ${readTime} min ${enVersion ? 'read' : 'čitanja'}</span>
+                <span><i class="far fa-clock"></i> ${readTime} min ${isEn ? 'read' : 'citanja'}</span>
             </div>
-            <h1>${escapeHtml(enVersion ? titleEN : titleHR)}</h1>
+            <h1>${escapeHtml(title)}</h1>
         </div>
     </div>
 
     <section class="blog-post-content">
         <div class="container">
-            <a href="${blogLink}" class="blog-back-link">
-                <i class="fas fa-arrow-left"></i> ${enVersion ? 'Back to blog' : 'Natrag na blog'}
+            <a href="../blog.html" class="blog-back-link">
+                <i class="fas fa-arrow-left"></i> ${isEn ? 'Back to blog' : 'Natrag na blog'}
             </a>
 
-            ${contentHTML}
+            <p>${escapeHtml(excerpt)}</p>
+
+            <hr class="blog-post-divider">
+${contentHTML}
 
             <div class="blog-post-footer">
-                <a href="${blogLink}" class="blog-back-link">
-                    <i class="fas fa-arrow-left"></i> ${enVersion ? 'Back to blog' : 'Natrag na blog'}
+                <a href="../blog.html" class="blog-back-link">
+                    <i class="fas fa-arrow-left"></i> ${isEn ? 'Back to blog' : 'Natrag na blog'}
                 </a>
             </div>
         </div>
@@ -1202,23 +759,23 @@ function generatePostHTML(titleHR, titleEN, tag, dateFormatted, readTime, excerp
     <footer class="site-footer">
         <div class="container">
             <div class="footer-content">
-                <a href="${homeLink}" class="footer-logo">
+                <a href="../index.html" class="footer-logo">
                     <img src="../images/logozaweb1.png" alt="PROVIDENTIA">
                 </a>
-                <p class="footer-copyright">&copy; <span id="currentYear">2025</span> Providentia. ${enVersion ? 'All rights reserved.' : 'Sva prava pridržana.'}</p>
+                <p class="footer-copyright">&copy; <span id="currentYear">2025</span> Providentia. ${isEn ? 'All rights reserved.' : 'Sva prava pridrzana.'}</p>
                 <div class="footer-contact">
                     <a href="mailto:info@providentia-poslovanje-eventi.hr"><i class="fas fa-envelope"></i> info@providentia-poslovanje-eventi.hr</a>
                     <span class="footer-divider">|</span>
                     <a href="tel:+385996359829"><i class="fas fa-phone"></i> 099-635-9829</a>
                 </div>
                 <div class="footer-legal">
-                    <a href="${enVersion ? '../politika-privatnosti.html' : 'politika-privatnosti.html'}">${enVersion ? 'Privacy Policy' : 'Politika privatnosti'}</a>
+                    <a href="../politika-privatnosti.html">${isEn ? 'Privacy Policy' : 'Politika privatnosti'}</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <button class="back-to-top" id="back-to-top" aria-label="${enVersion ? 'Back to top' : 'Povratak na vrh'}"><i class="fas fa-chevron-up"></i></button>
+    <button class="back-to-top" id="back-to-top" aria-label="${isEn ? 'Back to top' : 'Povratak na vrh'}"><i class="fas fa-chevron-up"></i></button>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -1244,23 +801,144 @@ function generatePostHTML(titleHR, titleEN, tag, dateFormatted, readTime, excerp
 }
 
 // ============================================
+// SAVE POST
+// ============================================
+
+async function savePost() {
+    const errorEl = document.getElementById('editor-error');
+    const successEl = document.getElementById('editor-success');
+    const savingModal = document.getElementById('saving-modal');
+
+    errorEl.style.display = 'none';
+    successEl.style.display = 'none';
+
+    // Validation
+    const title = document.getElementById('post-title').value.trim();
+    const titleEn = document.getElementById('post-title-en').value.trim();
+    const tag = document.getElementById('post-tag').value.trim();
+    const tagEn = document.getElementById('post-tag-en').value.trim();
+    const date = document.getElementById('post-date').value;
+    const excerpt = document.getElementById('post-excerpt').value.trim();
+    const excerptEn = document.getElementById('post-excerpt-en').value.trim();
+
+    if (!title || !titleEn || !tag || !tagEn || !date || !excerpt || !excerptEn) {
+        errorEl.textContent = 'Popuni sva obavezna polja!';
+        errorEl.style.display = 'block';
+        return;
+    }
+
+    const sectionsHR = getSectionsData('hr');
+    const sectionsEN = getSectionsData('en');
+
+    if (sectionsHR.length === 0 || sectionsEN.length === 0) {
+        errorEl.textContent = 'Dodaj barem jednu sekciju za svaki jezik!';
+        errorEl.style.display = 'block';
+        return;
+    }
+
+    savingModal.style.display = 'flex';
+
+    try {
+        const filename = slugify(title);
+        const readTimeVal = parseInt(document.getElementById('post-read-time').value) || 3;
+
+        // Upload image if new
+        let imageUrl = state.currentPost?.image || '';
+        const base64 = document.getElementById('post-image').dataset.base64;
+        if (base64) {
+            imageUrl = await uploadImage(base64, filename);
+        }
+
+        const dateFormatted = formatBlogDate(new Date(date), 'hr');
+        const dateFormattedEn = formatBlogDate(new Date(date), 'en');
+
+        // Generate HTML
+        const htmlHR = generatePostHTML(title, tag, dateFormatted, readTimeVal, excerpt, sectionsHR, imageUrl, 'hr', filename);
+        const htmlEN = generatePostHTML(titleEn, tagEn, dateFormattedEn, readTimeVal, excerptEn, sectionsEN, imageUrl, 'en', filename);
+
+        // Save files (one by one to avoid Tree API issues)
+        await saveFileToGithub(`blog/${filename}.html`, htmlHR);
+        await saveFileToGithub(`en/blog/${filename}.html`, htmlEN);
+
+        savingModal.style.display = 'none';
+        successEl.textContent = 'Clanak je uspjesno spreman! Osvjezavanje...';
+        successEl.style.display = 'block';
+
+        setTimeout(() => {
+            showPostsList();
+            loadPosts();
+        }, 2000);
+    } catch (error) {
+        savingModal.style.display = 'none';
+        errorEl.textContent = `Greska: ${error.message}`;
+        errorEl.style.display = 'block';
+        console.error('Save error:', error);
+    }
+}
+
+async function uploadImage(base64Data, filename) {
+    const base64 = base64Data.split(',')[1];
+    const timestamp = Date.now();
+    const imagePath = `images/blog/${filename}-${timestamp}.webp`;
+
+    await saveFileToGithub(imagePath, base64, true);
+    return `../images/blog/${filename}-${timestamp}.webp`;
+}
+
+async function saveFileToGithub(filepath, content, isBase64 = false) {
+    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filepath}`;
+
+    // Check if file exists
+    let sha = null;
+    try {
+        const getRes = await fetch(url, {
+            headers: {
+                'Authorization': `token ${state.token}`,
+                'Accept': 'application/vnd.github.v3+json'
+            }
+        });
+
+        if (getRes.ok) {
+            const data = await getRes.json();
+            sha = data.sha;
+        }
+    } catch (e) {
+        console.log('File does not exist, creating new');
+    }
+
+    // Save file
+    const body = {
+        message: `Blog: ${filepath.split('/').pop()}`,
+        content: isBase64 ? content : btoa(unescape(encodeURIComponent(content))),
+        branch: GITHUB_BRANCH
+    };
+
+    if (sha) body.sha = sha;
+
+    const res = await fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `token ${state.token}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github.v3+json'
+        },
+        body: JSON.stringify(body)
+    });
+
+    if (!res.ok) {
+        const text = await res.text();
+        console.error('GitHub API error:', text);
+        throw new Error(`GitHub API error: ${res.status}`);
+    }
+}
+
+// ============================================
 // DELETE
 // ============================================
 
 function showDeleteConfirm() {
-    const modal = document.getElementById('delete-modal');
-    modal.style.display = 'flex';
+    document.getElementById('delete-modal').style.display = 'flex';
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-    const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
-    const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
-
-    if (confirmDeleteBtn) confirmDeleteBtn.addEventListener('click', deletePost);
-    if (cancelDeleteBtn) cancelDeleteBtn.addEventListener('click', () => {
-        document.getElementById('delete-modal').style.display = 'none';
-    });
-});
 
 async function deletePost() {
     if (!state.currentPost) return;
@@ -1271,27 +949,21 @@ async function deletePost() {
     try {
         const post = state.currentPost;
 
-        // Obriši HR verziju ako postoji
         if (post.versions['hr']) {
             await deleteFileFromGithub(post.versions['hr'].filepath);
-            await removeBlogCard(post.versions['hr'].filename, 'hr');
         }
-
-        // Obriši EN verziju ako postoji
         if (post.versions['en']) {
             await deleteFileFromGithub(post.versions['en'].filepath);
-            await removeBlogCard(post.versions['en'].filename, 'en');
         }
 
         savingModal.style.display = 'none';
-        alert('Članek je obrisan!');
+        alert('Clanak je obrisan!');
 
         showPostsList();
         loadPosts();
     } catch (error) {
         savingModal.style.display = 'none';
-        alert(`Greška pri brisanju: ${error.message}`);
-        console.error('Delete error:', error);
+        alert(`Greska pri brisanju: ${error.message}`);
     }
 
     document.getElementById('delete-modal').style.display = 'none';
@@ -1300,7 +972,6 @@ async function deletePost() {
 async function deleteFileFromGithub(filepath) {
     const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filepath}`;
 
-    // Prvo otvori SHA
     const getRes = await fetch(url, {
         headers: {
             'Authorization': `token ${state.token}`,
@@ -1312,7 +983,6 @@ async function deleteFileFromGithub(filepath) {
 
     const data = await getRes.json();
 
-    // Obriši fajl
     const res = await fetch(url, {
         method: 'DELETE',
         headers: {
@@ -1327,27 +997,6 @@ async function deleteFileFromGithub(filepath) {
     });
 
     if (!res.ok) throw new Error('Failed to delete file');
-}
-
-async function removeBlogCard(filename, lang) {
-    const blogPath = lang === 'hr' ? 'blog.html' : 'en/blog.html';
-    const content = await fetchFileContent(blogPath);
-
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(content, 'text/html');
-    const grid = doc.querySelector('.blog-grid');
-
-    if (grid) {
-        const cards = grid.querySelectorAll('.blog-card');
-        cards.forEach(card => {
-            const link = card.querySelector('a');
-            if (link && link.href.includes(filename)) {
-                card.remove();
-            }
-        });
-
-        await saveFileToGithub(blogPath, doc.documentElement.outerHTML);
-    }
 }
 
 // ============================================
@@ -1370,7 +1019,7 @@ function escapeHtml(text) {
 }
 
 function formatBlogDate(date, lang) {
-    const monthsHR = ['Siječanj', 'Veljača', 'Ožujak', 'Travanj', 'Svibanj', 'Lipanj',
+    const monthsHR = ['Sijecanj', 'Veljaca', 'Ozujak', 'Travanj', 'Svibanj', 'Lipanj',
                      'Srpanj', 'Kolovoz', 'Rujan', 'Listopad', 'Studeni', 'Prosinac'];
     const monthsEN = ['January', 'February', 'March', 'April', 'May', 'June',
                      'July', 'August', 'September', 'October', 'November', 'December'];
