@@ -252,7 +252,7 @@ function parsePostFromHTML(html, filepath) {
         // Provjera je li to blog post
         if (!doc.querySelector('.blog-post-hero')) return null;
 
-        const isEnglish = filepath.includes('/en/');
+        const isEnglish = filepath.startsWith('en/') || filepath.includes('/en/');
         const articleId = doc.querySelector('meta[name="article-id"]')?.getAttribute('content') || '';
         const title = doc.querySelector('.blog-post-hero h1')?.textContent || '';
         const tagEl = doc.querySelector('.blog-tag');
@@ -433,9 +433,12 @@ function clearEditorForm() {
 
 function initializeQuillEditors(contentHR = '', contentEN = '') {
     // Uništi stare editory ako postoje
-    Object.values(state.editors).forEach(editor => {
-        editor.off('text-change');
-    });
+    if (state.editors.hr) {
+        state.editors.hr = null;
+    }
+    if (state.editors.en) {
+        state.editors.en = null;
+    }
 
     // Kreiraj nove editory
     state.editors.hr = new Quill('#post-content-hr', {
