@@ -596,11 +596,11 @@ function clearEditorForm() {
 
 function setupImageUpload() {
     const postImage = document.getElementById('post-image');
-    const imageUpload = document.querySelector('.image-upload-compact');
+    const imageUpload = document.querySelector('.image-upload');
 
     postImage.addEventListener('change', handleImageSelect);
     imageUpload.addEventListener('click', (e) => {
-        if (e.target !== postImage && !e.target.closest('.btn-remove-compact')) postImage.click();
+        if (e.target !== postImage) postImage.click();
     });
     imageUpload.addEventListener('dragover', (e) => {
         e.preventDefault();
