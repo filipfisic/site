@@ -148,8 +148,8 @@ async function loadPosts() {
     postsContainer.innerHTML = '';
 
     try {
-        const hrPosts = await loadPostsFromPath('PROVIDENTIA_2/blog');
-        const enPosts = await loadPostsFromPath('PROVIDENTIA_2/en/blog');
+        const hrPosts = await loadPostsFromPath('blog');
+        const enPosts = await loadPostsFromPath('en/blog');
 
         state.posts = [...hrPosts, ...enPosts];
 
@@ -541,12 +541,12 @@ async function savePost() {
         // Spremi u GitHub
         if (state.currentPost) {
             // Update postojeće članke
-            await saveFileToGithub(`PROVIDENTIA_2/blog/${state.currentPost.filename}.html`, htmlHR);
-            await saveFileToGithub(`PROVIDENTIA_2/en/blog/${state.currentPost.filename}.html`, htmlEN);
+            await saveFileToGithub(`blog/${state.currentPost.filename}.html`, htmlHR);
+            await saveFileToGithub(`en/blog/${state.currentPost.filename}.html`, htmlEN);
         } else {
             // Kreiraj nove članke
-            await saveFileToGithub(`PROVIDENTIA_2/blog/${filename}.html`, htmlHR);
-            await saveFileToGithub(`PROVIDENTIA_2/en/blog/${filenameEn}.html`, htmlEN);
+            await saveFileToGithub(`blog/${filename}.html`, htmlHR);
+            await saveFileToGithub(`en/blog/${filenameEn}.html`, htmlEN);
 
             // Ažuriraj blog.html i en/blog.html listing stranice
             await updateBlogListing(filename, titleEn, tag, excerpt, imageUrl, 'hr');
@@ -573,7 +573,7 @@ async function uploadImage(base64Data, filename) {
     // Extrahiraj samo base64 dio
     const base64 = base64Data.split(',')[1];
     const timestamp = Date.now();
-    const imagePath = `PROVIDENTIA_2/images/blog/${filename}-${timestamp}.webp`;
+    const imagePath = `images/blog/${filename}-${timestamp}.webp`;
 
     // Konvertiraj base64 u blob
     const binaryString = atob(base64);
@@ -631,7 +631,7 @@ async function saveFileToGithub(filepath, content, isBase64 = false) {
 }
 
 async function updateBlogListing(filename, title, tag, excerpt, image, lang) {
-    const blogPath = lang === 'hr' ? 'PROVIDENTIA_2/blog.html' : 'PROVIDENTIA_2/en/blog.html';
+    const blogPath = lang === 'hr' ? 'blog.html' : 'en/blog.html';
     const linkPath = lang === 'hr' ? `blog/${filename}.html` : `blog/${filename}.html`;
 
     const content = await fetchFileContent(blogPath);
@@ -869,11 +869,11 @@ async function deletePost() {
 
     try {
         // Obriši HR verziju
-        await deleteFileFromGithub(`PROVIDENTIA_2/blog/${state.currentPost.filename}.html`);
+        await deleteFileFromGithub(`blog/${state.currentPost.filename}.html`);
 
         // Obriši EN verziju
         const enFilename = slugify(document.getElementById('post-title-en').value);
-        await deleteFileFromGithub(`PROVIDENTIA_2/en/blog/${enFilename}.html`);
+        await deleteFileFromGithub(`en/blog/${enFilename}.html`);
 
         // Ažuriraj blog.html
         await removeBlogCard(state.currentPost.filename, 'hr');
@@ -926,7 +926,7 @@ async function deleteFileFromGithub(filepath) {
 }
 
 async function removeBlogCard(filename, lang) {
-    const blogPath = lang === 'hr' ? 'PROVIDENTIA_2/blog.html' : 'PROVIDENTIA_2/en/blog.html';
+    const blogPath = lang === 'hr' ? 'blog.html' : 'en/blog.html';
     const content = await fetchFileContent(blogPath);
 
     const parser = new DOMParser();
