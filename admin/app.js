@@ -709,12 +709,12 @@ async function saveFileToGithub(filepath, content, isBase64 = false) {
     });
 
     if (!res.ok) {
+        const text = await res.text();
+        console.error(`GitHub API returned ${res.status}: ${text.substring(0, 200)}`);
         try {
-            const error = await res.json();
+            const error = JSON.parse(text);
             throw new Error(`GitHub API error: ${error.message}`);
-        } catch (jsonError) {
-            const text = await res.text();
-            console.error(`GitHub API returned ${res.status}: ${text.substring(0, 200)}`);
+        } catch (parseError) {
             throw new Error(`GitHub API error: HTTP ${res.status}`);
         }
     }
