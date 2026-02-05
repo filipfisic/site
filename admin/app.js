@@ -365,9 +365,13 @@ function parseContentToSections(doc) {
 
 function parseBlogDate(dateStr) {
     const months = {
-        'Sijecanj': '01', 'Veljaca': '02', 'Ozujak': '03', 'Travanj': '04',
+        // Croatian with diacritics
+        'Siječanj': '01', 'Veljača': '02', 'Ožujak': '03', 'Travanj': '04',
         'Svibanj': '05', 'Lipanj': '06', 'Srpanj': '07', 'Kolovoz': '08',
         'Rujan': '09', 'Listopad': '10', 'Studeni': '11', 'Prosinac': '12',
+        // Croatian without diacritics (fallback)
+        'Sijecanj': '01', 'Veljaca': '02', 'Ozujak': '03',
+        // English
         'January': '01', 'February': '02', 'March': '03', 'April': '04',
         'May': '05', 'June': '06', 'July': '07', 'August': '08',
         'September': '09', 'October': '10', 'November': '11', 'December': '12'
@@ -682,7 +686,8 @@ function generateContentHTML(sections) {
 function generatePostHTML(title, tag, dateFormatted, readTime, excerpt, sections, imageUrl, lang, filenameHR, filenameEN) {
     const isEn = lang === 'en';
     const contentHTML = generateContentHTML(sections);
-    const articleId = isEn ? filenameEN : filenameHR;
+    // Always use HR filename as article-id so both versions can be grouped together
+    const articleId = filenameHR;
 
     return `<!DOCTYPE html>
 <html lang="${lang}">
