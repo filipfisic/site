@@ -593,10 +593,21 @@ async function savePost() {
         // Spremi u GitHub
         if (state.currentPost) {
             // Update postojeće članke
-            const hrFilepath = state.currentPost.versions['hr'].filepath;
-            const enFilepath = state.currentPost.versions['en'].filepath;
-            if (hrFilepath) await saveFileToGithub(hrFilepath, htmlHR);
-            if (enFilepath) await saveFileToGithub(enFilepath, htmlEN);
+            const hrFilepath = state.currentPost.versions['hr']?.filepath;
+            const enFilepath = state.currentPost.versions['en']?.filepath;
+
+            if (hrFilepath) {
+                await saveFileToGithub(hrFilepath, htmlHR);
+            }
+
+            if (enFilepath) {
+                // EN verzija postoji, ažuriraj je
+                await saveFileToGithub(enFilepath, htmlEN);
+            } else {
+                // EN verzija ne postoji, kreiraj je
+                await saveFileToGithub(`en/blog/${filenameEn}.html`, htmlEN);
+                await updateBlogListing(filenameEn, titleEn, tagEn, excerptEn, imageUrl, 'en');
+            }
         } else {
             // Kreiraj nove članke
             await saveFileToGithub(`blog/${filename}.html`, htmlHR);
