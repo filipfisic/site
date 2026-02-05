@@ -2,7 +2,7 @@
   "posts": [
     {
       "id": "virtualni-asistenti",
-      "date": "2025-08-15",
+      "date": "2025-08-01",
       "readTime": 4,
       "image": "images/virtual.webp",
       "hr": {
@@ -13,7 +13,7 @@
       },
       "en": {
         "title": "How Virtual Assistants Help Optimize Business Operations",
-        "tag": "Business",
+        "tag": "Businesssss",
         "excerpt": "In today's business world, increasing efficiency and optimizing business processes have become key to achieving sustainable growth and success. Virtual assistants and other digital tools are revolutionizing the way companies operate, enabling flexible and more efficient resource management.",
         "url": "en/blog/virtual-assistants.html"
       }
