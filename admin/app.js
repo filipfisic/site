@@ -642,7 +642,11 @@ function removeImage() {
 function generateContentHTML(sections) {
     let html = '';
 
-    sections.forEach(section => {
+    sections.forEach((section, index) => {
+        // Add blank line between sections (not before first)
+        if (index > 0) {
+            html += '\n';
+        }
         if (section.subtitle) {
             html += `\n            <h3>${escapeHtml(section.subtitle)}</h3>`;
         }
@@ -658,7 +662,15 @@ function generateContentHTML(sections) {
         if (section.bullets && section.bullets.length > 0) {
             html += `\n            <ul>`;
             section.bullets.forEach(bullet => {
-                html += `\n                <li>${escapeHtml(bullet)}</li>`;
+                // Preserve simple formatting: text before colon gets <strong>
+                const colonIndex = bullet.indexOf(':');
+                if (colonIndex > 0 && colonIndex < 50) {
+                    const boldPart = bullet.substring(0, colonIndex);
+                    const restPart = bullet.substring(colonIndex);
+                    html += `\n                <li><strong>${escapeHtml(boldPart)}</strong>${escapeHtml(restPart)}</li>`;
+                } else {
+                    html += `\n                <li>${escapeHtml(bullet)}</li>`;
+                }
             });
             html += `\n            </ul>`;
         }
@@ -667,9 +679,10 @@ function generateContentHTML(sections) {
     return html;
 }
 
-function generatePostHTML(title, tag, dateFormatted, readTime, excerpt, sections, imageUrl, lang, articleId) {
+function generatePostHTML(title, tag, dateFormatted, readTime, excerpt, sections, imageUrl, lang, filenameHR, filenameEN) {
     const isEn = lang === 'en';
     const contentHTML = generateContentHTML(sections);
+    const articleId = isEn ? filenameEN : filenameHR;
 
     return `<!DOCTYPE html>
 <html lang="${lang}">
@@ -747,12 +760,12 @@ function generatePostHTML(title, tag, dateFormatted, readTime, excerpt, sections
                     <li><a href="../index.html#hero">${isEn ? 'Homepage' : 'Naslovnica'}</a></li>
                     <li><a href="../index.html#about">${isEn ? 'About Us' : 'O nama'}</a></li>
                     <li class="nav-item-dropdown">
-                        <a href="../index.html#services">${isEn ? 'Our Services' : 'Nase usluge'} <i class="fas fa-chevron-down" style="font-size: 0.6em; margin-left: 4px;"></i></a>
+                        <a href="../index.html#services">${isEn ? 'Our Services' : 'Naše usluge'} <i class="fas fa-chevron-down" style="font-size: 0.6em; margin-left: 4px;"></i></a>
                         <ul class="dropdown-menu">
                             <li><a href="../poslovno-savjetovanje.html">Poslovno savjetovanje</a></li>
                             <li><a href="../upravljanje-projektima.html">Upravljanje projektima</a></li>
                             <li><a href="../HR-usluge-i-radni-procesi.html">HR usluge i radni procesi</a></li>
-                            <li><a href="../financijske-usluge.html">Financijsko-racunovodstvene usluge</a></li>
+                            <li><a href="../financijske-usluge.html">Financijsko-računovodstvene usluge</a></li>
                             <li><a href="../administrativne-usluge.html">Administrativne usluge</a></li>
                             <li><a href="../organizacija-eventa.html">Organizacija eventa</a></li>
                             <li><a href="../virtualni-asistent-i-coaching.html">Virtualni asistent i coaching</a></li>
@@ -767,8 +780,8 @@ function generatePostHTML(title, tag, dateFormatted, readTime, excerpt, sections
 
             <div class="header-actions">
                 <div class="lang-switcher">
-                    <a href="../en/blog/${articleId}.html" title="English"><img src="../images/197374.png" alt="EN"></a>
-                    <a href="../blog/${articleId}.html" class="active" title="Hrvatski"><img src="../images/197503.png" alt="HR"></a>
+                    <a href="../en/blog/${filenameEN}.html" title="English"><img src="../images/197374.png" alt="EN"></a>
+                    <a href="../blog/${filenameHR}.html" class="active" title="Hrvatski"><img src="../images/197503.png" alt="HR"></a>
                 </div>
                 <button class="mobile-menu-toggle" aria-label="${isEn ? 'Open menu' : 'Otvori izbornik'}">
                     <span></span>
@@ -785,7 +798,7 @@ function generatePostHTML(title, tag, dateFormatted, readTime, excerpt, sections
             <div class="blog-post-hero-meta">
                 <span class="blog-tag">${escapeHtml(tag)}</span>
                 <span><i class="far fa-calendar-alt"></i> ${dateFormatted}</span>
-                <span><i class="far fa-clock"></i> ${readTime} min ${isEn ? 'read' : 'citanja'}</span>
+                <span><i class="far fa-clock"></i> ${readTime} min ${isEn ? 'read' : 'čitanja'}</span>
             </div>
             <h1>${escapeHtml(title)}</h1>
         </div>
@@ -816,7 +829,7 @@ ${contentHTML}
                 <a href="../index.html" class="footer-logo">
                     <img src="../images/logozaweb1.png" alt="PROVIDENTIA">
                 </a>
-                <p class="footer-copyright">&copy; <span id="currentYear">2025</span> Providentia. ${isEn ? 'All rights reserved.' : 'Sva prava pridrzana.'}</p>
+                <p class="footer-copyright">&copy; <span id="currentYear">2025</span> Providentia. ${isEn ? 'All rights reserved.' : 'Sva prava pridržana.'}</p>
                 <div class="footer-contact">
                     <a href="mailto:info@providentia-poslovanje-eventi.hr"><i class="fas fa-envelope"></i> info@providentia-poslovanje-eventi.hr</a>
                     <span class="footer-divider">|</span>
@@ -893,27 +906,28 @@ async function savePost() {
     savingModal.style.display = 'flex';
 
     try {
-        // Use existing articleId when editing, generate new one only for new posts
-        const filename = state.currentPost ? state.currentPost.articleId : slugify(title);
+        // Use existing filenames when editing, generate new ones only for new posts
+        const filenameHR = state.currentPost?.versions?.['hr']?.filename || state.currentPost?.articleId || slugify(title);
+        const filenameEN = state.currentPost?.versions?.['en']?.filename || filenameHR;
         const readTimeVal = parseInt(document.getElementById('post-read-time').value) || 3;
 
         // Upload image if new
         let imageUrl = state.currentPost?.image || '';
         const base64 = document.getElementById('post-image').dataset.base64;
         if (base64) {
-            imageUrl = await uploadImage(base64, filename);
+            imageUrl = await uploadImage(base64, filenameHR);
         }
 
         const dateFormatted = formatBlogDate(new Date(date), 'hr');
         const dateFormattedEn = formatBlogDate(new Date(date), 'en');
 
-        // Generate HTML
-        const htmlHR = generatePostHTML(title, tag, dateFormatted, readTimeVal, excerpt, sectionsHR, imageUrl, 'hr', filename);
-        const htmlEN = generatePostHTML(titleEn, tagEn, dateFormattedEn, readTimeVal, excerptEn, sectionsEN, imageUrl, 'en', filename);
+        // Generate HTML - pass both filenames for correct lang-switcher URLs
+        const htmlHR = generatePostHTML(title, tag, dateFormatted, readTimeVal, excerpt, sectionsHR, imageUrl, 'hr', filenameHR, filenameEN);
+        const htmlEN = generatePostHTML(titleEn, tagEn, dateFormattedEn, readTimeVal, excerptEn, sectionsEN, imageUrl, 'en', filenameHR, filenameEN);
 
         // Save files (one by one to avoid Tree API issues)
-        await saveFileToGithub(`blog/${filename}.html`, htmlHR);
-        await saveFileToGithub(`en/blog/${filename}.html`, htmlEN);
+        await saveFileToGithub(`blog/${filenameHR}.html`, htmlHR);
+        await saveFileToGithub(`en/blog/${filenameEN}.html`, htmlEN);
 
         savingModal.style.display = 'none';
         successEl.textContent = 'Clanak je uspjesno spreman! Osvjezavanje...';
@@ -1091,7 +1105,7 @@ function escapeHtml(text) {
 }
 
 function formatBlogDate(date, lang) {
-    const monthsHR = ['Sijecanj', 'Veljaca', 'Ozujak', 'Travanj', 'Svibanj', 'Lipanj',
+    const monthsHR = ['Siječanj', 'Veljača', 'Ožujak', 'Travanj', 'Svibanj', 'Lipanj',
                      'Srpanj', 'Kolovoz', 'Rujan', 'Listopad', 'Studeni', 'Prosinac'];
     const monthsEN = ['January', 'February', 'March', 'April', 'May', 'June',
                      'July', 'August', 'September', 'October', 'November', 'December'];
