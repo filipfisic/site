@@ -468,10 +468,12 @@ function initializeQuillEditors(contentHR = '', contentEN = '') {
 
     // Ako postoji sadržaj, postavi ga
     if (contentHR) {
-        state.editors.hr.dangerouslyPasteHTML(contentHR);
+        state.editors.hr.root.innerHTML = contentHR;
+        state.editors.hr.update('silent');
     }
     if (contentEN) {
-        state.editors.en.dangerouslyPasteHTML(contentEN);
+        state.editors.en.root.innerHTML = contentEN;
+        state.editors.en.update('silent');
     }
 }
 
