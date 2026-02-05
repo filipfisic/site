@@ -668,8 +668,7 @@ async function saveFileToGithub(filepath, content, isBase64 = false) {
         const getRes = await fetch(url, {
             headers: {
                 'Authorization': `token ${state.token}`,
-                'Accept': 'application/vnd.github.v3+json',
-                'Cache-Control': 'no-cache'
+                'Accept': 'application/vnd.github.v3+json'
             }
         });
 
