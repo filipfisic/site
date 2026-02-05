@@ -20,7 +20,8 @@ let state = {
 // INITIALIZATION
 // ============================================
 
-document.addEventListener('DOMContentLoaded', async function() {
+// Handle both immediate execution (if DOM already loaded) and DOMContentLoaded event
+async function initApp() {
     if (state.token) {
         // Validate token before using it
         const isValid = await validateToken();
@@ -64,7 +65,15 @@ document.addEventListener('DOMContentLoaded', async function() {
         e.preventDefault();
         showNewPostEditor();
     });
-});
+}
+
+// Run initApp - handle case where DOM is already loaded (dynamic script injection)
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+} else {
+    // DOM already loaded, run immediately
+    initApp();
+}
 
 // ============================================
 // AUTHENTICATION
