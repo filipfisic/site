@@ -1,24 +1,6 @@
 {
   "posts": [
     {
-      "id": "test-novi",
-      "date": "2026-02-01",
-      "readTime": 13,
-      "image": "images/blog/test-novi-1770326094337.webp",
-      "hr": {
-        "title": "TEST novi",
-        "tag": "poslovanjee",
-        "excerpt": "sazetak",
-        "url": "blog/test-novi.html"
-      },
-      "en": {
-        "title": "TEST NEW",
-        "tag": "businessssssss",
-        "excerpt": "summary",
-        "url": "en/blog/test-novi.html"
-      }
-    },
-    {
       "id": "virtualni-asistenti",
       "date": "2025-08-01",
       "readTime": 4,
