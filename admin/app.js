@@ -889,22 +889,23 @@ async function uploadImage(base64Data, filename) {
 async function saveFileToGithub(filepath, content, isBase64 = false) {
     const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filepath}`;
 
-    // Check if file exists
+    // Check if file exists to get SHA
     let sha = null;
-    try {
-        const getRes = await fetch(url, {
-            headers: {
-                'Authorization': `token ${state.token}`,
-                'Accept': 'application/vnd.github.v3+json'
-            }
-        });
-
-        if (getRes.ok) {
-            const data = await getRes.json();
-            sha = data.sha;
+    const getRes = await fetch(url, {
+        headers: {
+            'Authorization': `token ${state.token}`,
+            'Accept': 'application/vnd.github.v3+json'
         }
-    } catch (e) {
+    });
+
+    if (getRes.ok) {
+        const data = await getRes.json();
+        sha = data.sha;
+        console.log(`File exists, SHA: ${sha}`);
+    } else if (getRes.status === 404) {
         console.log('File does not exist, creating new');
+    } else {
+        console.error(`Error checking file: ${getRes.status}`);
     }
 
     // Save file
