@@ -514,6 +514,95 @@ function removeImage() {
 }
 
 // ============================================
+// UPDATE EXISTING POST (preserve structure, change only what's needed)
+// ============================================
+
+function updatePostHTML(existingHtml, titleHR, titleEN, tag, dateFormatted, readTime, excerpt, contentHTML, imageUrl, lang, articleId) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(existingHtml, 'text/html');
+
+    const isBlogPostPage = doc.querySelector('.blog-post-hero') !== null;
+    if (!isBlogPostPage) {
+        throw new Error('This is not a blog post HTML file');
+    }
+
+    // Ažuriraj samo relevantne dijelove - ostalo ostaje kako je bilo
+    const isEnglish = lang === 'en';
+    const newTitle = isEnglish ? titleEN : titleHR;
+
+    // 1. Update <title>
+    doc.title = `${newTitle} | PROVIDENTIA Blog`;
+
+    // 2. Update <meta name="description">
+    const metaDesc = doc.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute('content', excerpt);
+
+    // 3. Update <meta name="article-id">
+    const metaArticleId = doc.querySelector('meta[name="article-id"]');
+    if (metaArticleId) metaArticleId.setAttribute('content', articleId);
+
+    // 4. Update hero section background image
+    const heroSection = doc.querySelector('.blog-post-hero');
+    if (heroSection && imageUrl) {
+        heroSection.style.backgroundImage = `url('${imageUrl}')`;
+    }
+
+    // 5. Update hero h1 (title)
+    const heroTitle = doc.querySelector('.blog-post-hero h1');
+    if (heroTitle) {
+        heroTitle.textContent = newTitle;
+    }
+
+    // 6. Update blog tag
+    const blogTag = doc.querySelector('.blog-tag');
+    if (blogTag) {
+        blogTag.textContent = tag;
+    }
+
+    // 7. Update date (second span in hero-meta)
+    const herometaSpans = doc.querySelectorAll('.blog-post-hero-meta span');
+    if (herometaSpans[1]) {
+        herometaSpans[1].innerHTML = `<i class="far fa-calendar-alt"></i> ${dateFormatted}`;
+    }
+
+    // 8. Update read time (third span in hero-meta)
+    if (herometaSpans[2]) {
+        const readTimeText = isEnglish ? 'read' : 'čitanja';
+        herometaSpans[2].innerHTML = `<i class="far fa-clock"></i> ${readTime} min ${readTimeText}`;
+    }
+
+    // 9. Update excerpt (first p after divider)
+    const divider = doc.querySelector('.blog-post-divider');
+    if (divider) {
+        const firstP = divider.nextElementSibling;
+        if (firstP && firstP.tagName === 'P') {
+            firstP.textContent = excerpt;
+        }
+    }
+
+    // 10. Update content (everything between divider and footer)
+    if (divider) {
+        // Ukloni stari content između divider-a i footer-a
+        let elem = divider.nextElementSibling;
+        while (elem && !elem.classList.contains('blog-post-footer')) {
+            const nextElem = elem.nextElementSibling;
+            elem.remove();
+            elem = nextElem;
+        }
+
+        // Ubaci novi content
+        const tempDiv = doc.createElement('div');
+        tempDiv.innerHTML = contentHTML;
+        while (tempDiv.firstChild) {
+            divider.parentNode.insertBefore(tempDiv.firstChild, divider.nextSibling);
+        }
+    }
+
+    // Vrati ažurirani HTML
+    return new XMLSerializer().serializeToString(doc);
+}
+
+// ============================================
 // BATCH SAVE FILES (all files in one commit)
 // ============================================
 
@@ -707,59 +796,100 @@ async function savePost() {
             imageUrl = await uploadImage(base64, filename);
         }
 
-        // Generiraj HTML za HR verziju
         const dateFormatted = formatBlogDate(new Date(date), 'hr');
-        const htmlHR = generatePostHTML(
-            title,
-            titleEn,
-            tag,
-            dateFormatted,
-            parseInt(document.getElementById('post-read-time').value),
-            excerpt,
-            state.editors.hr.root.innerHTML,
-            imageUrl,
-            'hr',
-            filename
-        );
-
-        // Generiraj HTML za EN verziju
         const dateFormattedEn = formatBlogDate(new Date(date), 'en');
-        const htmlEN = generatePostHTML(
-            title,
-            titleEn,
-            tagEn,
-            dateFormattedEn,
-            parseInt(document.getElementById('post-read-time').value),
-            excerptEn,
-            state.editors.en.root.innerHTML,
-            imageUrl,
-            'en',
-            filename
-        );
+        const readTimeVal = parseInt(document.getElementById('post-read-time').value);
 
         // Pripremi datoteke za batch commit
         const filesToSave = [];
         const listingsToUpdate = [];
 
         if (state.currentPost) {
-            // Update postojeće članke
+            // Update postojeće članke - OČUVA STRUKTURU, samo ažurira potrebne dijelove
             const hrFilepath = state.currentPost.versions['hr']?.filepath;
             const enFilepath = state.currentPost.versions['en']?.filepath;
 
             if (hrFilepath) {
+                // Pročitaj existing HR datoteku i ažuriraj je
+                const existingHrHtml = await fetchFileContent(hrFilepath);
+                const htmlHR = updatePostHTML(
+                    existingHrHtml,
+                    title,
+                    titleEn,
+                    tag,
+                    dateFormatted,
+                    readTimeVal,
+                    excerpt,
+                    state.editors.hr.root.innerHTML,
+                    imageUrl,
+                    'hr',
+                    filename
+                );
                 filesToSave.push({ filepath: hrFilepath, content: htmlHR, isBase64: false });
             }
 
             if (enFilepath) {
-                // EN verzija postoji, ažuriraj je
+                // EN verzija postoji, ažuriraj je (očuva strukturu)
+                const existingEnHtml = await fetchFileContent(enFilepath);
+                const htmlEN = updatePostHTML(
+                    existingEnHtml,
+                    title,
+                    titleEn,
+                    tagEn,
+                    dateFormattedEn,
+                    readTimeVal,
+                    excerptEn,
+                    state.editors.en.root.innerHTML,
+                    imageUrl,
+                    'en',
+                    filename
+                );
                 filesToSave.push({ filepath: enFilepath, content: htmlEN, isBase64: false });
             } else {
-                // EN verzija ne postoji, kreiraj je
+                // EN verzija ne postoji, kreiraj je (генериraj од нуле)
+                const htmlEN = generatePostHTML(
+                    title,
+                    titleEn,
+                    tagEn,
+                    dateFormattedEn,
+                    readTimeVal,
+                    excerptEn,
+                    state.editors.en.root.innerHTML,
+                    imageUrl,
+                    'en',
+                    filename
+                );
                 filesToSave.push({ filepath: `en/blog/${filenameEn}.html`, content: htmlEN, isBase64: false });
                 listingsToUpdate.push({ filename: filenameEn, title: titleEn, tag: tagEn, excerpt: excerptEn, lang: 'en' });
             }
         } else {
-            // Kreiraj nove članke
+            // Kreiraj nove članke - генериraj од нуле
+            const htmlHR = generatePostHTML(
+                title,
+                titleEn,
+                tag,
+                dateFormatted,
+                readTimeVal,
+                excerpt,
+                state.editors.hr.root.innerHTML,
+                imageUrl,
+                'hr',
+                filename
+            );
+
+            const htmlEN = generatePostHTML(
+                title,
+                titleEn,
+                tagEn,
+                dateFormattedEn,
+                readTimeVal,
+                excerptEn,
+                state.editors.en.root.innerHTML,
+                imageUrl,
+                'en',
+                filename
+            );
+
             filesToSave.push({ filepath: `blog/${filename}.html`, content: htmlHR, isBase64: false });
             filesToSave.push({ filepath: `en/blog/${filenameEn}.html`, content: htmlEN, isBase64: false });
 
