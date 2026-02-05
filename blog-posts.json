@@ -1,24 +1,6 @@
 {
   "posts": [
     {
-      "id": "dsfnms",
-      "date": "2026-02-05",
-      "readTime": 3,
-      "image": "images/blog/dsfnms-1770327779505.webp",
-      "hr": {
-        "title": "d.sfnm.s",
-        "tag": "dčskfmls",
-        "excerpt": "d.ksmflsmf",
-        "url": "blog/dsfnms.html"
-      },
-      "en": {
-        "title": "ds.fnms.f",
-        "tag": "dslfmlsfj",
-        "excerpt": "dsmfslmfls",
-        "url": "en/blog/dsfnms.html"
-      }
-    },
-    {
       "id": "virtualni-asistenti",
       "date": "2025-08-01",
       "readTime": 4,
