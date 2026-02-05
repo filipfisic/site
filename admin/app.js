@@ -663,7 +663,7 @@ async function saveFileToGithub(filepath, content, isBase64 = false) {
 
     const body = {
         message: `Blog: ${filepath.split('/').pop()}`,
-        content: isBase64 ? content : btoa(content),
+        content: isBase64 ? content : btoa(unescape(encodeURIComponent(content))),
         branch: GITHUB_BRANCH
     };
 
