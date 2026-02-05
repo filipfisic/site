@@ -644,39 +644,22 @@ async function saveFilesToGithubBatch(files) {
     const commitData = await commitRes.json();
     const currentTreeSha = commitData.tree.sha;
 
-    // Pripremi tree items - prvo dobij sve SHAe za postojeće datoteke
+    // Pripremi tree items - GitHub Tree API trebam sadržaj za sve datoteke
     const treeItems = [];
 
     for (const file of files) {
-        const fileUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${file.filepath}?t=${Date.now()}`;
-        let fileSha = null;
-
-        try {
-            const fileRes = await fetch(fileUrl, {
-                headers: {
-                    'Authorization': `token ${state.token}`,
-                    'Accept': 'application/vnd.github.v3+json'
-                }
-            });
-
-            if (fileRes.ok) {
-                const fileData = await fileRes.json();
-                fileSha = fileData.sha;
-            }
-        } catch (e) {
-            // Datoteka ne postoji, to je ok - kreirat će se nova
-        }
-
         // Kodiraj sadržaj
-        const content = file.isBase64 ? file.content : btoa(unescape(encodeURIComponent(file.content)));
+        const encodedContent = file.isBase64 ? file.content : btoa(unescape(encodeURIComponent(file.content)));
 
-        treeItems.push({
+        // Tree API trebam 'content' za sve datoteke koje trebam ažurirati/kreirati
+        const treeItem = {
             path: file.filepath,
             mode: '100644',
             type: 'blob',
-            content: file.isBase64 ? null : btoa(unescape(encodeURIComponent(file.content))),
-            sha: fileSha || undefined
-        });
+            content: encodedContent
+        };
+
+        treeItems.push(treeItem);
     }
 
     // Kreiraj novu tree
