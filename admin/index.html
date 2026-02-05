@@ -250,6 +250,11 @@
         </div>
     </template>
 
-    <script src="app.js?v=11"></script>
+    <script>
+        // Dynamic cache busting - always load fresh app.js
+        var script = document.createElement('script');
+        script.src = 'app.js?t=' + Date.now();
+        document.body.appendChild(script);
+    </script>
 </body>
 </html>
