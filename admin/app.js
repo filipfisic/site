@@ -656,9 +656,15 @@ async function saveFileToGithub(filepath, content, isBase64 = false) {
         if (getRes.ok) {
             const data = await getRes.json();
             sha = data.sha;
+        } else if (getRes.status !== 404) {
+            // Ako nije 404 (file ne postoji), to je greška
+            const errorData = await getRes.json();
+            throw new Error(`Failed to fetch file info: ${errorData.message}`);
         }
+        // Ako je 404, OK - novo je file
     } catch (error) {
-        // File ne postoji, OK
+        console.error(`Error checking file: ${error.message}`);
+        throw error;
     }
 
     const body = {
