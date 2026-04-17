@@ -1310,6 +1310,18 @@ p {
     pointer-events: none;
 }
 
+.service-hero h1 .service-hero-sub {
+    display: inline-block;
+    font-size: 0.5em;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--secondary-light);
+    vertical-align: middle;
+    margin-left: 0.5em;
+    opacity: 0.95;
+}
+
 .service-hero h1 {
     color: var(--text-light);
     font-size: 2.8rem;

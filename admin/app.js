@@ -720,7 +720,7 @@ function generatePostHTML(title, tag, dateFormatted, readTime, excerpt, sections
                             <li><a href="${basePath}poslovno-savjetovanje.html">Business Consulting</a></li>
                             <li><a href="${basePath}upravljanje-projektima.html">Project Management</a></li>
                             <li><a href="${basePath}HR-usluge-i-radni-procesi.html">HR Services</a></li>
-                            <li><a href="${basePath}financijske-usluge.html">Financial Services</a></li>
+                            <li><a href="${basePath}vodenje-kampanje.html">Campaign Management</a></li>
                             <li><a href="${basePath}administrativne-usluge.html">Administrative Services</a></li>
                             <li><a href="${basePath}organizacija-eventa.html">Event Organization</a></li>
                             <li><a href="${basePath}virtualni-asistent-i-coaching.html">Virtual Assistant & Coaching</a></li>
@@ -728,7 +728,7 @@ function generatePostHTML(title, tag, dateFormatted, readTime, excerpt, sections
                             <li><a href="${basePath}poslovno-savjetovanje.html">Poslovno savjetovanje</a></li>
                             <li><a href="${basePath}upravljanje-projektima.html">Upravljanje projektima</a></li>
                             <li><a href="${basePath}HR-usluge-i-radni-procesi.html">HR usluge i radni procesi</a></li>
-                            <li><a href="${basePath}financijske-usluge.html">Financijsko-računovodstvene usluge</a></li>
+                            <li><a href="${basePath}vodenje-kampanje.html">Vođenje kampanje</a></li>
                             <li><a href="${basePath}administrativne-usluge.html">Administrativne usluge</a></li>
                             <li><a href="${basePath}organizacija-eventa.html">Organizacija eventa</a></li>
                             <li><a href="${basePath}virtualni-asistent-i-coaching.html">Virtualni asistent i coaching</a></li>
