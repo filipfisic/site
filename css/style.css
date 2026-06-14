@@ -506,6 +506,7 @@ p {
     width: 100%;
     height: 400px;
     object-fit: cover;
+    object-position: center 22%;
     transition: transform var(--transition-slow);
 }
 
@@ -2222,6 +2223,7 @@ p {
     height: 88px;
     border-radius: 50%;
     object-fit: cover;
+    object-position: center 20%;
     flex-shrink: 0;
     border: 3px solid var(--secondary-color);
     box-shadow: 0 6px 18px rgba(83, 98, 127, 0.25);
