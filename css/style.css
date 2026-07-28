@@ -1283,9 +1283,12 @@ body {
 
 .blog-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
     gap: 26px;
 }
+
+/* Kad je članaka malo, ne razvlači karticu preko cijele širine */
+.blog-grid .blog-card { max-width: 560px; }
 
 .blog-card { display: block; }
 

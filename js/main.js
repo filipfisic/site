@@ -223,6 +223,42 @@ document.addEventListener('DOMContentLoaded', function () {
     var blogGrid = document.getElementById('blog-grid');
     var blogFeatured = document.getElementById('blog-featured');
 
+    // PRIVREMENO: dok se pravi članci ne napišu, naslovnica prikazuje
+    // placeholder članke iz dizajn prijedloga (iste slike i tekstovi).
+    // Kad članci budu objavljeni kroz admin, postavi na false — naslovnica
+    // se tada vraća na stvarne podatke iz blog-posts.json.
+    var USE_PLACEHOLDER_BLOG = true;
+
+    var PLACEHOLDER_POSTS = [
+        {
+            image: 'images/WhatsAppImage2025-08-05at18.52.531.jpeg',
+            hr: { tag: 'EU Projekti', title: 'Kako znati postoji li natječaj za tvoju ideju',
+                  excerpt: 'Pratimo otvorene i najavljene natječaje EU fondova, ministarstava i gradova, i iskreno kažemo postoji li nešto za tebe.',
+                  url: 'blog.html' },
+            en: { tag: 'EU Projects', title: 'How to know if there is a call for your idea',
+                  excerpt: 'We track open and upcoming calls from EU funds, ministries and cities — and tell you honestly whether there is something for you.',
+                  url: 'en/blog.html' }
+        },
+        {
+            image: 'images/WhatsAppImage2025-08-05at18.52.535.jpeg',
+            hr: { tag: 'Eventi', title: 'Teambuilding bez glavobolje: od ideje do programa',
+                  excerpt: 'Reci nam kakav ti je tim i cilj, dolazimo s konkretnim prijedlogom aktivnosti koji stvarno funkcionira.',
+                  url: 'blog.html' },
+            en: { tag: 'Events', title: 'Teambuilding without the headache: from idea to programme',
+                  excerpt: 'Tell us about your team and your goal — we come back with a concrete proposal of activities that actually works.',
+                  url: 'en/blog.html' }
+        },
+        {
+            image: 'images/WhatsAppImage2025-08-05at18.52.532.jpeg',
+            hr: { tag: 'Poslovanje', title: 'Paušalni ili „obični” obrt, što je bolje za tebe?',
+                  excerpt: 'Ovisi o djelatnosti, prometu i troškovima. Prolazimo to zajedno i biramo oblik u kojem ne plaćaš više nego što moraš.',
+                  url: 'blog.html' },
+            en: { tag: 'Business', title: 'Flat-rate or standard trade — which is better for you?',
+                  excerpt: 'It depends on your activity, revenue and costs. We go through it together and choose the form where you never pay more than you must.',
+                  url: 'en/blog.html' }
+        }
+    ];
+
     if (blogGrid) {
         var monthsHR = ['siječnja', 'veljače', 'ožujka', 'travnja', 'svibnja', 'lipnja',
                         'srpnja', 'kolovoza', 'rujna', 'listopada', 'studenog', 'prosinca'];
@@ -237,16 +273,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 : d.getDate() + '. ' + monthsHR[d.getMonth()] + ' ' + d.getFullYear() + '.';
         }
 
-        fetch(BASE + 'blog-posts.json?t=' + Date.now())
-            .then(function (res) {
-                if (!res.ok) throw new Error('Manifest not found');
-                return res.json();
-            })
-            .then(function (manifest) {
-                var posts = (manifest.posts || []).filter(function (p) {
-                    return IS_EN ? p.en : p.hr;
-                });
-
+        function renderBlogPosts(posts) {
                 if (posts.length === 0) {
                     blogGrid.innerHTML = '<p class="blog-loading">' +
                         (IS_EN ? 'No articles yet — coming soon!' : 'Još nema članaka — uskoro!') + '</p>';
@@ -321,26 +348,55 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // -------- Cards grid --------
                 var showAll = blogGrid.hasAttribute('data-all');
+
+                // Na naslovnici: ako postoji samo 1 članak, featured ga već
+                // prikazuje — ne dupliciraj ga u gridu ispod
+                if (!showAll && blogFeatured && posts.length === 1) {
+                    blogGrid.remove();
+                    return;
+                }
+
                 blogGrid.innerHTML = (showAll ? posts : posts.slice(0, 3)).map(function (post) {
                     var loc = IS_EN ? post.en : post.hr;
-                    var readLabel = IS_EN
-                        ? post.readTime + ' min read'
-                        : post.readTime + ' min čitanja';
+                    var meta = '';
+                    if (post.date && post.readTime) {
+                        var readLabel = IS_EN
+                            ? post.readTime + ' min read'
+                            : post.readTime + ' min čitanja';
+                        meta = '<div class="card-meta">' + formatDate(post.date) + ' · ' + readLabel + '</div>';
+                    }
                     return '<a href="' + BASE + loc.url + '" class="blog-card">' +
                         '<div class="card-img" style="background-image:url(\'' + BASE + post.image + '\')"></div>' +
                         '<div class="card-tag gold-grad">' + loc.tag + '</div>' +
                         '<div class="card-title">' + loc.title + '</div>' +
                         '<div class="card-excerpt">' + loc.excerpt + '</div>' +
-                        '<div class="card-meta">' + formatDate(post.date) + ' · ' + readLabel + '</div>' +
+                        meta +
                         '</a>';
                 }).join('');
+        }
 
-            })
-            .catch(function (err) {
-                console.error('Blog load error:', err);
-                blogGrid.innerHTML = '<p class="blog-loading">' +
-                    (IS_EN ? 'Unable to load articles.' : 'Članke trenutno nije moguće učitati.') + '</p>';
-            });
+        if (USE_PLACEHOLDER_BLOG && blogFeatured) {
+            // Naslovnica: placeholder članci iz dizajn prijedloga
+            renderBlogPosts(PLACEHOLDER_POSTS);
+        } else {
+            // Blog stranica (i naslovnica kad se prekidač isključi):
+            // stvarni članci iz blog-posts.json
+            fetch(BASE + 'blog-posts.json?t=' + Date.now())
+                .then(function (res) {
+                    if (!res.ok) throw new Error('Manifest not found');
+                    return res.json();
+                })
+                .then(function (manifest) {
+                    renderBlogPosts((manifest.posts || []).filter(function (p) {
+                        return IS_EN ? p.en : p.hr;
+                    }));
+                })
+                .catch(function (err) {
+                    console.error('Blog load error:', err);
+                    blogGrid.innerHTML = '<p class="blog-loading">' +
+                        (IS_EN ? 'Unable to load articles.' : 'Članke trenutno nije moguće učitati.') + '</p>';
+                });
+        }
     }
 
     // ========================================
