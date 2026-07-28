@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <url>
+        <loc>https://providentia-poslovanje-eventi.hr/</loc>
+        <xhtml:link rel="alternate" hreflang="hr" href="https://providentia-poslovanje-eventi.hr/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://providentia-poslovanje-eventi.hr/en/"/>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>https://providentia-poslovanje-eventi.hr/en/</loc>
+        <xhtml:link rel="alternate" hreflang="hr" href="https://providentia-poslovanje-eventi.hr/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://providentia-poslovanje-eventi.hr/en/"/>
+        <priority>0.9</priority>
+    </url>
+    <url><loc>https://providentia-poslovanje-eventi.hr/poslovno-savjetovanje.html</loc><priority>0.8</priority></url>
+    <url><loc>https://providentia-poslovanje-eventi.hr/pisanje-prijava-i-provedba-projekata.html</loc><priority>0.8</priority></url>
+    <url><loc>https://providentia-poslovanje-eventi.hr/vodenje-kampanje.html</loc><priority>0.8</priority></url>
+    <url><loc>https://providentia-poslovanje-eventi.hr/organizacija-poslovnih-evenata.html</loc><priority>0.8</priority></url>
+    <url><loc>https://providentia-poslovanje-eventi.hr/organizacija-vjencanja-i-proslava.html</loc><priority>0.8</priority></url>
+    <url><loc>https://providentia-poslovanje-eventi.hr/administrativne-usluge.html</loc><priority>0.8</priority></url>
+    <url><loc>https://providentia-poslovanje-eventi.hr/virtualni-asistent-i-coaching.html</loc><priority>0.8</priority></url>
+    <url><loc>https://providentia-poslovanje-eventi.hr/marketing-i-PR-usluge.html</loc><priority>0.8</priority></url>
+    <url><loc>https://providentia-poslovanje-eventi.hr/blog.html</loc><priority>0.7</priority></url>
+    <url><loc>https://providentia-poslovanje-eventi.hr/blog/virtualni-asistenti.html</loc><priority>0.6</priority></url>
+    <url><loc>https://providentia-poslovanje-eventi.hr/politika-privatnosti.html</loc><priority>0.3</priority></url>
+    <url><loc>https://providentia-poslovanje-eventi.hr/en/business-consulting.html</loc><priority>0.7</priority></url>
+    <url><loc>https://providentia-poslovanje-eventi.hr/en/project-writing-and-funding.html</loc><priority>0.7</priority></url>
+    <url><loc>https://providentia-poslovanje-eventi.hr/en/campaign-management.html</loc><priority>0.7</priority></url>
+    <url><loc>https://providentia-poslovanje-eventi.hr/en/business-event-organization.html</loc><priority>0.7</priority></url>
+    <url><loc>https://providentia-poslovanje-eventi.hr/en/wedding-and-celebration-planning.html</loc><priority>0.7</priority></url>
+    <url><loc>https://providentia-poslovanje-eventi.hr/en/administrative-services.html</loc><priority>0.7</priority></url>
+    <url><loc>https://providentia-poslovanje-eventi.hr/en/virtual-assistant-and-coaching.html</loc><priority>0.7</priority></url>
+    <url><loc>https://providentia-poslovanje-eventi.hr/en/digital-marketing.html</loc><priority>0.7</priority></url>
+    <url><loc>https://providentia-poslovanje-eventi.hr/en/blog.html</loc><priority>0.6</priority></url>
+    <url><loc>https://providentia-poslovanje-eventi.hr/en/blog/virtual-assistants.html</loc><priority>0.5</priority></url>
+    <url><loc>https://providentia-poslovanje-eventi.hr/en/privacy-policy.html</loc><priority>0.3</priority></url>
+</urlset>

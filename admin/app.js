@@ -715,35 +715,63 @@ function generatePostHTML(title, tag, dateFormatted, readTime, excerpt, sections
     // Fix image URL to use correct base path
     const fixedImageUrl = imageUrl.replace('../images/', basePath + 'images/');
 
-    // Service pages dropdown - HR pages are at root level
-    const servicesDropdown = isEn ? `
-                            <li><a href="${basePath}poslovno-savjetovanje.html">Business Consulting</a></li>
-                            <li><a href="${basePath}upravljanje-projektima.html">Project Management</a></li>
-                            <li><a href="${basePath}HR-usluge-i-radni-procesi.html">HR Services</a></li>
-                            <li><a href="${basePath}vodenje-kampanje.html">Campaign Management</a></li>
-                            <li><a href="${basePath}administrativne-usluge.html">Administrative Services</a></li>
-                            <li><a href="${basePath}organizacija-eventa.html">Event Organization</a></li>
-                            <li><a href="${basePath}virtualni-asistent-i-coaching.html">Virtual Assistant & Coaching</a></li>
-                            <li><a href="${basePath}marketing-i-PR-usluge.html">Digital Marketing</a></li>` : `
-                            <li><a href="${basePath}poslovno-savjetovanje.html">Poslovno savjetovanje</a></li>
-                            <li><a href="${basePath}upravljanje-projektima.html">Upravljanje projektima</a></li>
-                            <li><a href="${basePath}HR-usluge-i-radni-procesi.html">HR usluge i radni procesi</a></li>
-                            <li><a href="${basePath}vodenje-kampanje.html">Vođenje kampanje</a></li>
-                            <li><a href="${basePath}administrativne-usluge.html">Administrativne usluge</a></li>
-                            <li><a href="${basePath}organizacija-eventa.html">Organizacija eventa</a></li>
-                            <li><a href="${basePath}virtualni-asistent-i-coaching.html">Virtualni asistent i coaching</a></li>
-                            <li><a href="${basePath}marketing-i-PR-usluge.html">Digitalni marketing i izrada weba</a></li>`;
+    // Service pages (redesign 2026)
+    const svcPages = isEn ? [
+        ['business-consulting.html', 'Business consulting'],
+        ['project-writing-and-funding.html', 'Project writing &amp; funding'],
+        ['campaign-management.html', 'Campaign management'],
+        ['business-event-organization.html', 'Business events'],
+        ['wedding-and-celebration-planning.html', 'Weddings &amp; celebrations'],
+        ['administrative-services.html', 'Administrative services'],
+        ['virtual-assistant-and-coaching.html', 'Virtual assistant &amp; coaching'],
+        ['digital-marketing.html', 'Digital marketing &amp; web']
+    ] : [
+        ['poslovno-savjetovanje.html', 'Poslovno savjetovanje'],
+        ['pisanje-prijava-i-provedba-projekata.html', 'Pisanje i provedba projekata'],
+        ['vodenje-kampanje.html', 'Vođenje kampanje'],
+        ['organizacija-poslovnih-evenata.html', 'Poslovni eventi'],
+        ['organizacija-vjencanja-i-proslava.html', 'Vjenčanja i proslave'],
+        ['administrativne-usluge.html', 'Administrativne usluge'],
+        ['virtualni-asistent-i-coaching.html', 'Virtualni asistent i coaching'],
+        ['marketing-i-PR-usluge.html', 'Digitalni marketing i web']
+    ];
+    const svcDir = isEn ? basePath + 'en/' : basePath;
+    const svcLinks = svcPages.map(function (p) {
+        return '                        <a href="' + svcDir + p[0] + '">' + p[1] + '</a>';
+    }).join('\n');
 
-    // Lang switcher - from EN blog, go to HR blog and vice versa
-    const langSwitcherEN = isEn
-        ? `<a href="${basePath}en/blog/${filenameEN}.html" class="active" title="English"><img src="${basePath}images/197374.png" alt="EN"></a>`
-        : `<a href="${basePath}en/blog/${filenameEN}.html" title="English"><img src="${basePath}images/197374.png" alt="EN"></a>`;
-    const langSwitcherHR = isEn
-        ? `<a href="${basePath}blog/${filenameHR}.html" title="Hrvatski"><img src="${basePath}images/197503.png" alt="HR"></a>`
-        : `<a href="${basePath}blog/${filenameHR}.html" class="active" title="Hrvatski"><img src="${basePath}images/197503.png" alt="HR"></a>`;
+    const homeUrl = basePath + (isEn ? 'en/' : '') + 'index.html';
+    const privacyUrl = isEn ? basePath + 'en/privacy-policy.html' : basePath + 'politika-privatnosti.html';
+    const blogListUrl = isEn ? basePath + 'en/blog.html' : basePath + 'blog.html';
+    const canonicalUrl = 'https://providentia-poslovanje-eventi.hr/' + (isEn ? 'en/' : '') + 'blog/' + (isEn ? filenameEN : filenameHR) + '.html';
+    const altUrl = 'https://providentia-poslovanje-eventi.hr/' + (isEn ? '' : 'en/') + 'blog/' + (isEn ? filenameHR : filenameEN) + '.html';
+    const ogImage = 'https://providentia-poslovanje-eventi.hr/' + fixedImageUrl.replace(basePath, '');
 
-    // Blog list link
-    const blogListUrl = isEn ? `${basePath}en/blog.html` : `${basePath}blog.html`;
+    const langSwitcher = isEn
+        ? '<a href="./' + filenameEN + '.html" class="active" title="English"><img src="' + basePath + 'images/197374.png" alt="EN"></a>\n' +
+          '                <a href="' + basePath + 'blog/' + filenameHR + '.html" title="Hrvatski"><img src="' + basePath + 'images/197503.png" alt="HR"></a>'
+        : '<a href="' + basePath + 'en/blog/' + filenameEN + '.html" title="English"><img src="' + basePath + 'images/197374.png" alt="EN"></a>\n' +
+          '                <a href="./' + filenameHR + '.html" class="active" title="Hrvatski"><img src="' + basePath + 'images/197503.png" alt="HR"></a>';
+
+    const T = isEn ? {
+        about: 'About us', worlds: 'What we do?', services: 'Services', process: 'How we work?',
+        blog: 'Blog', faq: 'FAQ', contact: 'Contact', cta: 'Request a quote', menu: 'Open menu',
+        back: 'Back to blog', backTop: 'Back to top', rights: 'All rights reserved.',
+        privacy: 'Privacy Policy', colPage: 'Site', colSvc: 'Services', colContact: 'Contact',
+        brand: 'Complete support for your business and your events. A warm, dedicated partner, from idea to results.',
+        cookieH: 'Cookies &amp; Privacy',
+        cookieP: 'This website uses cookies to analyse traffic and track user activity. Via Google Tag Manager we may collect technical data (IP address, device, browser, operating system) and data about your use of the site (visits, clicks, forms). Read more in our <a href="' + privacyUrl + '">privacy policy</a>.',
+        cookieBtn: 'Accept'
+    } : {
+        about: 'O nama', worlds: 'Što radimo?', services: 'Usluge', process: 'Kako radimo?',
+        blog: 'Blog', faq: 'FAQ', contact: 'Kontakt', cta: 'Zatraži ponudu', menu: 'Otvori izbornik',
+        back: 'Natrag na blog', backTop: 'Povratak na vrh', rights: 'Sva prava pridržana.',
+        privacy: 'Politika privatnosti', colPage: 'Stranica', colSvc: 'Usluge', colContact: 'Kontakt',
+        brand: 'Cjelovita podrška za tvoje poslovanje i tvoje evente. Topao, posvećen partner, od ideje do rezultata.',
+        cookieH: 'Kolačići &amp; Privatnost',
+        cookieP: 'Ova stranica koristi kolačiće za analizu prometa i praćenje aktivnosti korisnika. Putem Google Tag Managera možemo prikupljati tehničke podatke (IP adresa, uređaj, preglednik, operativni sustav) i podatke o vašem korištenju stranice (posjete, klikovi, obrasci). Više u <a href="' + privacyUrl + '">politici privatnosti</a>.',
+        cookieBtn: 'Prihvati'
+    };
 
     return `<!DOCTYPE html>
 <html lang="${lang}">
@@ -753,7 +781,21 @@ function generatePostHTML(title, tag, dateFormatted, readTime, excerpt, sections
     <title>${escapeHtml(title)} | PROVIDENTIA Blog</title>
     <meta name="description" content="${escapeHtml(excerpt)}">
     <meta name="article-id" content="${escapeHtml(articleId)}">
-    <meta name="theme-color" content="#53627f">
+    <meta name="theme-color" content="#3B4A66">
+    <meta name="referrer" content="origin">
+
+    <link rel="canonical" href="${canonicalUrl}">
+    <link rel="alternate" hreflang="${lang}" href="${canonicalUrl}">
+    <link rel="alternate" hreflang="${isEn ? 'hr' : 'en'}" href="${altUrl}">
+
+    <meta property="og:title" content="${escapeHtml(title)}">
+    <meta property="og:description" content="${escapeHtml(excerpt)}">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="${canonicalUrl}">
+    <meta property="og:image" content="${ogImage}">
+    <meta property="og:locale" content="${isEn ? 'en_US' : 'hr_HR'}">
+    <meta name="twitter:card" content="summary_large_image">
+
     <link rel="icon" href="${basePath}images/favicon.png">
 
     <!-- Consent + GTM -->
@@ -799,8 +841,7 @@ function generatePostHTML(title, tag, dateFormatted, readTime, excerpt, sections
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cantata+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="${basePath}css/reset.css">
     <link rel="stylesheet" href="${basePath}css/style.css">
     <link rel="stylesheet" href="${basePath}css/responsive.css">
@@ -808,50 +849,52 @@ function generatePostHTML(title, tag, dateFormatted, readTime, excerpt, sections
 <body>
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W8XNSL8N" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-    <header id="header">
-        <div class="container">
-            <div class="logo">
-                <a href="${basePath}${isEn ? 'en/' : ''}index.html">
-                    <img src="${basePath}images/logozaweb1.png" alt="PROVIDENTIA logo">
-                </a>
+    <!-- NAV -->
+    <nav class="site-nav">
+        <a href="${homeUrl}" class="nav-logo">
+            <img src="${basePath}images/logo-full.png" alt="Providentia — Poslovanje &amp; Eventi">
+        </a>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="${homeUrl}#about" class="hgold">${T.about}</a>
+                <a href="${homeUrl}#worlds" class="hgold">${T.worlds}</a>
+                <a href="${homeUrl}#services" class="hgold">${T.services}</a>
+                <a href="${homeUrl}#process" class="hgold">${T.process}</a>
+                <a href="${blogListUrl}" class="hgold">${T.blog}</a>
+                <a href="${homeUrl}#contact" class="hgold">${T.contact}</a>
             </div>
-
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="${basePath}${isEn ? 'en/' : ''}index.html#hero">${isEn ? 'Homepage' : 'Naslovnica'}</a></li>
-                    <li><a href="${basePath}${isEn ? 'en/' : ''}index.html#about">${isEn ? 'About Us' : 'O nama'}</a></li>
-                    <li class="nav-item-dropdown">
-                        <a href="${basePath}${isEn ? 'en/' : ''}index.html#services">${isEn ? 'Our Services' : 'Naše usluge'} <i class="fas fa-chevron-down" style="font-size: 0.6em; margin-left: 4px;"></i></a>
-                        <ul class="dropdown-menu">${servicesDropdown}
-                        </ul>
-                    </li>
-                    <li><a href="${blogListUrl}">Blog</a></li>
-                    <li><a href="${basePath}${isEn ? 'en/' : ''}index.html#faq">FAQ</a></li>
-                    <li><a href="${basePath}${isEn ? 'en/' : ''}index.html#contact">${isEn ? 'Contact' : 'Kontakt'}</a></li>
-                </ul>
-            </nav>
-
-            <div class="header-actions">
-                <div class="lang-switcher">
-                    ${langSwitcherEN}
-                    ${langSwitcherHR}
-                </div>
-                <button class="mobile-menu-toggle" aria-label="${isEn ? 'Open menu' : 'Otvori izbornik'}">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
+            <a href="tel:+385996359829" class="nav-phone hgold"><span class="icon">☎</span>099 635 9829</a>
+            <a href="${homeUrl}#contact" class="btn-navy-sm nav-cta">${T.cta}</a>
+            <div class="lang-switcher">
+                ${langSwitcher}
             </div>
+            <button class="mobile-menu-toggle" aria-label="${T.menu}" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
-        <div class="mobile-overlay"></div>
-    </header>
+    </nav>
+
+    <div class="mobile-overlay"></div>
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="${homeUrl}#about">${T.about}</a>
+        <a href="${homeUrl}#worlds">${T.worlds}</a>
+        <a href="${homeUrl}#services">${T.services}</a>
+        <a href="${homeUrl}#process">${T.process}</a>
+        <a href="${blogListUrl}">${T.blog}</a>
+        <a href="${homeUrl}#faq">${T.faq}</a>
+        <a href="${homeUrl}#contact">${T.contact}</a>
+        <a href="tel:+385996359829"><span style="color:#BF9530">☎</span> 099 635 9829</a>
+        <a href="${homeUrl}#contact" class="btn-navy-sm mobile-cta">${T.cta}</a>
+    </div>
 
     <div class="blog-post-hero" style="background-image: url('${fixedImageUrl}');">
         <div class="container">
             <div class="blog-post-hero-meta">
                 <span class="blog-tag">${escapeHtml(tag)}</span>
-                <span><i class="far fa-calendar-alt"></i> ${dateFormatted}</span>
-                <span><i class="far fa-clock"></i> ${readTime} min ${isEn ? 'read' : 'čitanja'}</span>
+                <span>${dateFormatted}</span>
+                <span>${readTime} min ${isEn ? 'read' : 'čitanja'}</span>
             </div>
             <h1>${escapeHtml(title)}</h1>
         </div>
@@ -859,9 +902,7 @@ function generatePostHTML(title, tag, dateFormatted, readTime, excerpt, sections
 
     <section class="blog-post-content">
         <div class="container">
-            <a href="${blogListUrl}" class="blog-back-link">
-                <i class="fas fa-arrow-left"></i> ${isEn ? 'Back to blog' : 'Natrag na blog'}
-            </a>
+            <a href="${blogListUrl}" class="blog-back-link">← ${T.back}</a>
 
             <p>${escapeHtml(excerpt)}</p>
 
@@ -869,53 +910,68 @@ function generatePostHTML(title, tag, dateFormatted, readTime, excerpt, sections
 ${contentHTML}
 
             <div class="blog-post-footer">
-                <a href="${blogListUrl}" class="blog-back-link">
-                    <i class="fas fa-arrow-left"></i> ${isEn ? 'Back to blog' : 'Natrag na blog'}
-                </a>
+                <a href="${blogListUrl}" class="blog-back-link">← ${T.back}</a>
             </div>
         </div>
     </section>
 
+    <!-- FOOTER -->
     <footer class="site-footer">
-        <div class="container">
-            <div class="footer-content">
-                <a href="${basePath}${isEn ? 'en/' : ''}index.html" class="footer-logo">
-                    <img src="${basePath}images/logozaweb1.png" alt="PROVIDENTIA">
-                </a>
-                <p class="footer-copyright">&copy; <span id="currentYear">2025</span> Providentia. ${isEn ? 'All rights reserved.' : 'Sva prava pridržana.'}</p>
-                <div class="footer-contact">
-                    <a href="mailto:info@providentia-poslovanje-eventi.hr"><i class="fas fa-envelope"></i> info@providentia-poslovanje-eventi.hr</a>
-                    <span class="footer-divider">|</span>
-                    <a href="tel:+385996359829"><i class="fas fa-phone"></i> 099-635-9829</a>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="${basePath}images/logo-full.png" alt="Providentia — Poslovanje &amp; Eventi">
+                <p>${T.brand}</p>
+            </div>
+            <div class="footer-cols">
+                <div class="footer-col">
+                    <div class="col-title gold-grad-bright">${T.colPage}</div>
+                    <div class="col-links">
+                        <a href="${homeUrl}#about">${T.about}</a>
+                        <a href="${homeUrl}#worlds">${T.worlds}</a>
+                        <a href="${homeUrl}#services">${T.services}</a>
+                        <a href="${homeUrl}#process">${T.process}</a>
+                        <a href="${blogListUrl}">${T.blog}</a>
+                        <a href="${homeUrl}#faq">${T.faq}</a>
+                    </div>
                 </div>
-                <div class="footer-legal">
-                    <a href="${basePath}politika-privatnosti.html">${isEn ? 'Privacy Policy' : 'Politika privatnosti'}</a>
+                <div class="footer-col">
+                    <div class="col-title gold-grad-bright">${T.colSvc}</div>
+                    <div class="col-links">
+${svcLinks}
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <div class="col-title gold-grad-bright">${T.colContact}</div>
+                    <div class="col-links">
+                        <a href="mailto:info@providentia-poslovanje-eventi.hr">info@providentia-poslovanje-eventi.hr</a>
+                        <a href="tel:+385996359829">099-635-9829</a>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="footer-bottom">
+            <span>© <span id="currentYear">2026</span> Providentia. ${T.rights}</span>
+            <a href="${privacyUrl}">${T.privacy}</a>
+        </div>
     </footer>
 
-    <button class="back-to-top" id="back-to-top" aria-label="${isEn ? 'Back to top' : 'Povratak na vrh'}"><i class="fas fa-chevron-up"></i></button>
+    <!-- Cookie Consent Banner -->
+    <div class="cookie-banner" id="cookie-banner">
+        <div class="container">
+            <div class="cookie-text">
+                <h3>${T.cookieH}</h3>
+                <p>${T.cookieP}</p>
+            </div>
+            <div class="cookie-actions">
+                <button class="btn-accept" id="cookie-accept">${T.cookieBtn}</button>
+            </div>
+        </div>
+    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var yearEl = document.getElementById('currentYear');
-            if (yearEl) yearEl.textContent = new Date().getFullYear();
-            var header = document.getElementById('header');
-            var toggle = document.querySelector('.mobile-menu-toggle');
-            var overlay = document.querySelector('.mobile-overlay');
-            if (toggle) toggle.addEventListener('click', function(){ header.classList.toggle('mobile-menu-active'); });
-            if (overlay) overlay.addEventListener('click', function(){ header.classList.remove('mobile-menu-active'); });
-            document.querySelectorAll('.main-nav a').forEach(function(l){ l.addEventListener('click', function(){ header.classList.remove('mobile-menu-active'); }); });
-            window.addEventListener('scroll', function(){
-                header.classList.toggle('sticky', window.scrollY > 100);
-                var btn = document.getElementById('back-to-top');
-                if (btn) btn.classList.toggle('visible', window.scrollY > 300);
-            });
-            var btn = document.getElementById('back-to-top');
-            if (btn) btn.addEventListener('click', function(e){ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); });
-        });
-    </script>
+    <!-- Back to Top -->
+    <button class="back-to-top" id="back-to-top" aria-label="${T.backTop}">↑</button>
+
+    <script src="${basePath}js/main.js"><\/script>
 </body>
 </html>`;
 }

@@ -4,24 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PROVIDENTIA - Poslovanje &amp; Eventi</title>
-    <meta name="description" content="PROVIDENTIA - Cjelovita poslovna podrška koja unapređuje poslovanje, potiče rast i osigurava dugoročan uspjeh. Poslovno savjetovanje, upravljanje projektima, organizacija evenata.">
-    <meta name="keywords" content="poslovno savjetovanje, upravljanje projektima, HR usluge, organizacija evenata, administrativne usluge, digitalni marketing">
-    <meta name="theme-color" content="#53627f">
-    <meta property="og:title" content="PROVIDENTIA - Poslovanje &amp; Eventi">
-    <meta property="og:description" content="Cjelovita poslovna podrška koja unapređuje poslovanje, potiče rast i osigurava dugoročan uspjeh.">
-    <meta property="og:type" content="website">
+    <meta name="description" content="PROVIDENTIA - Cjelovita poslovna podrška koja unapređuje poslovanje, potiče rast i osigurava dugoročan uspjeh. Poslovno savjetovanje, EU projekti, organizacija evenata i vjenčanja.">
+    <meta name="keywords" content="poslovno savjetovanje, EU projekti, organizacija evenata, organizacija vjenčanja, vođenje kampanje, administrativne usluge, virtualni asistent, digitalni marketing">
+    <meta name="theme-color" content="#3B4A66">
     <meta name="referrer" content="origin">
+
+    <link rel="canonical" href="https://providentia-poslovanje-eventi.hr/">
+    <link rel="alternate" hreflang="hr" href="https://providentia-poslovanje-eventi.hr/">
+    <link rel="alternate" hreflang="en" href="https://providentia-poslovanje-eventi.hr/en/">
+    <link rel="alternate" hreflang="x-default" href="https://providentia-poslovanje-eventi.hr/">
+
+    <meta property="og:title" content="PROVIDENTIA - Poslovanje &amp; Eventi">
+    <meta property="og:description" content="Cjelovita poslovna podrška koja unapređuje poslovanje, potiče rast i osigurava dugoročan uspjeh. Uz tebe od prve ideje do posljednjeg detalja.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://providentia-poslovanje-eventi.hr/">
+    <meta property="og:image" content="https://providentia-poslovanje-eventi.hr/images/header.jpg">
+    <meta property="og:locale" content="hr_HR">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PROVIDENTIA - Poslovanje &amp; Eventi">
+    <meta name="twitter:description" content="Cjelovita poslovna podrška koja unapređuje poslovanje, potiče rast i osigurava dugoročan uspjeh.">
+    <meta name="twitter:image" content="https://providentia-poslovanje-eventi.hr/images/header.jpg">
 
     <link rel="icon" href="images/favicon.png">
 
     <!-- Structured Data -->
     <script type="application/ld+json">{
-        "@context": "http://schema.org",
+        "@context": "https://schema.org",
         "@type": "Organization",
         "name": "PROVIDENTIA - Poslovanje & Eventi",
-        "logo": "images/logozaweb1.png",
+        "url": "https://providentia-poslovanje-eventi.hr/",
+        "logo": "https://providentia-poslovanje-eventi.hr/images/logozaweb1.png",
         "email": "info@providentia-poslovanje-eventi.hr",
-        "telephone": "+385996359829"
+        "telephone": "+385996359829",
+        "founder": {
+            "@type": "Person",
+            "name": "Kristina Bakula"
+        }
     }</script>
 
     <!-- Consent Mode default (deny all) -->
@@ -76,10 +95,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cantata+One&display=swap" rel="stylesheet">
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/reset.css">
@@ -91,466 +107,607 @@
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W8XNSL8N" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
-    <!-- Header -->
-    <header id="header">
-        <div class="container">
-            <div class="logo">
-                <a href="#hero">
-                    <img src="images/logozaweb1.png" alt="PROVIDENTIA logo">
-                </a>
+    <!-- NAV -->
+    <nav class="site-nav">
+        <a href="#hero" class="nav-logo">
+            <img src="images/logo-full.png" alt="Providentia — Poslovanje &amp; Eventi">
+        </a>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="#about" class="hgold">O nama</a>
+                <a href="#worlds" class="hgold">Što radimo?</a>
+                <a href="#services" class="hgold">Usluge</a>
+                <a href="#process" class="hgold">Kako radimo?</a>
+                <a href="#blog" class="hgold">Blog</a>
+                <a href="#contact" class="hgold">Kontakt</a>
             </div>
+            <a href="tel:+385996359829" class="nav-phone hgold"><span class="icon">☎</span>099 635 9829</a>
+            <a href="#contact" class="btn-navy-sm nav-cta">Zatraži ponudu</a>
+            <div class="lang-switcher">
+                <a href="en/" title="English"><img src="images/197374.png" alt="EN"></a>
+                <a href="./" class="active" title="Hrvatski"><img src="images/197503.png" alt="HR"></a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Otvori izbornik" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
 
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#hero">Naslovnica</a></li>
-                    <li><a href="#about">O nama</a></li>
-                    <li class="nav-item-dropdown">
-                        <a href="#services">Naše usluge <i class="fas fa-chevron-down" style="font-size: 0.6em; margin-left: 4px;"></i></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="poslovno-savjetovanje.html">Poslovno savjetovanje</a></li>
-                            <li><a href="pisanje-prijava-i-provedba-projekata.html">Pisanje, prijava i provedba projekata</a></li>
-                            <li><a href="organizacija-poslovnih-evenata.html">Organizacija poslovnih evenata</a></li>
-                            <li><a href="organizacija-vjencanja-i-proslava.html">Organizacija vjenčanja i proslava</a></li>
-                            <li><a href="vodenje-kampanje.html">Vođenje kampanje</a></li>
-                            <li><a href="administrativne-usluge.html">Administrativne usluge</a></li>
-                            <li><a href="virtualni-asistent-i-coaching.html">Virtualni asistent i coaching</a></li>
-                            <li><a href="marketing-i-PR-usluge.html">Digitalni marketing i izrada weba</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="#faq">FAQ</a></li>
-                    <li><a href="#contact">Kontakt</a></li>
-                </ul>
-            </nav>
+    <div class="mobile-overlay"></div>
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="#about">O nama</a>
+        <a href="#worlds">Što radimo?</a>
+        <a href="#services">Usluge</a>
+        <a href="#process">Kako radimo?</a>
+        <a href="#blog">Blog</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Kontakt</a>
+        <a href="tel:+385996359829"><span style="color:#BF9530">☎</span> 099 635 9829</a>
+        <a href="#contact" class="btn-navy-sm mobile-cta">Zatraži ponudu</a>
+    </div>
 
-            <div class="header-actions">
-                <div class="lang-switcher">
-                    <a href="en/" title="English"><img src="images/197374.png" alt="EN"></a>
-                    <a href="./" class="active" title="Hrvatski"><img src="images/197503.png" alt="HR"></a>
+    <!-- HERO BANNER -->
+    <section id="hero" class="hero-banner">
+        <img src="images/header.jpg" alt="Providentia — ured s pogledom" class="hero-bg">
+        <div class="hero-veil"></div>
+        <div class="hero-lines"></div>
+        <div class="hero-sweep"></div>
+        <div class="hero-tint"></div>
+        <div class="hero-content">
+            <img src="images/logo-header.png" alt="Providentia — Poslovanje &amp; Eventi" class="hero-logo">
+        </div>
+        <a href="#intro" aria-label="Saznaj više" class="hero-scroll">↓</a>
+    </section>
+
+    <!-- INTRO -->
+    <header id="intro" class="intro">
+        <div class="intro-grid">
+            <div>
+                <div class="intro-kicker">
+                    <span class="rule"></span>
+                    <span class="eyebrow gold-grad">Poslovanje &amp; Eventi</span>
                 </div>
-                <button class="mobile-menu-toggle" aria-label="Otvori izbornik">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
+                <h1>Uz tebe od prve ideje do <em>posljednjeg detalja.</em></h1>
+                <p class="intro-lead">Bilo da gradiš posao ili organiziraš događaj koji se pamti, tu smo da preuzmemo brigu i pretvorimo tvoje ideje u stvarne rezultate. Pristupačno, posvećeno i do zadnjeg detalja.</p>
+                <div class="intro-actions">
+                    <a href="#contact" class="btn-navy">Zatraži ponudu →</a>
+                    <a href="#contact" class="link-gold">Hajdemo na kavu ☕</a>
+                </div>
+            </div>
+            <div class="intro-media">
+                <div class="frame"></div>
+                <video data-showreel autoplay muted loop playsinline preload="auto" poster="images/eventi.jpg">
+                    <source src="videos/intro3.mp4" type="video/mp4">
+                </video>
+                <div class="intro-badge">
+                    <img src="images/logo-p.png" alt="">
+                    <div>
+                        <div class="badge-title">Kvaliteta · Integritet</div>
+                        <div class="badge-sub gold-grad">SIGURNOST</div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="mobile-overlay"></div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="hero" class="hero-section">
-        <div class="container">
-            <div class="hero-content">
-                <h1>PROVIDENTIA</h1>
-                <p class="subtitle">Poslovanje &amp; Eventi</p>
-                <a href="#contact" class="btn btn-primary btn-ripple">Zatraži ponudu</a>
-            </div>
+    <!-- MARQUEE -->
+    <div class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+            <span>Poslovno savjetovanje</span><span class="star">✦</span><span>EU projekti</span><span class="star">✦</span><span>Vođenje kampanje</span><span class="star">✦</span><span class="em">Poslovni eventi</span><span class="star">✦</span><span class="em">Vjenčanja &amp; proslave</span><span class="star">✦</span><span>Virtualni asistent</span><span class="star">✦</span><span>Digitalni marketing</span><span class="star">✦</span><span>Administracija</span><span class="star">✦</span><span>Poslovno savjetovanje</span><span class="star">✦</span><span>EU projekti</span><span class="star">✦</span><span>Vođenje kampanje</span><span class="star">✦</span><span class="em">Poslovni eventi</span><span class="star">✦</span><span class="em">Vjenčanja &amp; proslave</span><span class="star">✦</span><span>Virtualni asistent</span><span class="star">✦</span><span>Digitalni marketing</span><span class="star">✦</span><span>Administracija</span><span class="star">✦</span>
         </div>
-    </section>
+    </div>
 
-    <!-- O nama Section -->
-    <section id="about" class="about-section">
+    <!-- WORLDS (dual focus) -->
+    <section id="worlds" class="worlds">
         <div class="container">
-            <h2 class="section-title">O NAMA</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <p>Svaki poduzetnik i organizacija zaslužuju podršku koja unapređuje poslovanje, potiče rast i osigurava dugoročan uspjeh. Naš cjeloviti pristup pomaže klijentima pronaći zadovoljstvo u poslovnim izazovima i dublji smisao u onome što rade.</p>
-                    <p>Kvaliteta, integritet i fleksibilnost temelj su našeg rada. Pristup svakom klijentu prilagođen je njegovim specifičnim potrebama, pružajući inovativna i mjerljiva rješenja koja osiguravaju održivi rast. Dugoročna suradnja s našim klijentima, temeljena na povjerenju i visokim standardima, omogućuje nam da budemo njihov pouzdan partner.</p>
-                    <button type="button" class="btn btn-primary about-more-btn" data-modal-open="about-modal" aria-haspopup="dialog">
-                        Više o nama <i class="fas fa-arrow-right" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <div class="about-image">
-                    <img src="images/bakula.jpg" alt="Kristina Bakula">
-                    <div class="about-image-caption">
-                        <span class="about-image-name">Kristina Bakula</span>
-                        <span class="about-image-role">Osnivačica &amp; voditeljica</span>
+            <div class="section-head" data-reveal>
+                <div style="margin-bottom:18px"><span class="badge-pill"><span class="gold-grad-light">ŠTO RADIMO?</span></span></div>
+                <h2 class="section-title">Dva svijeta, jedan partner</h2>
+                <p>Jednako smo posvećeni tvom poslovanju kao i tvojim događanjima. Ista energija, ista briga za detalje, za rast tvrtke i za trenutke koji se pamte.</p>
+            </div>
+            <div class="worlds-grid">
+                <div class="world-card" data-reveal>
+                    <div class="world-media" style="background-image:url('images/WhatsAppImage2025-08-05at18.52.532.jpeg')">
+                        <div class="shade"></div>
+                        <div class="world-name">Poslovanje</div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- O nama — Modal -->
-        <div class="modal" id="about-modal" role="dialog" aria-modal="true" aria-labelledby="about-modal-title" aria-hidden="true">
-            <div class="modal-overlay" data-modal-close></div>
-            <div class="modal-dialog" role="document">
-                <button type="button" class="modal-close" data-modal-close aria-label="Zatvori">
-                    <i class="fas fa-times" aria-hidden="true"></i>
-                </button>
-                <div class="modal-body">
-                    <div class="modal-header">
-                        <img src="images/bakula.jpg" alt="Kristina Bakula" class="modal-avatar">
-                        <div>
-                            <h3 id="about-modal-title" class="modal-title">Kristina Bakula</h3>
-                            <p class="modal-subtitle">Osnivačica &amp; voditeljica — strategija, operativa i izvedba</p>
+                    <div class="world-body">
+                        <p>Strateška podrška koja gradi i unapređuje tvoje poslovanje, od savjetovanja i EU projekata do kampanja i svakodnevne operative.</p>
+                        <div class="chip-row">
+                            <span class="chip"><span class="gold-grad-light">Savjetovanje</span></span>
+                            <span class="chip"><span class="gold-grad-light">EU projekti</span></span>
+                            <span class="chip"><span class="gold-grad-light">Kampanje</span></span>
+                            <span class="chip"><span class="gold-grad-light">Administracija</span></span>
+                            <span class="chip"><span class="gold-grad-light">VA &amp; coaching</span></span>
+                            <span class="chip"><span class="gold-grad-light">Digital &amp; web</span></span>
                         </div>
+                        <a href="#services" class="world-link gold-grad">Pogledaj poslovne usluge →</a>
                     </div>
-                    <div class="modal-content">
-                        <p>Ja sam Kristina Bakula i moj stvarni rad je na terenu — tamo gdje se strategija pretvara u stvarne rezultate. Radim na spoju strategije, operativne izvedbe i donošenja odluka pod pritiskom. Ne vjerujem u ideje koje se ne mogu provesti, pa zato ne radim teoriju nego gradim realne sustave koji funkcioniraju u stvarnosti — vidim širu sliku, ali istovremeno kontroliram detalje koji odlučuju hoće li projekt uspjeti ili ne.</p>
-                        <p>Magistrica sam prava s fokusom na strateško upravljanje, kompleksne projekte i evente te operativnu izvedbu na visokoj razini.</p>
-                        <p>Moje iskustvo obuhvaća vođenje organizacijskih i operativnih sustava na nacionalnoj razini, gdje sam bila odgovorna za razvoj strategija, analitičkih modela i projekcija, kao i za upravljanje pravnim, operativnim, poslovnim i financijskim procesima u zahtjevnim i vremenski kritičnim okruženjima. Vodila sam cjelokupno funkcioniranje sustava i upravljala timovima i odjelima (financije, pravo, PR, digital), koordinirala teren i operativu te organizirala aktivnosti i događanja. U takvom okruženju svakodnevno sam donosila odluke u zahtjevnim i dinamičnim situacijama i rješavala probleme u realnom vremenu.</p>
-                        <p>Vodila sam složene pregovore i surađivala s različitim dionicima, uključujući institucije i partnere, s ciljem postizanja konkretnih i provedivih rješenja. Specijalizirana sam za rad u situacijama koje zahtijevaju jasno donošenje odluka, strukturu i kontrolu nad velikim brojem paralelnih procesa.</p>
-
-                        <h4 class="modal-section-title">Područja ekspertize</h4>
-                        <ul class="modal-list">
-                            <li>organizacija poslovnih sastanaka te događanja visoke razine — poslovne i stručne konferencije/kongresi, međunarodni projekti i javna događanja s medijskom promocijom</li>
-                            <li>koordinacija velikih timova/odjela i dionika</li>
-                            <li>strateško savjetovanje i donošenje odluka</li>
-                            <li>upravljanje kompleksnim sustavima i projektima</li>
-                            <li>kampanje</li>
-                            <li>poslovna analiza i upravljanje rizicima</li>
-                        </ul>
-
-                        <h4 class="modal-section-title">Obrazovanje i usavršavanje</h4>
-                        <p>Diplomirala sam na Pravnom fakultetu u Osijeku, a profesionalno se usavršavam kontinuirano kroz nacionalne i međunarodne programe s fokusom na liderstvo, strateško upravljanje, pravo i poslovne procese.</p>
-                        <p>Dodatno sam se educirala kroz due diligence program odvjetničkog ureda Wolf Theiss, edukaciju o pripremi i provedbi EU projekata (Ekonomski fakultet i Ministarstvo poduzetništva i obrta), Mini MBA program (Mirakul) te stručno usavršavanje za menadžera političkog marketinga na Učilištu Experta. Sudjelovala sam u međunarodnim edukacijama poput European Advocacy Academy u Bruxellesu. Usavršavanje sam nastavila kroz programe Leadership Institute akademije, Start-up akademije te niza komunikacijskih edukacija. Pravno znanje dodatno sam produbila kroz stručne seminare i radionice poput Europsko pravo u praksi te sudjelovanjem na međunarodnim konferencijama o EU fondovima i poduzetništvu.</p>
-
-                        <h4 class="modal-section-title">Odabrani projekti</h4>
-                        <p>Voditeljica kampanja MOST-a (2020., 2021., 2024.), nacionalna operativna voditeljica kampanje Miroslava Škore (2019.), te organizatorica niza konferencija, okruglih stolova, koncerata, božićnih i drugih prigodnih evenata.</p>
+                </div>
+                <div class="world-card" data-reveal>
+                    <div class="world-media" style="background-image:url('images/eventi.jpg')">
+                        <div class="shade"></div>
+                        <div class="world-name">Eventi</div>
+                    </div>
+                    <div class="world-body">
+                        <p>Događanja koja ostavljaju dojam, od poslovnih konferencija i kongresa do vjenčanja i proslava. Od ideje do izvedbe, bez stresa za tebe.</p>
+                        <div class="chip-row">
+                            <span class="chip"><span class="gold-grad-light">Konferencije</span></span>
+                            <span class="chip"><span class="gold-grad-light">Kongresi</span></span>
+                            <span class="chip"><span class="gold-grad-light">Teambuilding</span></span>
+                            <span class="chip"><span class="gold-grad-light">Vjenčanja</span></span>
+                            <span class="chip"><span class="gold-grad-light">Proslave</span></span>
+                            <span class="chip"><span class="gold-grad-light">Jubileji</span></span>
+                        </div>
+                        <a href="#services" class="world-link gold-grad">Pogledaj event usluge →</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Naše usluge Section -->
-    <section id="services" class="services-section">
-        <div class="container">
-            <h2 class="section-title animate-on-scroll">NAŠE USLUGE</h2>
-            <p class="section-subtitle animate-on-scroll">Naše poduzeće okuplja stručnjake s različitih područja, koji svojim znanjem i iskustvom pružaju prilagođena i učinkovita rješenja za specifične potrebe klijenata.</p>
-            <div class="services-grid stagger-children animate-on-scroll">
-                <a href="poslovno-savjetovanje.html" class="service-card">
-                    <div class="service-card-bg" style="background-image: url('images/Screenshot2024-12-16at15.28.28.png');"></div>
-                    <div class="service-card-content">
-                        <h4>Poslovno<br>savjetovanje</h4>
+    <!-- ABOUT -->
+    <section id="about" class="about">
+        <div class="about-grid">
+            <div class="about-photo" data-reveal>
+                <img src="images/bakula.jpg" alt="Kristina Bakula">
+                <div class="about-caption">
+                    <div>
+                        <div class="name">Kristina Bakula</div>
+                        <div class="role gold-grad">Osnivačica &amp; voditeljica</div>
                     </div>
-                </a>
-                <a href="pisanje-prijava-i-provedba-projekata.html" class="service-card">
-                    <div class="service-card-bg" style="background-image: url('images/DSC06588.jpg');"></div>
-                    <div class="service-card-content">
-                        <h4>Pisanje, prijava i<br>provedba projekata</h4>
-                    </div>
-                </a>
-                <a href="organizacija-poslovnih-evenata.html" class="service-card">
-                    <div class="service-card-bg" style="background-image: url('images/Dizajnbeznaslova-51.png');"></div>
-                    <div class="service-card-content">
-                        <h4>Organizacija<br>poslovnih evenata</h4>
-                    </div>
-                </a>
-                <a href="organizacija-vjencanja-i-proslava.html" class="service-card">
-                    <div class="service-card-bg" style="background-image: url('images/vjencanje.jpg');"></div>
-                    <div class="service-card-content">
-                        <h4>Organizacija vjenčanja<br>i proslava</h4>
-                    </div>
-                </a>
-                <a href="vodenje-kampanje.html" class="service-card">
-                    <div class="service-card-bg" style="background-image: url('images/vodenje_kampanje.jpeg');"></div>
-                    <div class="service-card-content">
-                        <h4>Vođenje<br>kampanje</h4>
-                    </div>
-                </a>
-                <a href="administrativne-usluge.html" class="service-card">
-                    <div class="service-card-bg" style="background-image: url('images/WhatsAppImage2025-08-05at18.52.533.jpeg');"></div>
-                    <div class="service-card-content">
-                        <h4>Administrativne<br>usluge</h4>
-                    </div>
-                </a>
-                <a href="virtualni-asistent-i-coaching.html" class="service-card">
-                    <div class="service-card-bg" style="background-image: url('images/WhatsAppImage2025-08-05at18.52.536.jpeg');"></div>
-                    <div class="service-card-content">
-                        <h4>Virtualni asistent<br>i coaching</h4>
-                    </div>
-                </a>
-                <a href="marketing-i-PR-usluge.html" class="service-card">
-                    <div class="service-card-bg" style="background-image: url('images/Screenshot2024-12-16at15.32.12.png');"></div>
-                    <div class="service-card-content">
-                        <h4>Digitalni marketing<br>i izrada weba</h4>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Newsletter + Blog Section -->
-    <section id="newsletter" class="newsletter-section">
-        <div class="container">
-            <div class="newsletter-blog-layout">
-                <!-- Left: Newsletter -->
-                <div class="newsletter-wrapper animate-on-scroll">
-                    <h2>PRIJAVI SE NA<br>NAŠ NEWSLETTER</h2>
-                    <form class="newsletter-form" action="#" method="POST" id="newsletter-form">
-                        <div class="form-group">
-                            <label for="nl-name">Ime i prezime</label>
-                            <input type="text" id="nl-name" name="name" placeholder="Unesite ime i prezime" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="nl-email">Email</label>
-                            <input type="email" id="nl-email" name="email" placeholder="Unesite valjanu mail adresu" required>
-                        </div>
-                        <p class="privacy-text">*Prijavom na newsletter dajete privolu da se vaši osobni podaci (ime, prezime i e-mail adresa) koriste isključivo u svrhu slanja newslettera.</p>
-                        <button type="submit" class="btn btn-dark btn-ripple">Prijava</button>
-                        <div class="form-message success" id="nl-success">Hvala! Uspješno ste se prijavili.</div>
-                        <div class="form-message error" id="nl-error">Greška pri slanju. Pokušajte ponovo.</div>
-                    </form>
                 </div>
-
-                <!-- Right: Blog Preview -->
-                <div class="blog-preview animate-on-scroll">
-                    <h2>BLOG</h2>
-                    <div class="blog-preview-slider">
-                        <div class="blog-preview-cards" id="blog-preview-cards">
-                            <!-- Posts loaded dynamically -->
-                        </div>
-                        <div class="blog-preview-nav">
-                            <button class="blog-prev" aria-label="Prethodni članak"><i class="fas fa-chevron-left"></i></button>
-                            <div class="blog-preview-dots" id="blog-preview-dots"></div>
-                            <button class="blog-next" aria-label="Sljedeći članak"><i class="fas fa-chevron-right"></i></button>
-                        </div>
+            </div>
+            <div class="about-text" data-reveal>
+                <div class="eyebrow gold-grad">TKO SMO?</div>
+                <h2>PROVIDENTIA</h2>
+                <p>Vjerujemo da svaki poduzetnik i svaka organizacija zaslužuju podršku koja stvarno olakšava, onu koja sluša, razumije i ostaje uz tebe do rezultata. Naš pristup je topao, ali precizan: kvaliteta, integritet i fleksibilnost u svemu što radimo.</p>
+                <p>Svakom klijentu pristupamo osobno i prilagođeno, bez šablona, s rješenjima koja se mogu provesti i koja donose mjerljiv učinak.</p>
+                <blockquote class="about-quote">„Moj stvarni rad je na terenu, tamo gdje se strategija pretvara u rezultate. Ne radim teoriju, gradim sustave koji funkcioniraju u stvarnosti.”</blockquote>
+                <div class="about-facts">
+                    <div>
+                        <div class="fact-title">Po struci mag.iur.</div>
+                        <div class="fact-text">Pravno iskustvo iz odvjetništva i rada s organizacijama klijentima daje sigurnost u preciznost naših usluga.</div>
+                    </div>
+                    <div>
+                        <div class="fact-title">Iskustvo na terenu</div>
+                        <div class="fact-text">Vođenje timova, financije, pravo, PR, digital, operativno djelovanje....</div>
+                    </div>
+                    <div>
+                        <div class="fact-title">Organizacija evenata i vođenje kampanja</div>
+                        <div class="fact-text">Konferencije, kongresi, vođenje nagrađivanih kampanja te organizacija niza javnih događanja.</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FAQ Section -->
-    <section id="faq" class="faq-section">
+    <!-- SERVICES -->
+    <section id="services" class="services">
         <div class="container">
-            <h2 class="section-title animate-on-scroll">FAQ - ČESTA PITANJA</h2>
-            <div class="accordion animate-on-scroll">
-                <div class="accordion-item">
-                    <button class="accordion-header">
+            <div class="section-head" data-reveal>
+                <div class="eyebrow gold-grad-bright">Naše usluge</div>
+                <h2 class="section-title">Sve na jednom mjestu</h2>
+            </div>
+
+            <div class="services-rule" data-reveal>
+                <span class="rule-label gold-grad-bright">Za tvoje evente</span>
+                <span class="rule-line"></span>
+            </div>
+            <div class="svc-grid">
+                <a href="organizacija-poslovnih-evenata.html" class="svc-card" data-reveal>
+                    <div class="svc-bg" style="background-image:url('images/poslovni-eventi.jpg')"></div>
+                    <div class="svc-shade"></div>
+                    <div class="svc-body">
+                        <div class="svc-title">Poslovni eventi i teambuilding</div>
+                        <div class="svc-desc">Kongresi, konferencije, seminari, domjenci i teambuilding, događanja visoke razine koja se pamte.</div>
+                        <div class="svc-more gold-grad-card">Saznaj više →</div>
+                    </div>
+                </a>
+                <a href="organizacija-vjencanja-i-proslava.html" class="svc-card" data-reveal>
+                    <div class="svc-bg" style="background-image:url('images/vjencanja.jpg')"></div>
+                    <div class="svc-shade"></div>
+                    <div class="svc-body">
+                        <div class="svc-title">Vjenčanja</div>
+                        <div class="svc-desc">Od intimnih ceremonija do velikih svadbi, vaš dan, do najsitnijeg detalja i bez stresa.</div>
+                        <div class="svc-more gold-grad-card">Saznaj više →</div>
+                    </div>
+                </a>
+                <a href="organizacija-vjencanja-i-proslava.html" class="svc-card" data-reveal>
+                    <div class="svc-bg" style="background-image:url('images/proslave.jpg')"></div>
+                    <div class="svc-shade"></div>
+                    <div class="svc-body">
+                        <div class="svc-title">Proslave i posebni trenuci</div>
+                        <div class="svc-desc">Krštenja, djevojačke i momačke, rođendani, obljetnice i jubileji, slavimo vaše najljepše trenutke.</div>
+                        <div class="svc-more gold-grad-card">Saznaj više →</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="services-rule second" data-reveal>
+                <span class="rule-label gold-grad-bright">Za tvoje poslovanje</span>
+                <span class="rule-line"></span>
+            </div>
+            <div class="svc-grid">
+                <a href="poslovno-savjetovanje.html" class="svc-card" data-reveal>
+                    <div class="svc-bg" style="background-image:url('images/savjetovanje.jpg')"></div>
+                    <div class="svc-shade"></div>
+                    <div class="svc-body">
+                        <div class="svc-title">Poslovno savjetovanje</div>
+                        <div class="svc-desc">Analiziramo, optimiziramo i gradimo strategije koje donose mjerljiv rast.</div>
+                        <div class="svc-more gold-grad-card">Saznaj više →</div>
+                    </div>
+                </a>
+                <a href="pisanje-prijava-i-provedba-projekata.html" class="svc-card" data-reveal>
+                    <div class="svc-bg" style="background-image:url('images/WhatsAppImage2025-08-05at18.52.531.jpeg')"></div>
+                    <div class="svc-shade"></div>
+                    <div class="svc-body">
+                        <div class="svc-title">Pisanje i provedba projekata</div>
+                        <div class="svc-desc">EU fondovi od ideje do izvještaja, prijava, provedba i čisti rokovi.</div>
+                        <div class="svc-more gold-grad-card">Saznaj više →</div>
+                    </div>
+                </a>
+                <a href="vodenje-kampanje.html" class="svc-card" data-reveal>
+                    <div class="svc-bg" style="background-image:url('images/kampanje.jpg')"></div>
+                    <div class="svc-shade"></div>
+                    <div class="svc-body">
+                        <div class="svc-title">Vođenje kampanje</div>
+                        <div class="svc-desc">Nagrađivani stratezi: od poruke i strategije do operative i pobjede.</div>
+                        <div class="svc-more gold-grad-card">Saznaj više →</div>
+                    </div>
+                </a>
+                <a href="administrativne-usluge.html" class="svc-card" data-reveal>
+                    <div class="svc-bg" style="background-image:url('images/administracija.jpg')"></div>
+                    <div class="svc-shade"></div>
+                    <div class="svc-body">
+                        <div class="svc-title">Administrativne usluge</div>
+                        <div class="svc-desc">Papirologija, procesi i dokumentacija, uredno i na vrijeme.</div>
+                        <div class="svc-more gold-grad-card">Saznaj više →</div>
+                    </div>
+                </a>
+                <a href="virtualni-asistent-i-coaching.html" class="svc-card" data-reveal>
+                    <div class="svc-bg" style="background-image:url('images/WhatsAppImage2025-08-05at18.52.54.jpeg')"></div>
+                    <div class="svc-shade"></div>
+                    <div class="svc-body">
+                        <div class="svc-title">Virtualni asistent i coaching</div>
+                        <div class="svc-desc">Fleksibilna podrška i rast, paketi već od pet sati mjesečno.</div>
+                        <div class="svc-more gold-grad-card">Saznaj više →</div>
+                    </div>
+                </a>
+                <a href="marketing-i-PR-usluge.html" class="svc-card" data-reveal>
+                    <div class="svc-bg" style="background-image:url('images/marketing.jpg')"></div>
+                    <div class="svc-shade"></div>
+                    <div class="svc-body">
+                        <div class="svc-title">Digitalni marketing i izrada weba</div>
+                        <div class="svc-desc">Moderan web, SEO i kampanje koje posjetitelje pretvaraju u klijente.</div>
+                        <div class="svc-more gold-grad-card">Saznaj više →</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section id="process" class="process">
+        <div class="container">
+            <div class="process-head" data-reveal>
+                <div class="badge-wrap"><span class="badge-pill"><span class="gold-grad-light">KAKO SURAĐUJEMO?</span></span></div>
+                <h2 class="section-title">Jednostavno, jasno i bez stresa</h2>
+            </div>
+            <div class="process-grid">
+                <div class="step" data-reveal>
+                    <div class="step-num"><span class="gold-grad-num">01</span></div>
+                    <h3>Upoznajmo se</h3>
+                    <p>Prvi razgovor je bez obaveze. Saslušamo tvoju priču, cilj i okvirni budžet.</p>
+                </div>
+                <div class="step" data-reveal>
+                    <div class="step-num"><span class="gold-grad-num">02</span></div>
+                    <h3>Plan po mjeri</h3>
+                    <p>Vraćamo se s konkretnim, provedivim prijedlogom i jasnim rokovima.</p>
+                </div>
+                <div class="step" data-reveal>
+                    <div class="step-num"><span class="gold-grad-num">03</span></div>
+                    <h3>Izvedba</h3>
+                    <p>Preuzimamo operativu i koordinaciju, ti ostaješ miran i u toku.</p>
+                </div>
+                <div class="step" data-reveal>
+                    <div class="step-num"><span class="gold-grad-num">04</span></div>
+                    <h3>Rezultat</h3>
+                    <p>Mjerljiv učinak i uredan izvještaj. Tu smo i za sve što slijedi.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="gallery">
+        <div class="gallery-head" data-reveal>
+            <div>
+                <div class="eyebrow gold-grad">Trenuci</div>
+                <h2>na kojima smo radili.</h2>
+            </div>
+            <p>Svaki detalj ima svoju priču, a svaka priča svoje ljude.</p>
+        </div>
+        <div class="gallery-grid" data-reveal>
+            <div style="background-image:url('images/ev1.jpg')"></div>
+            <div style="background-image:url('images/ev2.jpg')"></div>
+            <div style="background-image:url('images/ev5.jpg')"></div>
+            <div style="background-image:url('images/ev7.jpg')"></div>
+            <div style="background-image:url('images/ev8.jpg')"></div>
+            <div style="background-image:url('images/ev9.jpg')"></div>
+            <div style="background-image:url('images/ev10.jpg')"></div>
+            <div style="background-image:url('images/ev12.jpg')"></div>
+        </div>
+    </section>
+
+    <!-- VIDEO SHOWREEL -->
+    <section class="showreel">
+        <div class="showreel-head" data-reveal>
+            <div class="eyebrow gold-grad">Atmosfera</div>
+            <h2>Trenuci koje stvaramo</h2>
+            <p>Iza svakog uspješnog eventa stoje sati planiranja i pažnja na svaki detalj, pogledaj djelić atmosfere koju stvaramo za tvoje poslovne događaje i tvoja slavlja.</p>
+        </div>
+        <div class="showreel-grid">
+            <div data-reveal>
+                <video data-showreel autoplay muted loop playsinline preload="auto" poster="images/ev2.jpg">
+                    <source src="videos/showreel-dizajn.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div data-reveal>
+                <video data-showreel autoplay muted loop playsinline preload="auto" poster="images/ev5.jpg">
+                    <source src="videos/showreel2.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div data-reveal>
+                <video data-showreel autoplay muted loop playsinline preload="auto" poster="images/ev7.jpg">
+                    <source src="videos/showreel3.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+        <div class="showreel-cta" data-reveal>
+            <a href="#contact" class="link-gold">Isplaniraj svoj event →</a>
+        </div>
+    </section>
+
+    <!-- CTA BAND -->
+    <section class="cta-band">
+        <div class="cta-inner" data-reveal>
+            <img src="images/WhatsAppImage2025-08-05at18.52.54.jpeg" alt="" class="cta-bg">
+            <div class="cta-tint"></div>
+            <img src="images/logo-p.png" alt="" class="cta-watermark">
+            <div class="cta-content">
+                <h2>Imaš ideju? Hajdemo na kavu.</h2>
+                <p>Prvi razgovor je uvijek bez obaveze. Ispričaj nam što te muči ili što sanjaš, a mi dolazimo s konkretnim, provedivim prijedlogom.</p>
+                <a href="#contact" class="btn-gold">Dogovori razgovor →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- BLOG -->
+    <section id="blog" class="blog-section">
+        <div class="container">
+            <div class="blog-head" data-reveal>
+                <div>
+                    <div class="eyebrow-sm gold-grad">Blog</div>
+                    <h2>Uvidi s terena</h2>
+                </div>
+                <a href="blog.html" class="all-link">Svi članci →</a>
+            </div>
+            <div class="blog-featured" data-reveal id="blog-featured" hidden>
+                <a class="feat-img" id="feat-img" href="#" aria-label="Otvori članak"></a>
+                <div class="feat-body">
+                    <div class="feat-tag gold-grad" id="feat-tag"></div>
+                    <a class="feat-title" id="feat-title" href="#"></a>
+                    <p class="feat-excerpt" id="feat-excerpt"></p>
+                    <div class="news-dots" id="news-dots"></div>
+                </div>
+            </div>
+            <div class="blog-grid" id="blog-grid">
+                <p class="blog-loading">Učitavanje članaka...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section id="newsletter" class="newsletter">
+        <div class="newsletter-grid">
+            <div data-reveal>
+                <h2>Ostanimo u kontaktu</h2>
+                <p class="newsletter-lead">Praktični uvidi o poslovanju, EU projektima i eventima, povremeno i bez spama.</p>
+            </div>
+            <form class="form-stack" action="#" method="POST" id="newsletter-form" data-reveal>
+                <input type="text" name="name" placeholder="Ime i prezime" required aria-label="Ime i prezime">
+                <input type="email" name="email" placeholder="Email" required aria-label="Email">
+                <p class="privacy-text">*Prijavom na newsletter dajete privolu da se vaši osobni podaci (ime, prezime i e-mail adresa) koriste isključivo u svrhu slanja newslettera. Više u <a href="politika-privatnosti.html" style="text-decoration:underline">politici privatnosti</a>.</p>
+                <button type="submit">Prijavi se →</button>
+                <div class="form-message success" id="nl-success">Hvala! Uspješno ste se prijavili.</div>
+                <div class="form-message error" id="nl-error">Greška pri slanju. Pokušajte ponovo.</div>
+            </form>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="faq">
+        <div class="faq-wrap">
+            <div class="faq-head" data-reveal>
+                <div class="eyebrow gold-grad">FAQ</div>
+                <h2>Često nas pitate</h2>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item" data-reveal>
+                    <button class="faq-q" aria-expanded="false">
                         <span>Kako funkcionira poslovno savjetovanje?</span>
-                        <i class="fas fa-chevron-down accordion-icon"></i>
+                        <span class="faq-icon">+</span>
                     </button>
-                    <div class="accordion-body">
-                        <div class="accordion-body-inner">
-                            <p>Poslovno savjetovanje započinje analizom vašeg poslovanja kako bi se identificirale prilike za rast i unapređenje. Nakon toga definiramo ciljeve i izrađujemo prilagođene strategije koje uključuju optimizaciju procesa, sređivanje poteškoća i dokumentacije poduzeća te povećanje prihoda ili smanjenje troškova.</p>
-                            <p>Savjetovanje obuhvaća podršku u implementaciji rješenja, praćenje rezultata i prilagodbu strategija prema potrebama. Naš cilj je osigurati održivi rast i uspjeh vašeg poslovanja, kroz fleksibilne konzultacije prilagođene vašim specifičnim izazovima.</p>
-                        </div>
+                    <div class="faq-a">
+                        <div>Započinjemo analizom tvog poslovanja kako bismo identificirali prilike za rast. Definiramo ciljeve i izrađujemo prilagođene strategije, optimizacija procesa, sređivanje dokumentacije te povećanje prihoda ili smanjenje troškova. Pratimo rezultate i prilagođavamo strategiju prema potrebama.</div>
                     </div>
                 </div>
-                <div class="accordion-item">
-                    <button class="accordion-header">
+                <div class="faq-item" data-reveal>
+                    <button class="faq-q" aria-expanded="false">
                         <span>Koje vrste događaja organizirate?</span>
-                        <i class="fas fa-chevron-down accordion-icon"></i>
+                        <span class="faq-icon">+</span>
                     </button>
-                    <div class="accordion-body">
-                        <div class="accordion-body-inner">
-                            <p>Organiziramo širok spektar poslovnih događanja, uključujući:</p>
-                            <p>→ konferencije<br>→ seminare<br>→ teambuilding aktivnosti<br>→ korporativne proslave</p>
-                            <p>Svaki događaj prilagođavamo ciljevima i potrebama klijenta.</p>
-                        </div>
+                    <div class="faq-a">
+                        <div>Širok spektar, od poslovnih konferencija, seminara i teambuildinga do vjenčanja, proslava, krštenja, obljetnica i jubileja. Svaki događaj prilagođavamo tvojim ciljevima i željama.</div>
                     </div>
                 </div>
-                <div class="accordion-item">
-                    <button class="accordion-header">
+                <div class="faq-item" data-reveal>
+                    <button class="faq-q" aria-expanded="false">
+                        <span>Možemo li vas angažirati samo za dio organizacije?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-a">
+                        <div>Možete. Nudimo cijelu uslugu „od ideje do izvještaja” ili samo segment koji vam treba, npr. tehniku i dobavljače, tamo gdje vam je podrška najpotrebnija.</div>
+                    </div>
+                </div>
+                <div class="faq-item" data-reveal>
+                    <button class="faq-q" aria-expanded="false">
                         <span>Nudite li usluge virtualnih asistenata?</span>
-                        <i class="fas fa-chevron-down accordion-icon"></i>
+                        <span class="faq-icon">+</span>
                     </button>
-                    <div class="accordion-body">
-                        <div class="accordion-body-inner">
-                            <p>Da, naši virtualni asistenti dostupni su za fleksibilne rasporede i mogu obavljati razne zadatke, od administracije do komunikacije, u paketima već od pet sati mjesečno.</p>
-                        </div>
+                    <div class="faq-a">
+                        <div>Da. Naši virtualni asistenti dostupni su za fleksibilne rasporede i obavljaju razne zadatke, od administracije do komunikacije, u paketima već od pet sati mjesečno.</div>
                     </div>
                 </div>
-                <div class="accordion-item">
-                    <button class="accordion-header">
-                        <span>Kako funkcionira digitalni marketing i izrada web stranica?</span>
-                        <i class="fas fa-chevron-down accordion-icon"></i>
+                <div class="faq-item" data-reveal>
+                    <button class="faq-q" aria-expanded="false">
+                        <span>Kako funkcionira digitalni marketing i izrada weba?</span>
+                        <span class="faq-icon">+</span>
                     </button>
-                    <div class="accordion-body">
-                        <div class="accordion-body-inner">
-                            <p>Prvo zajedno definiramo ciljeve, izrađujemo modernu, funkcionalnu i SEO-optimiziranu web stranicu, a zatim kreiramo digitalnu marketinšku strategiju (Google, Meta, TikTok oglasi, društvene mreže) koja privlači posjetitelje i pretvara ih u klijente. Sve radimo uz individualan pristup i praćenje rezultata.</p>
-                        </div>
+                    <div class="faq-a">
+                        <div>Zajedno definiramo ciljeve, izrađujemo modernu, funkcionalnu i SEO-optimiziranu web stranicu te kreiramo digitalnu strategiju (Google, Meta, TikTok, društvene mreže) koja privlači posjetitelje i pretvara ih u klijente.</div>
                     </div>
                 </div>
-                <div class="accordion-item">
-                    <button class="accordion-header">
+                <div class="faq-item" data-reveal>
+                    <button class="faq-q" aria-expanded="false">
                         <span>Što uključuje vođenje kampanje?</span>
-                        <i class="fas fa-chevron-down accordion-icon"></i>
+                        <span class="faq-icon">+</span>
                     </button>
-                    <div class="accordion-body">
-                        <div class="accordion-body-inner">
-                            <p>Okupljamo iskusne stručnjake koji su vodili i realizirali nagrađivane kampanje u RH — od strategije i marketinške podrške, preko organizacije evenata, do potpune operativne i administrativne koordinacije te pravovremene predaje dokumentacije institucijama. Svaka kampanja prilagođena je specifičnom tržištu i ciljevima klijenta, uz fleksibilnu podršku za jednokratne projekte ili dugoročne angažmane.</p>
-                        </div>
+                    <div class="faq-a">
+                        <div>Iskusni stručnjaci koji su vodili nagrađivane kampanje u RH, od strategije i marketinga, preko organizacije evenata, do potpune operativne i administrativne koordinacije i pravovremene predaje dokumentacije.</div>
                     </div>
-                </div>
-                <div class="accordion-item">
-                    <button class="accordion-header">
-                        <span>Mi znamo da želimo teambuilding, ali ne znamo što točno – možete li predložiti?</span>
-                        <i class="fas fa-chevron-down accordion-icon"></i>
-                    </button>
-                    <div class="accordion-body">
-                        <div class="accordion-body-inner">
-                            <p>Naravno. Recite nam kakav vam je tim, što želite postići i koji je okvirni budžet, a mi dolazimo s konkretnim prijedlogom aktivnosti i programa.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <button class="accordion-header">
-                        <span>Organizirate li samo vjenčanja ili i druge proslave?</span>
-                        <i class="fas fa-chevron-down accordion-icon"></i>
-                    </button>
-                    <div class="accordion-body">
-                        <div class="accordion-body-inner">
-                            <p>Uz vjenčanja – od intimnih slavlja do velikih svadbi – organiziramo i krštenja, obljetnice, jubileje, rođendane i druga prigodna slavlja.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <button class="accordion-header">
-                        <span>Možemo li vas angažirati samo za dio organizacije, npr. tehniku i dobavljače?</span>
-                        <i class="fas fa-chevron-down accordion-icon"></i>
-                    </button>
-                    <div class="accordion-body">
-                        <div class="accordion-body-inner">
-                            <p>Možete. Nudimo cijelu uslugu „od ideje do izvještaja” ili samo segment koji vam treba – tamo gdje vam je podrška najpotrebnija.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <button class="accordion-header">
-                        <span>Koja je razlika između paušalnog obrta i „običnog” obrta te što je za mene bolje?</span>
-                        <i class="fas fa-chevron-down accordion-icon"></i>
-                    </button>
-                    <div class="accordion-body">
-                        <div class="accordion-body-inner">
-                            <p>Ovisi o vašoj djelatnosti, očekivanom prometu i troškovima. Upravo to zajedno prolazimo i preporučujemo oblik poslovanja u kojem ne plaćate više nego što morate.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <button class="accordion-header">
-                        <span>Što je „provedba projekta” i zašto je važna?</span>
-                        <i class="fas fa-chevron-down accordion-icon"></i>
-                    </button>
-                    <div class="accordion-body">
-                        <div class="accordion-body-inner">
-                            <p>To je sve nakon dobivanja sredstava – praćenje aktivnosti, rokova i troškova prema ugovoru. Loša provedba može značiti povrat novca, pa je jednako važna kao i sama prijava.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <button class="accordion-header">
-                        <span>Kako znam postoji li uopće natječaj za moju ideju?</span>
-                        <i class="fas fa-chevron-down accordion-icon"></i>
-                    </button>
-                    <div class="accordion-body">
-                        <div class="accordion-body-inner">
-                            <p>Upravo to provjeravamo za vas. Pratimo otvorene i najavljene natječaje EU fondova, ministarstava, županija i gradova te vam iskreno kažemo postoji li nešto za vas.</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact-section">
-        <div class="container">
-            <h2 class="section-title animate-on-scroll">KONTAKT</h2>
-            <div class="contact-layout">
-                <!-- Gallery -->
-                <div class="contact-gallery animate-on-scroll slide-left">
-                    <div class="gallery-slide active">
-                        <img src="images/WhatsAppImage2025-08-05at18.52.534.jpeg" alt="PROVIDENTIA">
-                    </div>
-                    <div class="gallery-slide">
-                        <img src="images/WhatsAppImage2025-08-05at18.52.532.jpeg" alt="PROVIDENTIA">
-                    </div>
-                    <div class="gallery-slide">
-                        <img src="images/WhatsAppImage2025-08-05at18.52.535.jpeg" alt="PROVIDENTIA">
-                    </div>
-                    <div class="gallery-slide">
-                        <img src="images/WhatsAppImage2025-08-05at18.52.531.jpeg" alt="PROVIDENTIA">
-                    </div>
-                    <div class="gallery-slide">
-                        <img src="images/WhatsAppImage2025-08-05at18.52.53.jpeg" alt="PROVIDENTIA">
-                    </div>
-                    <div class="gallery-slide">
-                        <img src="images/WhatsAppImage2025-08-05at18.52.54.jpeg" alt="PROVIDENTIA">
-                    </div>
-                    <div class="gallery-slide">
-                        <img src="images/WhatsAppImage2025-08-05at18.52.536.jpeg" alt="PROVIDENTIA">
-                    </div>
-                    <button class="gallery-nav gallery-prev" aria-label="Prethodna slika"><i class="fas fa-chevron-left"></i></button>
-                    <button class="gallery-nav gallery-next" aria-label="Sljedeća slika"><i class="fas fa-chevron-right"></i></button>
-                    <div class="gallery-controls"></div>
-                </div>
-
-                <!-- Contact Form -->
-                <div class="contact-form-wrapper animate-on-scroll slide-right">
-                    <form class="contact-form" action="#" method="POST" id="contact-form">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="cf-name">Ime i prezime</label>
-                                <input type="text" id="cf-name" name="name" placeholder="Unesite ime i prezime" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="cf-company">Naziv tvrtke (opcionalno)</label>
-                                <input type="text" id="cf-company" name="company" placeholder="Unesite naziv tvrtke">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="cf-phone">Kontakt telefon</label>
-                                <input type="tel" id="cf-phone" name="phone" placeholder="Unesite broj telefona" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="cf-email">Email</label>
-                                <input type="email" id="cf-email" name="email" placeholder="Unesite mail adresu" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="cf-service">Vrsta usluge koju tražite</label>
-                            <select id="cf-service" name="service" required>
-                                <option value="Poslovno savjetovanje">Poslovno savjetovanje</option>
-                                <option value="Upravljanje projektima">Upravljanje projektima</option>
-                                <option value="HR usluge">HR usluge</option>
-                                <option value="Vođenje kampanje">Vođenje kampanje</option>
-                                <option value="Administrativne usluge">Administrativne usluge</option>
-                                <option value="Organizacija eventa">Organizacija eventa</option>
-                                <option value="Virtualni asistent i coaching">Virtualni asistent i coaching</option>
-                                <option value="Marketing i PR usluge">Marketing i PR usluge</option>
-                                <option value="Ostalo">Ostalo</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="cf-message">Opis usluge ili projekta</label>
-                            <textarea id="cf-message" name="message" placeholder="Ukratko opišite uslugu koja vam je potrebna ili projekt koji želite pokrenuti" required></textarea>
-                        </div>
-                        <div class="form-checkbox">
-                            <input type="checkbox" id="cf-consent" name="consent" required>
-                            <label for="cf-consent">Slažem se da Providentia poslovanje &amp; eventi koristi moje osobne podatke prikupljene putem ovog obrasca u sljedeće svrhe:<br>1. Obrada mog zahtjeva, izrada ponude i daljnja komunikacija u vezi s uslugama koje pruža.<br>2. Slanje obavijesti o novim uslugama, posebnim akcijama i newsletterima.</label>
-                        </div>
-                        <button type="submit" class="btn btn-dark btn-ripple">Pošalji</button>
-                        <div class="form-message success" id="cf-success">Hvala! Vaša poruka je poslana.</div>
-                        <div class="form-message error" id="cf-error">Greška pri slanju. Pokušajte ponovo.</div>
-                    </form>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- CONTACT -->
+    <section id="contact" class="contact">
+        <div class="contact-grid">
+            <div class="contact-info" data-reveal>
+                <div class="eyebrow gold-grad">Kontakt</div>
+                <h2>Javi nam se!</h2>
+                <p class="contact-lead">Reci nam što trebaš, vraćamo se s konkretnim, provedivim prijedlogom. Od ideje do izvještaja, ili samo dio koji ti je najpotrebniji.</p>
+                <div class="contact-lines">
+                    <a href="mailto:info@providentia-poslovanje-eventi.hr" class="contact-line"><span class="icon-circle">✉</span>info@providentia-poslovanje-eventi.hr</a>
+                    <a href="tel:+385996359829" class="contact-line"><span class="icon-circle">☎</span>099-635-9829</a>
+                </div>
+                <div class="socials">
+                    <span class="socials-label">Prati nas</span>
+                    <a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook" class="social-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M15.12 8.5H13.5V7c0-.55.45-.7.77-.7H15V3.6l-1.9-.01c-2.12 0-2.6 1.57-2.6 2.58V8.5H9v2.8h1.5V21h3v-9.7h2.02l.3-2.8z"></path></svg>
+                    </a>
+                    <a href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn" class="social-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6.94 7.5a1.94 1.94 0 11-.02-3.88A1.94 1.94 0 016.94 7.5zM5.3 9h3.3v10.5H5.3V9zm5.4 0h3.16v1.43h.05c.44-.83 1.5-1.7 3.1-1.7 3.3 0 3.9 2.17 3.9 5v5.77h-3.3v-5.1c0-1.22-.02-2.8-1.7-2.8-1.7 0-1.96 1.32-1.96 2.7v5.2h-3.3V9z"></path></svg>
+                    </a>
+                    <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram" class="social-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.4" cy="6.6" r="1.3" fill="currentColor" stroke="none"></circle></svg>
+                    </a>
+                </div>
+                <div class="press-grid">
+                    <img src="images/c1.jpg" alt="Providentia (N1)" class="contain">
+                    <img src="images/c2.jpg" alt="Providentia">
+                    <img src="images/c3.jpg" alt="Providentia" class="left">
+                </div>
+            </div>
+            <form class="form-stack contact-form" action="#" method="POST" id="contact-form" data-reveal>
+                <input type="text" name="name" placeholder="Ime i prezime" required aria-label="Ime i prezime">
+                <input type="text" name="company" placeholder="Naziv tvrtke (opcionalno)" aria-label="Naziv tvrtke">
+                <div class="form-row-2">
+                    <input type="tel" name="phone" placeholder="Kontakt telefon" aria-label="Kontakt telefon">
+                    <input type="email" name="email" placeholder="Email" required aria-label="Email">
+                </div>
+                <select name="service" aria-label="Što te zanima?">
+                    <option value="">Što te zanima?</option>
+                    <option>Poslovno savjetovanje</option>
+                    <option>EU projekti</option>
+                    <option>Vođenje kampanje</option>
+                    <option>Organizacija poslovnog eventa</option>
+                    <option>Vjenčanje ili proslava</option>
+                    <option>Virtualni asistent i coaching</option>
+                    <option>Marketing, PR i web</option>
+                    <option>Ostalo</option>
+                </select>
+                <textarea name="message" placeholder="Ispričaj nam ukratko svoju ideju ili izazov" rows="4"></textarea>
+                <div class="form-checkbox">
+                    <input type="checkbox" id="cf-consent" name="consent" required>
+                    <label for="cf-consent">Slažem se da Providentia poslovanje &amp; eventi koristi moje osobne podatke prikupljene putem ovog obrasca u sljedeće svrhe:<br>1. Obrada mog zahtjeva, izrada ponude i daljnja komunikacija u vezi s uslugama koje pruža.<br>2. Slanje obavijesti o novim uslugama, posebnim akcijama i newsletterima.</label>
+                </div>
+                <button type="submit">Pošalji →</button>
+                <div class="form-message success" id="cf-success">Hvala! Vaša poruka je poslana.</div>
+                <div class="form-message error" id="cf-error">Greška pri slanju. Pokušajte ponovo.</div>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
     <footer class="site-footer">
-        <div class="container">
-            <div class="footer-content">
-                <a href="#hero" class="footer-logo">
-                    <img src="images/logozaweb1.png" alt="PROVIDENTIA">
-                </a>
-                <p class="footer-copyright">&copy; <span id="currentYear">2025</span> Providentia. Sva prava pridržana.</p>
-                <div class="footer-contact">
-                    <a href="mailto:info@providentia-poslovanje-eventi.hr"><i class="fas fa-envelope"></i> info@providentia-poslovanje-eventi.hr</a>
-                    <span class="footer-divider">|</span>
-                    <a href="tel:+385996359829"><i class="fas fa-phone"></i> 099-635-9829</a>
-                </div>
-                <div class="footer-legal">
-                    <a href="politika-privatnosti.html">Politika privatnosti</a>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="images/logo-full.png" alt="Providentia — Poslovanje &amp; Eventi">
+                <p>Cjelovita podrška za tvoje poslovanje i tvoje evente. Topao, posvećen partner, od ideje do rezultata.</p>
+                <div class="footer-socials">
+                    <a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook" class="footer-social-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M15.12 8.5H13.5V7c0-.55.45-.7.77-.7H15V3.6l-1.9-.01c-2.12 0-2.6 1.57-2.6 2.58V8.5H9v2.8h1.5V21h3v-9.7h2.02l.3-2.8z"></path></svg>
+                    </a>
+                    <a href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-social-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6.94 7.5a1.94 1.94 0 11-.02-3.88A1.94 1.94 0 016.94 7.5zM5.3 9h3.3v10.5H5.3V9zm5.4 0h3.16v1.43h.05c.44-.83 1.5-1.7 3.1-1.7 3.3 0 3.9 2.17 3.9 5v5.77h-3.3v-5.1c0-1.22-.02-2.8-1.7-2.8-1.7 0-1.96 1.32-1.96 2.7v5.2h-3.3V9z"></path></svg>
+                    </a>
+                    <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram" class="footer-social-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.4" cy="6.6" r="1.3" fill="currentColor" stroke="none"></circle></svg>
+                    </a>
                 </div>
             </div>
+            <div class="footer-cols">
+                <div class="footer-col">
+                    <div class="col-title gold-grad-bright">Stranica</div>
+                    <div class="col-links">
+                        <a href="#about">O nama</a>
+                        <a href="#worlds">Što radimo</a>
+                        <a href="#services">Usluge</a>
+                        <a href="#process">Kako radimo</a>
+                        <a href="blog.html">Blog</a>
+                        <a href="#faq">FAQ</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <div class="col-title gold-grad-bright">Usluge</div>
+                    <div class="col-links">
+                        <a href="poslovno-savjetovanje.html">Poslovno savjetovanje</a>
+                        <a href="pisanje-prijava-i-provedba-projekata.html">Pisanje i provedba projekata</a>
+                        <a href="vodenje-kampanje.html">Vođenje kampanje</a>
+                        <a href="organizacija-poslovnih-evenata.html">Poslovni eventi</a>
+                        <a href="organizacija-vjencanja-i-proslava.html">Vjenčanja i proslave</a>
+                        <a href="administrativne-usluge.html">Administrativne usluge</a>
+                        <a href="virtualni-asistent-i-coaching.html">Virtualni asistent i coaching</a>
+                        <a href="marketing-i-PR-usluge.html">Digitalni marketing i web</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <div class="col-title gold-grad-bright">Kontakt</div>
+                    <div class="col-links">
+                        <a href="mailto:info@providentia-poslovanje-eventi.hr">info@providentia-poslovanje-eventi.hr</a>
+                        <a href="tel:+385996359829">099-635-9829</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© <span id="currentYear">2026</span> Providentia. Sva prava pridržana.</span>
+            <a href="politika-privatnosti.html">Politika privatnosti</a>
         </div>
     </footer>
 
@@ -559,116 +716,18 @@
         <div class="container">
             <div class="cookie-text">
                 <h3>Kolačići &amp; Privatnost</h3>
-                <p>Ova stranica koristi kolačiće za analizu prometa i praćenje aktivnosti korisnika. Putem Google Tag Managera možemo prikupljati tehničke podatke (IP adresa, uređaj, preglednik, operativni sustav) i podatke o vašem korištenju stranice (posjete, klikovi, obrasci).</p>
+                <p>Ova stranica koristi kolačiće za analizu prometa i praćenje aktivnosti korisnika. Putem Google Tag Managera možemo prikupljati tehničke podatke (IP adresa, uređaj, preglednik, operativni sustav) i podatke o vašem korištenju stranice (posjete, klikovi, obrasci). Više u <a href="politika-privatnosti.html">politici privatnosti</a>.</p>
             </div>
-            <button class="btn-accept" id="cookie-accept">Prihvati</button>
+            <div class="cookie-actions">
+                <button class="btn-accept" id="cookie-accept">Prihvati</button>
+            </div>
         </div>
     </div>
 
-    <!-- Back to Top Button -->
-    <button class="back-to-top" id="back-to-top" aria-label="Povratak na vrh">
-        <i class="fas fa-chevron-up"></i>
-    </button>
+    <!-- Back to Top -->
+    <button class="back-to-top" id="back-to-top" aria-label="Povratak na vrh">↑</button>
 
     <!-- JavaScript -->
     <script src="js/main.js"></script>
-    <script>
-        // Load blog preview posts from manifest
-        (async function() {
-            const cards = document.getElementById('blog-preview-cards');
-            const dots = document.getElementById('blog-preview-dots');
-            if (!cards) return;
-
-            const monthsHR = ['Siječanj', 'Veljača', 'Ožujak', 'Travanj', 'Svibanj', 'Lipanj',
-                              'Srpanj', 'Kolovoz', 'Rujan', 'Listopad', 'Studeni', 'Prosinac'];
-
-            try {
-                const res = await fetch('blog-posts.json?t=' + Date.now());
-                if (!res.ok) throw new Error('Manifest not found');
-                const manifest = await res.json();
-
-                if (manifest.posts.length === 0) return;
-
-                // Show only latest 3 posts
-                const postsToShow = manifest.posts.slice(0, 3);
-
-                cards.innerHTML = postsToShow.map((post, i) => {
-                    const date = new Date(post.date);
-                    const dateStr = monthsHR[date.getMonth()] + ' ' + date.getFullYear();
-                    const p = post.hr;
-                    return `
-                        <article class="blog-card${i === 0 ? ' active' : ''}">
-                            <a href="${p.url}" class="blog-card-link">
-                                <div class="blog-card-image">
-                                    <img src="${post.image}" alt="${p.title}" loading="lazy">
-                                    <div class="blog-card-overlay">
-                                        <span class="blog-tag">${p.tag}</span>
-                                    </div>
-                                </div>
-                                <div class="blog-card-content">
-                                    <div class="blog-meta">
-                                        <span><i class="far fa-calendar-alt"></i> ${dateStr}</span>
-                                        <span><i class="far fa-clock"></i> ${post.readTime} min čitanja</span>
-                                    </div>
-                                    <h3>${p.title}</h3>
-                                    <p>${p.excerpt}</p>
-                                    <span class="blog-read-more">Pročitaj više <i class="fas fa-arrow-right"></i></span>
-                                </div>
-                            </a>
-                        </article>
-                    `;
-                }).join('');
-
-                // Add dots (use button elements and blog-preview-dot class to match main.js styling)
-                dots.innerHTML = postsToShow.map((_, i) =>
-                    `<button class="blog-preview-dot${i === 0 ? ' active' : ''}" aria-label="Članak ${i + 1}"></button>`
-                ).join('');
-
-                // Initialize slider functionality
-                initBlogSlider(postsToShow.length);
-            } catch (e) {
-                console.error('Error loading blog preview:', e);
-            }
-        })();
-
-        function initBlogSlider(cardCount) {
-            const cardsContainer = document.getElementById('blog-preview-cards');
-            const dotsContainer = document.getElementById('blog-preview-dots');
-            const blogCards = cardsContainer.querySelectorAll('.blog-card');
-            const blogDots = dotsContainer.querySelectorAll('.blog-preview-dot');
-            const prevBtn = document.querySelector('.blog-prev');
-            const nextBtn = document.querySelector('.blog-next');
-
-            if (blogCards.length === 0) return;
-
-            let currentBlog = 0;
-            let blogAutoInterval = null;
-
-            function showBlogCard(index) {
-                blogCards.forEach(c => { c.classList.remove('active'); c.classList.remove('exit-left'); });
-                blogDots.forEach(d => d.classList.remove('active'));
-                currentBlog = index;
-                blogCards[currentBlog].classList.add('active');
-                blogDots[currentBlog].classList.add('active');
-            }
-
-            prevBtn?.addEventListener('click', () => showBlogCard((currentBlog - 1 + blogCards.length) % blogCards.length));
-            nextBtn?.addEventListener('click', () => showBlogCard((currentBlog + 1) % blogCards.length));
-            blogDots.forEach((dot, i) => dot.addEventListener('click', () => showBlogCard(i)));
-
-            // Auto-rotate (only if more than 1 card)
-            if (blogCards.length > 1) {
-                function startBlogAutoPlay() {
-                    blogAutoInterval = setInterval(() => showBlogCard((currentBlog + 1) % blogCards.length), 6000);
-                }
-                function stopBlogAutoPlay() {
-                    clearInterval(blogAutoInterval);
-                }
-                cardsContainer.addEventListener('mouseenter', stopBlogAutoPlay);
-                cardsContainer.addEventListener('mouseleave', startBlogAutoPlay);
-                startBlogAutoPlay();
-            }
-        }
-    </script>
 </body>
 </html>

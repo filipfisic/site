@@ -3,27 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog - PROVIDENTIA Poslovanje &amp; Eventi</title>
-    <meta name="description" content="PROVIDENTIA blog - savjeti, novosti i stručni članci o poslovanju, optimizaciji procesa i organizaciji evenata.">
-    <meta name="theme-color" content="#53627f">
-    <meta property="og:title" content="Blog - PROVIDENTIA Poslovanje &amp; Eventi">
-    <meta property="og:description" content="Savjeti, novosti i stručni članci o poslovanju, optimizaciji procesa i organizaciji evenata.">
-    <meta property="og:type" content="website">
+    <title>Blog | PROVIDENTIA - Poslovanje &amp; Eventi</title>
+    <meta name="description" content="Savjeti, novosti i stručni članci o poslovanju, EU projektima i organizaciji evenata.">
+    <meta name="theme-color" content="#3B4A66">
     <meta name="referrer" content="origin">
 
-    <link rel="icon" href="images/favicon.png">
+    <link rel="canonical" href="https://providentia-poslovanje-eventi.hr/blog.html">
+    <link rel="alternate" hreflang="hr" href="https://providentia-poslovanje-eventi.hr/blog.html">
+    <link rel="alternate" hreflang="en" href="https://providentia-poslovanje-eventi.hr/en/blog.html">
 
-    <!-- Structured Data -->
-    <script type="application/ld+json">{
-        "@context": "http://schema.org",
-        "@type": "Blog",
-        "name": "PROVIDENTIA Blog",
-        "publisher": {
-            "@type": "Organization",
-            "name": "PROVIDENTIA - Poslovanje & Eventi",
-            "logo": "images/logozaweb1.png"
-        }
-    }</script>
+    <meta property="og:title" content="Blog | PROVIDENTIA - Poslovanje &amp; Eventi">
+    <meta property="og:description" content="Savjeti, novosti i stručni članci o poslovanju, EU projektima i organizaciji evenata.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://providentia-poslovanje-eventi.hr/blog.html">
+    <meta property="og:image" content="https://providentia-poslovanje-eventi.hr/images/header.jpg">
+    <meta property="og:locale" content="hr_HR">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" href="images/favicon.png">
 
     <!-- Consent Mode default (deny all) -->
     <script>
@@ -72,14 +69,12 @@
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer','GTM-W8XNSL8N');
     </script>
+    <!-- End Google Tag Manager -->
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cantata+One&display=swap" rel="stylesheet">
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/reset.css">
@@ -89,89 +84,115 @@
 <body>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W8XNSL8N" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
 
-    <!-- Header -->
-    <header id="header">
-        <div class="container">
-            <div class="logo">
-                <a href="index.html">
-                    <img src="images/logozaweb1.png" alt="PROVIDENTIA logo">
-                </a>
+    <!-- NAV -->
+    <nav class="site-nav">
+        <a href="index.html" class="nav-logo">
+            <img src="images/logo-full.png" alt="Providentia — Poslovanje &amp; Eventi">
+        </a>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="index.html#about" class="hgold">O nama</a>
+                <a href="index.html#worlds" class="hgold">Što radimo?</a>
+                <a href="index.html#services" class="hgold">Usluge</a>
+                <a href="index.html#process" class="hgold">Kako radimo?</a>
+                <a href="blog.html" class="hgold">Blog</a>
+                <a href="index.html#contact" class="hgold">Kontakt</a>
             </div>
+            <a href="tel:+385996359829" class="nav-phone hgold"><span class="icon">☎</span>099 635 9829</a>
+            <a href="index.html#contact" class="btn-navy-sm nav-cta">Zatraži ponudu</a>
+            <div class="lang-switcher">
+                <a href="en/blog.html" title="English"><img src="images/197374.png" alt="EN"></a>
+                <a href="blog.html" class="active" title="Hrvatski"><img src="images/197503.png" alt="HR"></a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Otvori izbornik" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
 
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="index.html#hero">Naslovnica</a></li>
-                    <li><a href="index.html#about">O nama</a></li>
-                    <li class="nav-item-dropdown">
-                        <a href="index.html#services">Naše usluge <i class="fas fa-chevron-down" style="font-size: 0.6em; margin-left: 4px;"></i></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="poslovno-savjetovanje.html">Poslovno savjetovanje</a></li>
-                            <li><a href="pisanje-prijava-i-provedba-projekata.html">Pisanje, prijava i provedba projekata</a></li>
-                            <li><a href="organizacija-poslovnih-evenata.html">Organizacija poslovnih evenata</a></li>
-                            <li><a href="organizacija-vjencanja-i-proslava.html">Organizacija vjenčanja i proslava</a></li>
-                            <li><a href="vodenje-kampanje.html">Vođenje kampanje</a></li>
-                            <li><a href="administrativne-usluge.html">Administrativne usluge</a></li>
-                            <li><a href="virtualni-asistent-i-coaching.html">Virtualni asistent i coaching</a></li>
-                            <li><a href="marketing-i-PR-usluge.html">Digitalni marketing i izrada weba</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="index.html#faq">FAQ</a></li>
-                    <li><a href="index.html#contact">Kontakt</a></li>
-                </ul>
+    <div class="mobile-overlay"></div>
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="index.html#about">O nama</a>
+        <a href="index.html#worlds">Što radimo?</a>
+        <a href="index.html#services">Usluge</a>
+        <a href="index.html#process">Kako radimo?</a>
+        <a href="blog.html">Blog</a>
+        <a href="index.html#faq">FAQ</a>
+        <a href="index.html#contact">Kontakt</a>
+        <a href="tel:+385996359829"><span style="color:#BF9530">☎</span> 099 635 9829</a>
+        <a href="index.html#contact" class="btn-navy-sm mobile-cta">Zatraži ponudu</a>
+    </div>
+
+    <!-- BLOG HERO -->
+    <section class="page-hero">
+        <img src="images/header.jpg" alt="" class="hero-bg">
+        <div class="hero-tint"></div>
+        <div class="container">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <a href="index.html">Naslovnica</a>
+                <span class="sep">/</span>
+                <span aria-current="page">Blog</span>
             </nav>
-
-            <div class="header-actions">
-                <div class="lang-switcher">
-                    <a href="en/blog.html" title="English"><img src="images/197374.png" alt="EN"></a>
-                    <a href="blog.html" class="active" title="Hrvatski"><img src="images/197503.png" alt="HR"></a>
-                </div>
-                <button class="mobile-menu-toggle" aria-label="Otvori izbornik">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-            </div>
-        </div>
-        <div class="mobile-overlay"></div>
-    </header>
-
-    <!-- Blog Hero -->
-    <section class="service-hero">
-        <div class="container">
-            <h1>BLOG</h1>
-            <p class="section-subtitle" style="color: rgba(255,255,255,0.85); margin-top: 0.5rem;">Savjeti, novosti i stručni članci</p>
+            <h1>Uvidi s terena</h1>
+            <p class="hero-sub">Savjeti, novosti i stručni članci</p>
         </div>
     </section>
 
-    <!-- Blog Grid -->
-    <section class="blog-section">
-        <div class="container">
-            <div class="blog-grid" id="blog-grid">
-                <!-- Posts loaded dynamically -->
-                <div class="blog-loading">Učitavanje članaka...</div>
-            </div>
+    <!-- BLOG GRID -->
+    <section class="blog-listing">
+        <div class="blog-grid" id="blog-grid" data-all>
+            <p class="blog-loading">Učitavanje članaka...</p>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- FOOTER -->
     <footer class="site-footer">
-        <div class="container">
-            <div class="footer-content">
-                <a href="index.html" class="footer-logo">
-                    <img src="images/logozaweb1.png" alt="PROVIDENTIA">
-                </a>
-                <p class="footer-copyright">&copy; <span id="currentYear">2025</span> Providentia. Sva prava pridržana.</p>
-                <div class="footer-contact">
-                    <a href="mailto:info@providentia-poslovanje-eventi.hr"><i class="fas fa-envelope"></i> info@providentia-poslovanje-eventi.hr</a>
-                    <span class="footer-divider">|</span>
-                    <a href="tel:+385996359829"><i class="fas fa-phone"></i> 099-635-9829</a>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="images/logo-full.png" alt="Providentia — Poslovanje &amp; Eventi">
+                <p>Cjelovita podrška za tvoje poslovanje i tvoje evente. Topao, posvećen partner, od ideje do rezultata.</p>
+            </div>
+            <div class="footer-cols">
+                <div class="footer-col">
+                    <div class="col-title gold-grad-bright">Stranica</div>
+                    <div class="col-links">
+                        <a href="index.html#about">O nama</a>
+                        <a href="index.html#worlds">Što radimo?</a>
+                        <a href="index.html#services">Usluge</a>
+                        <a href="index.html#process">Kako radimo?</a>
+                        <a href="blog.html">Blog</a>
+                        <a href="index.html#faq">FAQ</a>
+                    </div>
                 </div>
-                <div class="footer-legal">
-                    <a href="politika-privatnosti.html">Politika privatnosti</a>
+                <div class="footer-col">
+                    <div class="col-title gold-grad-bright">Usluge</div>
+                    <div class="col-links">
+                        <a href="poslovno-savjetovanje.html">Poslovno savjetovanje</a>
+                        <a href="pisanje-prijava-i-provedba-projekata.html">Pisanje i provedba projekata</a>
+                        <a href="vodenje-kampanje.html">Vođenje kampanje</a>
+                        <a href="organizacija-poslovnih-evenata.html">Poslovni eventi</a>
+                        <a href="organizacija-vjencanja-i-proslava.html">Vjenčanja i proslave</a>
+                        <a href="administrativne-usluge.html">Administrativne usluge</a>
+                        <a href="virtualni-asistent-i-coaching.html">Virtualni asistent i coaching</a>
+                        <a href="marketing-i-PR-usluge.html">Digitalni marketing i web</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <div class="col-title gold-grad-bright">Kontakt</div>
+                    <div class="col-links">
+                        <a href="mailto:info@providentia-poslovanje-eventi.hr">info@providentia-poslovanje-eventi.hr</a>
+                        <a href="tel:+385996359829">099-635-9829</a>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© <span id="currentYear">2026</span> Providentia. Sva prava pridržana.</span>
+            <a href="politika-privatnosti.html">Politika privatnosti</a>
         </div>
     </footer>
 
@@ -180,67 +201,18 @@
         <div class="container">
             <div class="cookie-text">
                 <h3>Kolačići &amp; Privatnost</h3>
-                <p>Ova stranica koristi kolačiće za analizu prometa i praćenje aktivnosti korisnika. Putem Google Tag Managera možemo prikupljati tehničke podatke (IP adresa, uređaj, preglednik, operativni sustav) i podatke o vašem korištenju stranice (posjete, klikovi, obrasci).</p>
+                <p>Ova stranica koristi kolačiće za analizu prometa i praćenje aktivnosti korisnika. Putem Google Tag Managera možemo prikupljati tehničke podatke (IP adresa, uređaj, preglednik, operativni sustav) i podatke o vašem korištenju stranice (posjete, klikovi, obrasci). Više u <a href="politika-privatnosti.html">politici privatnosti</a>.</p>
             </div>
-            <button class="btn-accept" id="cookie-accept">Prihvati</button>
+            <div class="cookie-actions">
+                <button class="btn-accept" id="cookie-accept">Prihvati</button>
+            </div>
         </div>
     </div>
 
-    <!-- Back to Top Button -->
-    <button class="back-to-top" id="back-to-top" aria-label="Povratak na vrh">
-        <i class="fas fa-chevron-up"></i>
-    </button>
+    <!-- Back to Top -->
+    <button class="back-to-top" id="back-to-top" aria-label="Povratak na vrh">↑</button>
 
     <!-- JavaScript -->
     <script src="js/main.js"></script>
-    <script>
-        // Load blog posts from manifest
-        (async function() {
-            const grid = document.getElementById('blog-grid');
-            const monthsHR = ['Siječanj', 'Veljača', 'Ožujak', 'Travanj', 'Svibanj', 'Lipanj',
-                              'Srpanj', 'Kolovoz', 'Rujan', 'Listopad', 'Studeni', 'Prosinac'];
-
-            try {
-                const res = await fetch('blog-posts.json?t=' + Date.now());
-                if (!res.ok) throw new Error('Manifest not found');
-                const manifest = await res.json();
-
-                if (manifest.posts.length === 0) {
-                    grid.innerHTML = '<p class="no-posts">Nema objavljenih članaka.</p>';
-                    return;
-                }
-
-                grid.innerHTML = manifest.posts.map(post => {
-                    const date = new Date(post.date);
-                    const dateStr = monthsHR[date.getMonth()] + ' ' + date.getFullYear();
-                    const p = post.hr;
-                    return `
-                        <article class="blog-card">
-                            <a href="${p.url}" class="blog-card-link">
-                                <div class="blog-card-image">
-                                    <img src="${post.image}" alt="${p.title}" loading="lazy">
-                                    <div class="blog-card-overlay">
-                                        <span class="blog-tag">${p.tag}</span>
-                                    </div>
-                                </div>
-                                <div class="blog-card-content">
-                                    <div class="blog-meta">
-                                        <span><i class="far fa-calendar-alt"></i> ${dateStr}</span>
-                                        <span><i class="far fa-clock"></i> ${post.readTime} min čitanja</span>
-                                    </div>
-                                    <h3>${p.title}</h3>
-                                    <p>${p.excerpt}</p>
-                                    <span class="blog-read-more">Pročitaj više <i class="fas fa-arrow-right"></i></span>
-                                </div>
-                            </a>
-                        </article>
-                    `;
-                }).join('');
-            } catch (e) {
-                console.error('Error loading posts:', e);
-                grid.innerHTML = '<p class="no-posts">Greška pri učitavanju članaka.</p>';
-            }
-        })();
-    </script>
 </body>
 </html>
