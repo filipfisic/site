@@ -2039,6 +2039,31 @@ body {
     margin-bottom: 24px;
 }
 
+.service-prose { margin-bottom: 36px; }
+
+.service-prose p {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--ink-body);
+    margin-bottom: 16px;
+}
+
+.service-prose h3 {
+    font-family: var(--font-heading);
+    font-weight: 400;
+    font-size: clamp(19px, 2.2vw, 23px);
+    color: var(--ink);
+    margin: 28px 0 12px;
+}
+
+.service-prose p.service-extra {
+    margin-top: 26px;
+    margin-bottom: 0;
+    font-style: italic;
+    font-size: 14.5px;
+    color: var(--ink-muted);
+}
+
 .service-note {
     border-left: 2px solid var(--gold);
     padding: 6px 0 6px 24px;

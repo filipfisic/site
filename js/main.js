@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function () {
                   url: 'en/blog.html' }
         },
         {
-            image: 'images/WhatsAppImage2025-08-05at18.52.535.jpeg',
+            image: 'images/teambuilding.jpg',
             hr: { tag: 'Eventi', title: 'Teambuilding bez glavobolje: od ideje do programa',
                   excerpt: 'Reci nam kakav ti je tim i cilj, dolazimo s konkretnim prijedlogom aktivnosti koji stvarno funkcionira.',
                   url: 'blog.html' },
